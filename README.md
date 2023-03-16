@@ -1,1 +1,19 @@
-# GUIass
+## GUI SQL ERD Diagram
+![image](https://user-images.githubusercontent.com/87376058/225523226-1144ded8-e798-45f4-b481-e501d81e2d42.png)
+Link References : https://drive.google.com/file/d/1PrYG3drGRm-YMEKKkYr7R1MrAe-d_cL_/view?usp=sharing 
+
+## BOOTSTRAP SETTING 
+### ICON 
+to use icon provide in Bootstrap add link : -
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+icon reference page : https://icons.getbootstrap.com/
+### THEME (DARKLY)
+download bootstrap css file 
+[bootstrap.zip](https://github.com/ThongSauWei/GUIass/files/10987000/bootstrap.zip)
+
+theme reference page : https://bootswatch.com/darkly/
+
+## THEME COLOR 
+- Header : #FDAFAD - pink
+- Background : --bs-body-bg: #222;
