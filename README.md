@@ -2,6 +2,9 @@
 ![image](https://user-images.githubusercontent.com/87376058/225523226-1144ded8-e798-45f4-b481-e501d81e2d42.png)
 Link References : https://drive.google.com/file/d/1PrYG3drGRm-YMEKKkYr7R1MrAe-d_cL_/view?usp=sharing 
 
+### SQL COMMAND FILE
+[GUI_SQLCommand.zip](https://github.com/ThongSauWei/GUIass/files/10987138/GUI_SQLCommand.zip)
+
 ## BOOTSTRAP SETTING 
 ### ICON 
 to use icon provide in Bootstrap add link : -
