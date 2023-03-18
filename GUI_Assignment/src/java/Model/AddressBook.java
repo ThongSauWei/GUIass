@@ -1,0 +1,98 @@
+package Model;
+
+/**
+ * @author LOH XIN JIE
+ */
+public class AddressBook {
+
+    public int addressId;
+    public String addressName;
+    public String addressPhone;
+    public String addressNo;
+    public String addressStreet;
+    public String addressState;
+    public String addressCity;
+    public String addressPostcode;
+
+    public AddressBook(int addressId, String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode) {
+        this.addressId = addressId;
+        this.addressName = addressName;
+        this.addressPhone = addressPhone;
+        this.addressNo = addressNo;
+        this.addressStreet = addressStreet;
+        this.addressState = addressState;
+        this.addressCity = addressCity;
+        this.addressPostcode = addressPostcode;
+    }
+
+    public AddressBook(int addressId) {
+        this.addressId = addressId;
+    }
+
+    public AddressBook() {
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public String getAddressPhone() {
+        return addressPhone;
+    }
+
+    public String getAddressNo() {
+        return addressNo;
+    }
+
+    public String getAddressStreet() {
+        return addressStreet;
+    }
+
+    public String getAddressState() {
+        return addressState;
+    }
+
+    public String getAddressCity() {
+        return addressCity;
+    }
+
+    public String getAddressPostcode() {
+        return addressPostcode;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
+    public void setAddressName(String addressName) {
+        this.addressName = addressName;
+    }
+
+    public void setAddressPhone(String addressPhone) {
+        this.addressPhone = addressPhone;
+    }
+
+    public void setAddressNo(String addressNo) {
+        this.addressNo = addressNo;
+    }
+
+    public void setAddressStreet(String addressStreet) {
+        this.addressStreet = addressStreet;
+    }
+
+    public void setAddressState(String addressState) {
+        this.addressState = addressState;
+    }
+
+    public void setAddressCity(String addressCity) {
+        this.addressCity = addressCity;
+    }
+
+    public void setAddressPostcode(String addressPostcode) {
+        this.addressPostcode = addressPostcode;
+    }
+}

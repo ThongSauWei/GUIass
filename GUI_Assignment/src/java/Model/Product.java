@@ -1,0 +1,69 @@
+package Model;
+
+/**
+ * @author LOH XIN JIE
+ */
+public class Product {
+
+    public int productId;
+    public String productName;
+    public String productDesc;
+    public double productPrice;
+    public char productActive;
+
+    public Product(int productId, String productName, String productDesc, double productPrice, char productActive) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productDesc = productDesc;
+        this.productPrice = productPrice;
+        this.productActive = productActive;
+    }
+
+    public Product(int productId) {
+        this.productId = productId;
+    }
+
+    public Product() {
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public char getProductActive() {
+        return productActive;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setProductActive(char productActive) {
+        this.productActive = productActive;
+    }
+
+}

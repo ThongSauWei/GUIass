@@ -1,0 +1,90 @@
+package Model;
+
+import java.util.Date;
+
+/**
+ * @author LOH XIN JIE
+ */
+public class Staff {
+
+    public int staffId;
+    public String staffName;
+    public String staffPass;
+    public String staffIc;
+    public String staffPhNo;
+    public String staffEmail;
+    public Date staffBirthdate;
+
+    public Staff(int staffId, String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
+        this.staffId = staffId;
+        this.staffName = staffName;
+        this.staffPass = staffPass;
+        this.staffIc = staffIc;
+        this.staffPhNo = staffPhNo;
+        this.staffEmail = staffEmail;
+        this.staffBirthdate = staffBirthdate;
+    }
+
+    public Staff(int staffId) {
+        this.staffId = staffId;
+    }
+
+    public Staff() {
+    }
+
+    public int getStaffId() {
+        return staffId;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public String getStaffPass() {
+        return staffPass;
+    }
+
+    public String getStaffIc() {
+        return staffIc;
+    }
+
+    public String getStaffPhNo() {
+        return staffPhNo;
+    }
+
+    public String getStaffEmail() {
+        return staffEmail;
+    }
+
+    public Date getStaffBirthdate() {
+        return staffBirthdate;
+    }
+
+    public void setStaffId(int staffId) {
+        this.staffId = staffId;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public void setStaffPass(String staffPass) {
+        this.staffPass = staffPass;
+    }
+
+    public void setStaffIc(String staffIc) {
+        this.staffIc = staffIc;
+    }
+
+    public void setStaffPhNo(String staffPhNo) {
+        this.staffPhNo = staffPhNo;
+    }
+
+    public void setStaffEmail(String staffEmail) {
+        this.staffEmail = staffEmail;
+    }
+
+    public void setStaffBirthdate(Date staffBirthdate) {
+        this.staffBirthdate = staffBirthdate;
+    }
+}
