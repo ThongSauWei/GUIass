@@ -1,23 +1,28 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class Cart {
+public class Cart extends DBModel {
 
     public int cartId;
     public Member member;
 
     public Cart(int cartId, Member member) {
+        super("cart");
         this.cartId = cartId;
         this.member = member;
     }
 
     public Cart(int cartId) {
+        super("cart");
         this.cartId = cartId;
     }
 
     public Cart() {
+        super("cart");
     }
 
     public int getCartId() {

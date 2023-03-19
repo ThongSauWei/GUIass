@@ -1,9 +1,11 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class Product {
+public class Product extends DBModel {
 
     public int productId;
     public String productName;
@@ -12,6 +14,7 @@ public class Product {
     public char productActive;
 
     public Product(int productId, String productName, String productDesc, double productPrice, char productActive) {
+        super("product");
         this.productId = productId;
         this.productName = productName;
         this.productDesc = productDesc;
@@ -20,10 +23,12 @@ public class Product {
     }
 
     public Product(int productId) {
+        super("product");
         this.productId = productId;
     }
 
     public Product() {
+        super("product");
     }
 
     public int getProductId() {

@@ -1,25 +1,30 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class Cartlist {
+public class Cartlist extends DBModel {
 
     public Cart cart;
     public Product product;
     public int cartQuantity;
 
     public Cartlist(Cart cart, Product product, int cartQuantity) {
+        super("cartlist");
         this.cart = cart;
         this.product = product;
         this.cartQuantity = cartQuantity;
     }
 
     public Cartlist(Cart cart) {
+        super("cartlist");
         this.cart = cart;
     }
 
     public Cartlist() {
+        super("cartlist");
     }
 
     public Cart getCart() {

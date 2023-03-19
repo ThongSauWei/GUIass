@@ -3,9 +3,10 @@ package Model;
 /**
  * @author LOH XIN JIE
  */
+import DataAccess.DBModel;
 import java.util.*;
 
-public class Discount {
+public class Discount extends DBModel {
 
     public int discountId;
     public int discountPercentage;
@@ -14,6 +15,7 @@ public class Discount {
     public Product product;
 
     public Discount(int discountId, int discountPercentage, Date discountStartDate, Date discountEndDate, Product product) {
+        super("discount");
         this.discountId = discountId;
         this.discountPercentage = discountPercentage;
         this.discountStartDate = discountStartDate;
@@ -22,10 +24,12 @@ public class Discount {
     }
 
     public Discount(int discountId) {
+        super("discount");
         this.discountId = discountId;
     }
 
     public Discount() {
+        super("discount");
     }
 
     public int getDiscountId() {

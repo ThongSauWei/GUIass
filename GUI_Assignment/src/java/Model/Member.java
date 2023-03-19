@@ -1,25 +1,30 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class Member {
+public class Member extends DBModel {
 
     public int memberId;
     public String memberName;
     public String memberPass;
 
     public Member(int memberId, String memberName, String memberPass) {
+        super("member");
         this.memberId = memberId;
         this.memberName = memberName;
         this.memberPass = memberPass;
     }
 
     public Member(int memberId) {
+        super("member");
         this.memberId = memberId;
     }
 
     public Member() {
+        super("member");
     }
 
     public int getMemberId() {

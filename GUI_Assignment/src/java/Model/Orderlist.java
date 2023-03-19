@@ -1,9 +1,11 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class Orderlist {
+public class Orderlist extends DBModel {
 
     public Orders order;
     public Product product;
@@ -11,6 +13,7 @@ public class Orderlist {
     public double ordersSubprice;
 
     public Orderlist(Orders order, Product product, int ordersQuantity, double ordersSubprice) {
+        super("orderlist");
         this.order = order;
         this.product = product;
         this.ordersQuantity = ordersQuantity;
@@ -18,10 +21,12 @@ public class Orderlist {
     }
 
     public Orderlist(Orders order) {
+        super("orderlist");
         this.order = order;
     }
 
     public Orderlist() {
+        super("orderlist");
     }
 
     public Orders getOrder() {

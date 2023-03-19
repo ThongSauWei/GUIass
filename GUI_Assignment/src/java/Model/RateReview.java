@@ -3,9 +3,10 @@ package Model;
 /**
  * @author LOH XIN JIE
  */
+import DataAccess.DBModel;
 import java.util.*;
 
-public class RateReview {
+public class RateReview extends DBModel {
 
     public int reviewId;
     public String reviewText;
@@ -15,6 +16,7 @@ public class RateReview {
     public Member member;
 
     public RateReview(int reviewId, String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
+        super("ratereview");
         this.reviewId = reviewId;
         this.reviewText = reviewText;
         this.reviewRating = reviewRating;
@@ -24,10 +26,12 @@ public class RateReview {
     }
 
     public RateReview(int reviewId) {
+        super("ratereview");
         this.reviewId = reviewId;
     }
 
     public RateReview() {
+        super("ratereview");
     }
 
     public int getReviewId() {

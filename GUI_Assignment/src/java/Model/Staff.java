@@ -1,11 +1,12 @@
 package Model;
 
+import DataAccess.*;
 import java.util.Date;
 
 /**
  * @author LOH XIN JIE
  */
-public class Staff {
+public class Staff extends DBModel {
 
     public int staffId;
     public String staffName;
@@ -16,6 +17,7 @@ public class Staff {
     public Date staffBirthdate;
 
     public Staff(int staffId, String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
+        super("staff");
         this.staffId = staffId;
         this.staffName = staffName;
         this.staffPass = staffPass;
@@ -26,10 +28,12 @@ public class Staff {
     }
 
     public Staff(int staffId) {
+        super("staff");
         this.staffId = staffId;
     }
 
     public Staff() {
+        super("staff");
     }
 
     public int getStaffId() {

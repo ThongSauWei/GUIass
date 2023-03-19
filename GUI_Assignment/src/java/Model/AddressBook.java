@@ -1,9 +1,11 @@
 package Model;
 
+import DataAccess.DBModel;
+
 /**
  * @author LOH XIN JIE
  */
-public class AddressBook {
+public class AddressBook extends DBModel {
 
     public int addressId;
     public String addressName;
@@ -15,6 +17,7 @@ public class AddressBook {
     public String addressPostcode;
 
     public AddressBook(int addressId, String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode) {
+        super("addressbook");
         this.addressId = addressId;
         this.addressName = addressName;
         this.addressPhone = addressPhone;
@@ -26,10 +29,12 @@ public class AddressBook {
     }
 
     public AddressBook(int addressId) {
+        super("addressbook");
         this.addressId = addressId;
     }
 
     public AddressBook() {
+        super("addressbook");
     }
 
     public int getAddressId() {

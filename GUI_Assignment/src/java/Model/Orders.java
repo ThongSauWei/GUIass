@@ -3,9 +3,10 @@ package Model;
 /**
  * @author LENOVO
  */
+import DataAccess.DBModel;
 import java.util.*;
 
-public class Orders {
+public class Orders extends DBModel {
 
     public int ordersId;
     public Date ordersDate;
@@ -18,6 +19,7 @@ public class Orders {
     public AddressBook address;
 
     public Orders(int ordersId, Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) {
+        super("orders");
         this.ordersId = ordersId;
         this.ordersDate = ordersDate;
         this.ordersPaymentType = ordersPaymentType;
@@ -30,10 +32,12 @@ public class Orders {
     }
 
     public Orders(int ordersId) {
+        super("orders");
         this.ordersId = ordersId;
     }
 
     public Orders() {
+        super("orders");
     }
 
     public int getOrdersId() {
