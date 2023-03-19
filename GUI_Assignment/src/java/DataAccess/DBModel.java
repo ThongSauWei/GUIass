@@ -6,7 +6,8 @@ package DataAccess;
 public class DBModel {
 
     /**
-     * DBModel is use to distinguish the Model can use in T T Must be DBModel
+     * DBModel is use to distinguish the Model can use in T <br/>
+     * T Must be DBModel
      */
     public final String TABLENAME;
 

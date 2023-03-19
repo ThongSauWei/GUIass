@@ -7,9 +7,9 @@ import DataAccess.DBModel;
  */
 public class Cartlist extends DBModel {
 
-    public Cart cart;
-    public Product product;
-    public int cartQuantity;
+    private Cart cart;
+    private Product product;
+    private int cartQuantity;
 
     public Cartlist(Cart cart, Product product, int cartQuantity) {
         super("cartlist");

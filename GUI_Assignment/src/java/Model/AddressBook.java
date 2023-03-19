@@ -7,14 +7,14 @@ import DataAccess.DBModel;
  */
 public class AddressBook extends DBModel {
 
-    public int addressId;
-    public String addressName;
-    public String addressPhone;
-    public String addressNo;
-    public String addressStreet;
-    public String addressState;
-    public String addressCity;
-    public String addressPostcode;
+    private int addressId;
+    private String addressName;
+    private String addressPhone;
+    private String addressNo;
+    private String addressStreet;
+    private String addressState;
+    private String addressCity;
+    private String addressPostcode;
 
     public AddressBook(int addressId, String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode) {
         super("addressbook");

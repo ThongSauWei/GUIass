@@ -8,15 +8,15 @@ import java.util.*;
 
 public class Orders extends DBModel {
 
-    public int ordersId;
-    public Date ordersDate;
-    public String ordersPaymentType;
-    public double ordersTtlPrice;
-    public double ordersTax;
-    public double ordersDeliveryFee;
-    public double ordersExpressShipping;
-    public Member member;
-    public AddressBook address;
+    private int ordersId;
+    private Date ordersDate;
+    private String ordersPaymentType;
+    private double ordersTtlPrice;
+    private double ordersTax;
+    private double ordersDeliveryFee;
+    private double ordersExpressShipping;
+    private Member member;
+    private AddressBook address;
 
     public Orders(int ordersId, Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) {
         super("orders");

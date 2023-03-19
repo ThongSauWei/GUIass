@@ -11,12 +11,18 @@ public abstract class RowMapper<T extends DBModel> {
     public final String TABLE_PRIMARY;
 
     public RowMapper(String tablePrimary) {
+        //SET PRIMARY KEY COL NAME
         this.TABLE_PRIMARY = tablePrimary;
     }
 
     public abstract T mapRow(ResultSet result) throws SQLException;
-    public abstract boolean addRow(T t) throws SQLException;
-    
+
+    public abstract PreparedStatement prepareAdd(Connection conn, T t) throws SQLException;
+
+    public abstract PreparedStatement prepareUpdate(Connection conn, T t) throws SQLException;
+
+    public abstract PreparedStatement prepareDelete(Connection conn, T t) throws SQLException;
+
     //Staff col name
     public static final String STAFF_ID = "staff_id";
     public static final String STAFF_NAME = "staff_name";

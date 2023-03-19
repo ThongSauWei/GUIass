@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Utility;
 
 /**
- *
- * @author LENOVO
+ * @author LOH XIN JIE
  */
 public class Converter {
 
@@ -16,5 +11,9 @@ public class Converter {
 
     public static java.sql.Date convertUtilDateToSQLDate(java.util.Date utilDate) {
         return new java.sql.Date(utilDate.getTime());
+    }
+
+    public static String convertToString(Object obj) {
+        return String.valueOf(obj);
     }
 }

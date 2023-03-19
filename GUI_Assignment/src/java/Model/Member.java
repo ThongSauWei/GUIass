@@ -7,9 +7,9 @@ import DataAccess.DBModel;
  */
 public class Member extends DBModel {
 
-    public int memberId;
-    public String memberName;
-    public String memberPass;
+    private int memberId;
+    private String memberName;
+    private String memberPass;
 
     public Member(int memberId, String memberName, String memberPass) {
         super("member");

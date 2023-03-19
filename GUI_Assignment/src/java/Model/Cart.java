@@ -7,8 +7,8 @@ import DataAccess.DBModel;
  */
 public class Cart extends DBModel {
 
-    public int cartId;
-    public Member member;
+    private int cartId;
+    private Member member;
 
     public Cart(int cartId, Member member) {
         super("cart");

@@ -7,10 +7,10 @@ import DataAccess.DBModel;
  */
 public class Orderlist extends DBModel {
 
-    public Orders order;
-    public Product product;
-    public int ordersQuantity;
-    public double ordersSubprice;
+    private Orders order;
+    private Product product;
+    private int ordersQuantity;
+    private double ordersSubprice;
 
     public Orderlist(Orders order, Product product, int ordersQuantity, double ordersSubprice) {
         super("orderlist");

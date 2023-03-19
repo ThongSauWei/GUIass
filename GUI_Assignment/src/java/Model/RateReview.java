@@ -8,12 +8,12 @@ import java.util.*;
 
 public class RateReview extends DBModel {
 
-    public int reviewId;
-    public String reviewText;
-    public int reviewRating;
-    public Date reviewDate;
-    public Product product;
-    public Member member;
+    private int reviewId;
+    private String reviewText;
+    private int reviewRating;
+    private Date reviewDate;
+    private Product product;
+    private Member member;
 
     public RateReview(int reviewId, String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
         super("ratereview");

@@ -7,8 +7,8 @@ import DataAccess.DBModel;
  */
 public class MemberAddress extends DBModel {
 
-    public AddressBook address;
-    public Member member;
+    private AddressBook address;
+    private Member member;
 
     public MemberAddress(AddressBook address, Member member) {
         super("member_address");

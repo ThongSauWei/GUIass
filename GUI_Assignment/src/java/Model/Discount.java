@@ -8,11 +8,11 @@ import java.util.*;
 
 public class Discount extends DBModel {
 
-    public int discountId;
-    public int discountPercentage;
-    public Date discountStartDate;
-    public Date discountEndDate;
-    public Product product;
+    private int discountId;
+    private int discountPercentage;
+    private Date discountStartDate;
+    private Date discountEndDate;
+    private Product product;
 
     public Discount(int discountId, int discountPercentage, Date discountStartDate, Date discountEndDate, Product product) {
         super("discount");

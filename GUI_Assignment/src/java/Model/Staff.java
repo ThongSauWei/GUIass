@@ -8,13 +8,13 @@ import java.util.Date;
  */
 public class Staff extends DBModel {
 
-    public int staffId;
-    public String staffName;
-    public String staffPass;
-    public String staffIc;
-    public String staffPhNo;
-    public String staffEmail;
-    public Date staffBirthdate;
+    private int staffId;
+    private String staffName;
+    private String staffPass;
+    private String staffIc;
+    private String staffPhNo;
+    private String staffEmail;
+    private Date staffBirthdate;
 
     public Staff(int staffId, String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
         super("staff");

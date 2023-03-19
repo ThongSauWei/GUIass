@@ -7,11 +7,11 @@ import DataAccess.DBModel;
  */
 public class Product extends DBModel {
 
-    public int productId;
-    public String productName;
-    public String productDesc;
-    public double productPrice;
-    public char productActive;
+    private int productId;
+    private String productName;
+    private String productDesc;
+    private double productPrice;
+    private char productActive;
 
     public Product(int productId, String productName, String productDesc, double productPrice, char productActive) {
         super("product");

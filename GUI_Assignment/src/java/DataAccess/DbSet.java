@@ -119,7 +119,74 @@ public class DbSet<T extends DBModel> {
         }
     }
 
-    public boolean Add(RowMapper<T> mapper, T t){
-        mapper.add(t);
+    //Insert
+    public boolean Add(RowMapper<T> mapper, T t) throws SQLException {
+        try {
+            conn = ConnectionDriver.connect();
+
+            PreparedStatement stmt = mapper.prepareAdd(conn, t);
+
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException ex) {
+            /*connection and execute error*/
+            System.out.println(ex.getMessage());
+
+            /**
+             * this throw is for checking to know have error occurs when during
+             * db execute normally will be stmt or conn error
+             */
+            throw new SQLException(ex.getMessage());
+        } finally {
+            ConnectionDriver.endConnection(conn);
+        }
+    }
+
+    /**
+     * <h1>Update<h1/><br/>
+     * for <b>member_address</b> didn't provide update function because inside
+     * only contain two primary key <br/>
+     * if need to make change please using add and delete function to process it
+     */
+    public boolean Update(RowMapper<T> mapper, T t) throws SQLException {
+        try {
+            conn = ConnectionDriver.connect();
+
+            PreparedStatement stmt = mapper.prepareUpdate(conn, t);
+
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException ex) {
+            /*connection and execute error*/
+            System.out.println(ex.getMessage());
+
+            /**
+             * this throw is for checking to know have error occurs when during
+             * db execute normally will be stmt or conn error
+             */
+            throw new SQLException(ex.getMessage());
+        } finally {
+            ConnectionDriver.endConnection(conn);
+        }
+    }
+
+    //Delete
+    public boolean Delete(RowMapper<T> mapper, T t) throws SQLException {
+        try {
+            conn = ConnectionDriver.connect();
+
+            PreparedStatement stmt = mapper.prepareDelete(conn, t);
+
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException ex) {
+            /*connection and execute error*/
+            System.out.println(ex.getMessage());
+
+            /**
+             * this throw is for checking to know have error occurs when during
+             * db execute normally will be stmt or conn error
+             */
+            throw new SQLException(ex.getMessage());
+        } finally {
+            ConnectionDriver.endConnection(conn);
+        }
     }
 }
