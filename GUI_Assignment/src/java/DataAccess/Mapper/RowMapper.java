@@ -15,7 +15,8 @@ public abstract class RowMapper<T extends DBModel> {
     }
 
     public abstract T mapRow(ResultSet result) throws SQLException;
-
+    public abstract boolean addRow(T t) throws SQLException;
+    
     //Staff col name
     public static final String STAFF_ID = "staff_id";
     public static final String STAFF_NAME = "staff_name";

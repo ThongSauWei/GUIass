@@ -118,4 +118,8 @@ public class DbSet<T extends DBModel> {
             stmt.setDate(index, Converter.convertUtilDateToSQLDate((java.util.Date) condition));
         }
     }
+
+    public boolean Add(RowMapper<T> mapper, T t){
+        mapper.add(t);
+    }
 }
