@@ -13,6 +13,10 @@ public class DbSet<T extends DBModel> {
     public T t;
     private Connection conn;
 
+    public DbSet(T t) {
+        this.t = t;
+    }
+
     //get all data in corresponding table
     public ArrayList<T> getData(RowMapper<T> mapper) throws SQLException {
         ArrayList<T> tList = new ArrayList<>();

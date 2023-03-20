@@ -20,17 +20,17 @@ public class DBTable {
     public DbSet<RateReview> RateReview;
 
     public DBTable() {
-        this.Staff = new DbSet<>();
-        this.AddressBook = new DbSet<>();
-        this.Member = new DbSet<>();
-        this.MemberAddress = new DbSet<>();
-        this.Orders = new DbSet<>();
-        this.Product = new DbSet<>();
-        this.Orderlist = new DbSet<>();
-        this.Cart = new DbSet<>();
-        this.Cartlist = new DbSet<>();
-        this.Discount = new DbSet<>();
-        this.RateReview = new DbSet<>();
+        this.Staff = new DbSet<>(new Staff());
+        this.AddressBook = new DbSet<>(new AddressBook());
+        this.Member = new DbSet<>(new Member());
+        this.MemberAddress = new DbSet<>(new MemberAddress());
+        this.Orders = new DbSet<>(new Orders());
+        this.Product = new DbSet<>(new Product());
+        this.Orderlist = new DbSet<>(new Orderlist());
+        this.Cart = new DbSet<>(new Cart());
+        this.Cartlist = new DbSet<>(new Cartlist());
+        this.Discount = new DbSet<>(new Discount());
+        this.RateReview = new DbSet<>(new RateReview());
     }
 
     public DbSet<Staff> getStaff() {
