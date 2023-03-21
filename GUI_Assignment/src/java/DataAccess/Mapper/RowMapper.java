@@ -28,7 +28,7 @@ public abstract class RowMapper<T extends DBModel> {
     public static final String STAFF_NAME = "staff_name";
     public static final String STAFF_PASS = "staff_pass";
     public static final String STAFF_IC = "staff_ic";
-    public static final String STAFF_PHNO = "staff_phNo";
+    public static final String STAFF_PHNO = "staff_phone";
     public static final String STAFF_EMAIL = "staff_email";
     public static final String STAFF_BIRTHDATE = "staff_birthdate";
 
