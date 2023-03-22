@@ -2,7 +2,13 @@
 <%@page import="Model.Product"%>
 <%@page import="Controller.prodController"%>
 
-<%String search = request.getParameter("search");%>
+<%String search = request.getParameter("search") == null? "" : request.getParameter("search");
+    String stta = request.getParameter("status") == null? "a" : request.getParameter("status");
+    int status = 1;
+    if (Character.isDigit(stta.charAt(0))) {
+        status = Integer.parseInt(stta.charAt(0) + "");
+    }
+%>
 <!DOCTYPE jsp>
 <jsp>
     <head>
@@ -30,6 +36,13 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div class="form-group" style="width:150px;margin: auto;">
+                                    <select class="rounded-pill form-control" id="status-select" name="status">
+                                        <option value="2"<%= status != 1 && status != 0 ? "selected" : ""%>>All</option>
+                                        <option value="1"<%= status == 1 ? "selected" : ""%>>Active Only</option>
+                                        <option value="0"<%= status == 0 ? "selected" : ""%>>Inactive Only</option>
+                                    </select>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -38,7 +51,7 @@
             <div class="row mt-5">
                 <div class="col-md-12">
 
-                    <a href="prod_maint.jsp" class="btn btn-primary btn-lg rounded-pill">
+                    <a href="prod_maint.jsp?isNew=true" class="btn btn-primary btn-lg rounded-pill">
                         Add New
                     </a>
                     <table class="table table-hover table-striped">
@@ -53,7 +66,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%ArrayList<Product> products = new  prodController().getProd(search);
+                            <%ArrayList<Product> products = new prodController().getProds(search, status);
+                                if (products == null) {
+                                    response.sendRedirect("unexpected_error.jsp");
+                                } else if (products.size() == 0) {
+                                    out.print("<td colspan=6>No Record.</td>");
+                                }
                                 for (Product product : products) {%>
                             <tr>
                                 <td><%= product.getProductId()%></td>
@@ -61,7 +79,7 @@
                                 <td><%= product.getProductDesc()%></td>
                                 <td><%= product.getProductPrice()%></td>
                                 <td><input type="checkbox" <%= product.getProductActive() == '1' ? "checked" : ""%> disabled></td>
-                                <td><a href="prod_maint.jsp?id=<%=product.getProductId()%>" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
+                                <td><a href="prod_maint.jsp?id=<%=product.getProductId()%>&isNew=false" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
                             </tr>
                             <%}%>
                         </tbody>
