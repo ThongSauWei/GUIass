@@ -21,32 +21,95 @@ import java.util.logging.Logger;
  * @author Yeet
  */
 public class prodController {
+
     public static void main(String[] args) {
         try {
-            new DBTable().Staff.Add(new StaffMapper(),
-                    new Staff(1003456, "If you read2", "this youre", "123456789012", "2346235623","gay@gmail.com", new Date(1975 - 1900, 11, 17)));
+
+        new DBTable().Product.Update(new ProductMapper(), 
+                new Product(1008, "a", "a", 1.0, '1'));
+                } catch (SQLException ex) {
+            System.out.println(ex.getMessage());        }
+    }
+
+    public boolean updateProd(String s_id,String name, String desc, double price, char active) throws SQLException {
+        int id = Integer.parseInt(s_id);
+        try {
+            return new DBTable().Product.Update(new ProductMapper(), new Product(id, name, desc, price, active));
         } catch (SQLException ex) {
             Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
-    public ArrayList<Product> getProd(String search) {
+    public boolean addProd( String name, String desc, double price, char active){
+        try {
+            return new DBTable().Product.Add(new ProductMapper(), new Product(name, desc, price, active));
+        } catch (SQLException ex) {
+            Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public Product getLatestProd(){
+        try {
+            return new DBTable().Product.getData(new ProductMapper(), new ArrayList<>(), "SELECT * FROM product ORDER BY product_id desc FETCH FIRST 1 ROWS ONLY").get(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public ArrayList<Product> getProds(String search) {
         DBTable dbTable = new DBTable();
         try {
             if (search == null) {
                 return dbTable.getProduct().getData(new ProductMapper());
             } else {
                 ArrayList<Product> sfgs = dbTable.getProduct().getData(new ProductMapper());
-                    ArrayList<Product> products = new ArrayList<>();
+                ArrayList<Product> products = new ArrayList<>();
                 for (int i = 0; i < sfgs.size(); i++) {
-                        if (Integer.toString(sfgs.get(i).getProductId()).contains(search) || sfgs.get(i).getProductName().toLowerCase().contains(search.toLowerCase())) {
-                            products.add(sfgs.get(i));
-                        }
+                    if (Integer.toString(sfgs.get(i).getProductId()).contains(search) || sfgs.get(i).getProductName().toLowerCase().contains(search.toLowerCase())) {
+                        products.add(sfgs.get(i));
+                    }
                 }
                 return products;
             }
         } catch (SQLException ex) {
             return null;
         }
+    }
+
+    public ArrayList<Product> getProds(String search, int status) {
+        ArrayList<Product> products = this.getProds(search);
+        if (status == 1) {
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getProductActive() == '0') {
+                    products.remove(i);
+                    i--;
+                }
+            }
+        } else if (status == 0) {
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getProductActive() == '1') {
+                    products.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return products;
+    }
+    
+    public Product getProd(String id){
+        return getProd(Integer.parseInt(id));
+    }
+    
+    public Product getProd(int id){
+        try {
+            return new DBTable().Product.getData(new ProductMapper(), id).get(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
