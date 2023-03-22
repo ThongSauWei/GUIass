@@ -76,6 +76,11 @@ function validateForm() {
         isValid = false;
     if (!passwordValid())
         isValid = false;
+    if (isInputFieldEmpty(name))
+        isValid = false;
+    if (isInputFieldEmpty(cf_password))
+        isValid = false;
+
 
     if (isValid) {
         if (isInputFieldEmpty(name)) {
@@ -100,7 +105,7 @@ function validateForm() {
             isValid = false;
         }
     }
-
+    
     return isValid;
 }
 function deleteStaff(id) {
@@ -144,4 +149,7 @@ function isValidDate(inputField) {
     }
 
     return true;
+}
+function cancel(){
+        window.location.href = "staff_list.jsp";
 }
