@@ -1,6 +1,7 @@
 package Model;
 
 import DataAccess.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -62,6 +63,10 @@ public class Staff extends DBModel {
 
     public Date getStaffBirthdate() {
         return staffBirthdate;
+    }
+    
+    public String getFormattedBirthdate(){
+        return new SimpleDateFormat("dd/MM/yyyy").format(staffBirthdate);
     }
 
     public void setStaffId(int staffId) {
