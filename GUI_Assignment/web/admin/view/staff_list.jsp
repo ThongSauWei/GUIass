@@ -1,11 +1,9 @@
-<%@page import="Controller.StaffController"%>
-<%@page import="DataAccess.Mapper.StaffMapper"%>
 <%@page import="Model.Staff"%>
-<%@page import="DataAccess.Mapper.MemberMapper"%>
+<%@page import="Controller.StaffController"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="DataAccess.DBTable"%>
 
-<%String search = request.getParameter("search");%>
+<%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+    String delete = request.getParameter("delete");%>
 <!DOCTYPE jsp>
 <jsp>
     <head>
@@ -42,7 +40,7 @@
             <div class="row mt-5">
                 <div class="col-md-12">
 
-                    <a href="staff_maint.jsp" class="btn btn-primary btn-lg rounded-pill">
+                    <a href="staff_maint.jsp?isNew=true" class="btn btn-primary btn-lg rounded-pill">
                         Add New
                     </a>
                     <table class="table table-hover table-striped">
@@ -62,19 +60,19 @@
                             <%ArrayList<Staff> staffs = new StaffController().getStaff(search);
                                 if (staffs == null) {
                                     response.sendRedirect("unexpected_error.jsp");
-                                }
-                                else if(staffs.size() == 0){
+                                } else if (staffs.size() == 0) {
                                     out.print("<td colspan=8>No Record.</td>");
-                                }for (Staff staff : staffs) {%>
+                                }
+                                for (Staff staff : staffs) {%>
                             <tr>
                                 <td><%= staff.getStaffId()%></td>
                                 <td><%= staff.getStaffName()%></td>
                                 <td><%= staff.getStaffPhNo()%></td>
                                 <td><%= staff.getStaffEmail()%></td>
-                                <td><%= staff.getFormattedBirthdate()%></td>
+                                <td><%= staff.getDisplayFormatBirthdate()%></td>
                                 <td><%= staff.getStaffIc()%></td>
                                 <td><%= staff.getStaffPass()%></td>
-                                <td><a href="staff_maint.jsp?id=<%= staff.getStaffId()%>" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
+                                <td><a href="staff_maint.jsp?id=<%= staff.getStaffId()%>&isNew=false" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
                             </tr>
                             <%}%>
                         </tbody>
@@ -84,5 +82,10 @@
 
 
             <script src="../js/list_page_util.js" type="text/javascript"></script>
+            <% if (delete != null)
+                    if (delete.equals("1")) {%>
+            <script>
+                alert('Record has been deleted.');
+            </script>                <%}%>
     </body>
 </jsp>
