@@ -21,7 +21,7 @@ public class MemberAddressMapper extends RowMapper<MemberAddress> {
 
     @Override
     public PreparedStatement prepareAdd(Connection conn, MemberAddress ma) throws SQLException {
-        String sqlQuery = "INSERT INTO " + ma.TABLENAME + "VALUES(?,?)";
+        String sqlQuery = "INSERT INTO " + ma.TABLENAME + " VALUES(?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         stmt.setInt(1, ma.getAddress().getAddressId());

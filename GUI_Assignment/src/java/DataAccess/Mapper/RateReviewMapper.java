@@ -47,7 +47,7 @@ public class RateReviewMapper extends RowMapper<RateReview> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, RateReview rate) throws SQLException {
-        String sqlQuery = "Update " + rate.TABLENAME + "SET "
+        String sqlQuery = "Update " + rate.TABLENAME + " SET "
                 + REVIEW_TEXT + " = ?, "
                 + REVIEW_RATING + " = ?, "
                 + REVIEW_DATE + " = ?, "

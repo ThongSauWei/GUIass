@@ -23,7 +23,7 @@ public class OrderlistMapper extends RowMapper<Orderlist> {
 
     @Override
     public PreparedStatement prepareAdd(Connection conn, Orderlist ol) throws SQLException {
-        String sqlQuery = "INSERT INTO " + ol.TABLENAME + "VALUES(?,?,?,?)";
+        String sqlQuery = "INSERT INTO " + ol.TABLENAME + " VALUES(?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         stmt.setInt(1, ol.getOrder().getOrdersId());
@@ -35,7 +35,7 @@ public class OrderlistMapper extends RowMapper<Orderlist> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Orderlist ol) throws SQLException {
-        String sqlQuery = "Update " + ol.TABLENAME + "SET "
+        String sqlQuery = "Update " + ol.TABLENAME + " SET "
                 + ORDERS_QTY + " = ?, "
                 + ORDERS_SUBPRICE + " = ? "
                 + "WHERE " + ORDERS_ID + " = ? AND " + PRODUCT_ID + " = ?";
