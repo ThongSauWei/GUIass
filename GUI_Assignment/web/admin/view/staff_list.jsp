@@ -60,7 +60,12 @@
                         </thead>
                         <tbody>
                             <%ArrayList<Staff> staffs = new StaffController().getStaff(search);
-                                for (Staff staff : staffs) {%>
+                                if (staffs == null) {
+                                    response.sendRedirect("unexpected_error.jsp");
+                                }
+                                else if(staffs.size() == 0){
+                                    out.print("<td colspan=8>No Record.</td>");
+                                }for (Staff staff : staffs) {%>
                             <tr>
                                 <td><%= staff.getStaffId()%></td>
                                 <td><%= staff.getStaffName()%></td>
