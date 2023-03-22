@@ -27,6 +27,16 @@ public class Staff extends DBModel {
         this.staffEmail = staffEmail;
         this.staffBirthdate = staffBirthdate;
     }
+    
+    public Staff(String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
+        super("staff");
+        this.staffName = staffName;
+        this.staffPass = staffPass;
+        this.staffIc = staffIc;
+        this.staffPhNo = staffPhNo;
+        this.staffEmail = staffEmail;
+        this.staffBirthdate = staffBirthdate;
+    }
 
     public Staff(int staffId) {
         super("staff");
@@ -65,8 +75,11 @@ public class Staff extends DBModel {
         return staffBirthdate;
     }
     
-    public String getFormattedBirthdate(){
+    public String getDisplayFormatBirthdate(){
         return new SimpleDateFormat("dd/MM/yyyy").format(staffBirthdate);
+    }
+    public String getEditFormatBirthdate(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(staffBirthdate);
     }
 
     public void setStaffId(int staffId) {
