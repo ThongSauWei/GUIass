@@ -41,3 +41,6 @@ function formatPrice(input) {
 
     input.value = formattedPrice;
 }
+function cancel(){
+        window.location.href = "prod_list.jsp";
+}
