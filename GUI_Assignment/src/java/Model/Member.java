@@ -14,8 +14,8 @@ public class Member extends DBModel {
     public Member(int memberId, String memberName, String memberPass) {
         super("member");
         this.memberId = memberId;
-        this.memberName = memberName != null ? memberName : "";
-        this.memberPass = memberPass != null ? memberPass : "";
+        this.memberName = memberName;
+        this.memberPass = memberPass;
     }
 
     public Member(int memberId) {
@@ -25,8 +25,6 @@ public class Member extends DBModel {
 
     public Member() {
         super("member");
-        this.memberName = "";
-        this.memberPass = "";
     }
 
     public int getMemberId() {
@@ -46,10 +44,10 @@ public class Member extends DBModel {
     }
 
     public void setMemberName(String memberName) {
-        this.memberName = memberName != null ? memberName : "";
+        this.memberName = memberName;
     }
 
     public void setMemberPass(String memberPass) {
-        this.memberPass = memberPass != null ? memberPass : "";
+        this.memberPass = memberPass;
     }
 }

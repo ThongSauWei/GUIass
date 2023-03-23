@@ -16,21 +16,20 @@ public class Product extends DBModel {
     public Product(int productId, String productName, String productDesc, double productPrice, char productActive) {
         super("product");
         this.productId = productId;
-        this.productName = productName != null ? productName : "";
-        this.productDesc = productDesc != null ? productDesc : "";
+        this.productName = productName;
+        this.productDesc = productDesc;
         this.productPrice = productPrice;
         this.productActive = productActive;
     }
-
+    
     public Product(String productName, String productDesc, double productPrice, char productActive) {
         super("product");
-        this.productName = productName != null ? productName : "";
-        this.productDesc = productDesc != null ? productDesc : "";
+        this.productName = productName;
+        this.productDesc = productDesc;
         this.productPrice = productPrice;
         this.productActive = productActive;
-
+        
     }
-
     public Product(int productId) {
         super("product");
         this.productId = productId;
@@ -43,7 +42,7 @@ public class Product extends DBModel {
         this.productDesc = "";
         this.productPrice = 0.0;
         this.productActive = '0';
-
+        
     }
 
     public int getProductId() {
@@ -71,11 +70,11 @@ public class Product extends DBModel {
     }
 
     public void setProductName(String productName) {
-        this.productName = productName != null ? productName : "";
+        this.productName = productName;
     }
 
     public void setProductDesc(String productDesc) {
-        this.productDesc = productDesc != null ? productDesc : "";
+        this.productDesc = productDesc;
     }
 
     public void setProductPrice(double productPrice) {

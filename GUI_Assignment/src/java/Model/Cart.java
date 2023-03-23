@@ -13,7 +13,7 @@ public class Cart extends DBModel {
     public Cart(int cartId, Member member) {
         super("cart");
         this.cartId = cartId;
-        this.member = member != null ? member : new Member();
+        this.member = member;
     }
 
     public Cart(int cartId) {
@@ -38,7 +38,7 @@ public class Cart extends DBModel {
     }
 
     public void setMember(Member member) {
-        this.member = member != null ? member : new Member();
+        this.member = member;
     }
 
 }

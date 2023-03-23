@@ -19,13 +19,13 @@ public class AddressBook extends DBModel {
     public AddressBook(int addressId, String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode) {
         super("addressbook");
         this.addressId = addressId;
-        this.addressName = addressName != null ? addressName : "";
-        this.addressPhone = addressPhone != null ? addressPhone : "";
-        this.addressNo = addressNo != null ? addressNo : "";
-        this.addressStreet = addressStreet != null ? addressStreet : "";
-        this.addressState = addressState != null ? addressState : "";
-        this.addressCity = addressCity != null ? addressCity : "";
-        this.addressPostcode = addressPostcode != null ? addressPostcode : "";
+        this.addressName = addressName;
+        this.addressPhone = addressPhone;
+        this.addressNo = addressNo;
+        this.addressStreet = addressStreet;
+        this.addressState = addressState;
+        this.addressCity = addressCity;
+        this.addressPostcode = addressPostcode;
     }
 
     public AddressBook(int addressId) {
@@ -35,14 +35,6 @@ public class AddressBook extends DBModel {
 
     public AddressBook() {
         super("addressbook");
-        this.addressName = "";
-        this.addressPhone = "";
-        this.addressNo = "";
-        this.addressStreet = "";
-        this.addressState = "";
-        this.addressCity = "";
-        this.addressPostcode = "";
-
     }
 
     public int getAddressId() {
@@ -82,30 +74,30 @@ public class AddressBook extends DBModel {
     }
 
     public void setAddressName(String addressName) {
-        this.addressName = addressName != null ? addressName : "";
+        this.addressName = addressName;
     }
 
     public void setAddressPhone(String addressPhone) {
-        this.addressPhone = addressPhone != null ? addressPhone : "";
+        this.addressPhone = addressPhone;
     }
 
     public void setAddressNo(String addressNo) {
-        this.addressNo = addressNo != null ? addressNo : "";
+        this.addressNo = addressNo;
     }
 
     public void setAddressStreet(String addressStreet) {
-        this.addressStreet = addressStreet != null ? addressStreet : "";
+        this.addressStreet = addressStreet;
     }
 
     public void setAddressState(String addressState) {
-        this.addressState = addressState != null ? addressState : "";
+        this.addressState = addressState;
     }
 
     public void setAddressCity(String addressCity) {
-        this.addressCity = addressCity != null ? addressCity : "";
+        this.addressCity = addressCity;
     }
 
     public void setAddressPostcode(String addressPostcode) {
-        this.addressPostcode = addressPostcode != null ? addressPostcode : "";
+        this.addressPostcode = addressPostcode;
     }
 }

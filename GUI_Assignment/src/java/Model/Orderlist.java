@@ -14,8 +14,8 @@ public class Orderlist extends DBModel {
 
     public Orderlist(Orders order, Product product, int ordersQuantity, double ordersSubprice) {
         super("orderlist");
-        this.order = order != null ? order : new Orders();
-        this.product = product != null ? product : new Product();
+        this.order = order;
+        this.product = product;
         this.ordersQuantity = ordersQuantity;
         this.ordersSubprice = ordersSubprice;
     }
@@ -23,13 +23,10 @@ public class Orderlist extends DBModel {
     public Orderlist(Orders order) {
         super("orderlist");
         this.order = order;
-        this.product = new Product();
     }
 
     public Orderlist() {
         super("orderlist");
-        this.order = new Orders();
-        this.product = new Product();
     }
 
     public Orders getOrder() {
@@ -49,11 +46,11 @@ public class Orderlist extends DBModel {
     }
 
     public void setOrder(Orders order) {
-        this.order = order != null ? order : new Orders();
+        this.order = order;
     }
 
     public void setProduct(Product product) {
-        this.product = product != null ? product : new Product();
+        this.product = product;
     }
 
     public void setOrdersQuantity(int ordersQuantity) {

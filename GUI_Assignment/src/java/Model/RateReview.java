@@ -18,20 +18,16 @@ public class RateReview extends DBModel {
     public RateReview(int reviewId, String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
         super("ratereview");
         this.reviewId = reviewId;
-        this.reviewText = reviewText != null ? reviewText : "";
+        this.reviewText = reviewText;
         this.reviewRating = reviewRating;
-        this.reviewDate = reviewDate != null ? reviewDate : new Date(253402214400000L);
-        this.product = product != null ? product : new Product();
-        this.member = member != null ? member : new Member();
+        this.reviewDate = reviewDate;
+        this.product = product;
+        this.member = member;
     }
 
     public RateReview(int reviewId) {
         super("ratereview");
         this.reviewId = reviewId;
-        this.reviewText = "";
-        this.reviewDate = new Date(253402214400000L);
-        this.product = new Product();
-        this.member = new Member();
     }
 
     public RateReview() {
@@ -67,7 +63,7 @@ public class RateReview extends DBModel {
     }
 
     public void setReviewText(String reviewText) {
-        this.reviewText = reviewText != null ? reviewText : "";
+        this.reviewText = reviewText;
     }
 
     public void setReviewRating(int reviewRating) {
@@ -75,15 +71,15 @@ public class RateReview extends DBModel {
     }
 
     public void setReviewDate(Date reviewDate) {
-        this.reviewDate = reviewDate != null ? reviewDate : new Date(253402214400000L);
+        this.reviewDate = reviewDate;
     }
 
     public void setProduct(Product product) {
-        this.product = product != null ? product : new Product();
+        this.product = product;
     }
 
     public void setMember(Member member) {
-        this.member = member != null ? member : new Member();
+        this.member = member;
     }
 
 }
