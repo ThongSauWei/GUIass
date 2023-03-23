@@ -6,15 +6,11 @@ function cf_password_onkeyup() {
 }
 
 function arePasswordsMatching() {
-
-
     const passwordField = document.getElementById("password");
     const confirmPasswordField = document.getElementById("cf_password");
     const errorDiv = document.getElementById("cf_password_error");
     if (validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
             'Please enter a password with at least 8 characters and containing both letters and numbers!')) {
-
-
         if (passwordField.value !== confirmPasswordField.value) {
             const errorMessage = "Passwords do not match";
             confirmPasswordField.style.borderColor = "red";
@@ -31,6 +27,7 @@ function arePasswordsMatching() {
         confirmPasswordField.style.borderColor = "";
         errorDiv.innerHTML = "";
         passwordField.focus();
+        return false;
     }
 }
 function isGregorianDate() {
@@ -76,9 +73,9 @@ function validateForm() {
         isValid = false;
     if (!passwordValid())
         isValid = false;
-    if (isInputFieldEmpty(name))
+    if (!arePasswordsMatching())
         isValid = false;
-    if (isInputFieldEmpty(cf_password))
+    if (isInputFieldEmpty(name))
         isValid = false;
 
 
