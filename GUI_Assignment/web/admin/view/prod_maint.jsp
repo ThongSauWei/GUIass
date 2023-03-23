@@ -18,11 +18,11 @@
                     return;
                 }
                 if (action == 2) {
-                    response.sendRedirect("prod_maint.jsp?isNew=true&action="+action+"");
+                    response.sendRedirect("prod_maint.jsp?isNew=true&action=" + action + "");
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("prod_maint.jsp?isNew=false&action="+action+"&id=" + new prodController().getLatestProd().getProductId() + "");
+                    response.sendRedirect("prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new prodController().getLatestProd().getProductId() + "");
                     return;
                 }
             } else {
@@ -43,11 +43,11 @@
                     return;
                 }
                 if (action == 2) {
-                    response.sendRedirect("prod_maint.jsp?isNew=true&action="+action+"");
+                    response.sendRedirect("prod_maint.jsp?isNew=true&action=" + action + "");
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("prod_maint.jsp?isNew=false&&action="+action+"id=" + new prodController().getProd(id) + "");
+                    response.sendRedirect("prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + new prodController().getProd(id) + "");
                     return;
                 }
             } else {
@@ -62,6 +62,8 @@
         String id = request.getParameter("id");
         product = new prodController().getProd(id);
     }
+
+    boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
 %>
 <!DOCTYPE html>
 <html>
@@ -141,7 +143,7 @@
             </form>
         </div>
     </body>
-
+    <%if(isSaved){%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>
 </html>

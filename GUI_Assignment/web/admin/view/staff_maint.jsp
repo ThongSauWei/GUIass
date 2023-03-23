@@ -37,7 +37,7 @@
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "&id=" + new StaffController().getLatestStaff().getStaffId() + "");
+                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getLatestStaff().getStaffId() + "");
                     return;
                 }
             } else {
@@ -65,7 +65,7 @@
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "id=" + new StaffController().getStaff(id).get(0).getStaffId() + "");
+                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getStaff(id).get(0).getStaffId() + "");
                     return;
                 }
             } else {
@@ -80,7 +80,7 @@
     if (!isNew) {
         product = new StaffController().getStaff(id).get(0);
     }
-
+    boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
 %>
 <!DOCTYPE html>
 <html>
@@ -175,7 +175,7 @@
             </form>
         </div>
     </body>
-
+    <%if(isSaved){%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_staff.js" type="text/javascript"></script>
 </html>
