@@ -204,7 +204,9 @@ public class DbSet<T extends DBModel> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectStatement);
 
-            return convertResultSetToList(rs);
+            if (!rs.isBeforeFirst()) {
+                return convertResultSetToList(rs);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DbSet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -227,30 +229,5 @@ public class DbSet<T extends DBModel> {
         }
 
         return list;
-    }
-
-    // Method to retrieve column names for a given table
-    public static List<String> getColumnNames(String tableName) {
-        Connection conn = null;
-        try {
-            tableName = tableName.toUpperCase();
-            conn = ConnectionDriver.connect();
-            List<String> columnNames = new ArrayList<>();
-
-            DatabaseMetaData metaData = conn.getMetaData();
-            ResultSet columns = metaData.getColumns(null, null, tableName, null);
-            while (columns.next()) {
-                String columnName = columns.getString("COLUMN_NAME");
-                columnNames.add(columnName);
-            }
-
-            conn.close();
-            return columnNames;
-        } catch (SQLException ex) {
-            Logger.getLogger(DbSet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            ConnectionDriver.endConnection(conn);
-        }
-        return null;
     }
 }
