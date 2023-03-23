@@ -37,23 +37,3 @@ function revertMultipleSelect() {
         inputElement.value = newValues.join(',');
     });
 }
-
-
-function revertMultipleSelect2() {
-    const selectElement = document.getElementById('my-select');
-    const inputElement = document.getElementById('my-input');
-    const secondSelect = document.getElementById('second-select');
-
-    const selectedOption = secondSelect.querySelector('option:checked');
-    if (selectedOption) {
-        selectedOption.remove();
-        const selectedValue = selectedOption.value;
-        const currentValues = inputElement.value.split(',');
-        const newValues = currentValues.filter(value => value !== selectedValue);
-        inputElement.value = newValues.join(',');
-    }
-
-    Array.from(selectElement.options).forEach(option => {
-        option.style.display = '';
-    });
-}
