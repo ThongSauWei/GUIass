@@ -56,7 +56,7 @@ function validateForm() {
             birthday.focus();
             isValid = false;
         }
-        if (isInputFieldEmpty(ic)) {
+        if (!icValid) {
             ic.focus();
             isValid = false;
         }
@@ -101,7 +101,7 @@ function phoneNumValid() {
     return validateInput('phone_num', /^[0-9]{10,11}$/, 'Please enter a 10 or 11-digit numeric value for Phone Number!');
 }
 function icValid() {
-    return validateInput('ic', /^[0-9]{12}$/, 'Please enter a 12-digit numeric value for IC!');
+    return validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!');
 }
 function passwordValid() {
     return validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Please enter a password with at least 8 characters and containing both letters and numbers!');
