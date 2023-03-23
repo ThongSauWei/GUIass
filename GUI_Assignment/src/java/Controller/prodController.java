@@ -5,14 +5,10 @@
 package Controller;
 
 import DataAccess.DBTable;
-import DataAccess.DbSet;
 import DataAccess.Mapper.ProductMapper;
-import DataAccess.Mapper.StaffMapper;
 import Model.Product;
-import Model.Staff;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,12 +19,7 @@ import java.util.logging.Logger;
 public class prodController {
 
     public static void main(String[] args) {
-        try {
-
-        new DBTable().Product.Update(new ProductMapper(), 
-                new Product(1008, "a", "a", 1.0, '1'));
-                } catch (SQLException ex) {
-            System.out.println(ex.getMessage());        }
+        System.out.println(new prodController().getProds("air"));
     }
 
     public boolean updateProd(String s_id,String name, String desc, double price, char active) throws SQLException {
@@ -83,14 +74,14 @@ public class prodController {
         ArrayList<Product> products = this.getProds(search);
         if (status == 1) {
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getProductActive() == '0') {
+                if (products.get(i).getProductActive() != '1') {
                     products.remove(i);
                     i--;
                 }
             }
         } else if (status == 0) {
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getProductActive() == '1') {
+                if (products.get(i).getProductActive() != '0') {
                     products.remove(i);
                     i--;
                 }
