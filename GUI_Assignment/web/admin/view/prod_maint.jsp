@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Model.Product"%>
 <%@page import="Controller.prodController"%>
 <%
@@ -61,6 +62,11 @@
     if (!isNew) {
         String id = request.getParameter("id");
         product = new prodController().getProd(id);
+
+        if (product == null) {
+            response.sendRedirect("unexpected_error.jsp");
+            return;
+        }
     }
 
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
@@ -143,7 +149,7 @@
             </form>
         </div>
     </body>
-    <%if(isSaved){%><script>alert('Record Saved.');</script> <%}%>
+    <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>
 </html>
