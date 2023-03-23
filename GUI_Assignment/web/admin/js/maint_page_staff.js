@@ -23,8 +23,7 @@ function arePasswordsMatching() {
         }
 
     } else {
-        confirmPasswordField.style.borderColor = "";
-        errorDiv.innerHTML = "";
+        isInputFieldEmpty(confirmPasswordField);
         return false;
     }
 }
@@ -41,24 +40,6 @@ function validateForm() {
 
     var isValid = true;
 
-    if (!emailValid())
-        isValid = false;
-    if (!phoneNumValid())
-        isValid = false;
-    if (!icValid())
-        isValid = false;
-    if (!passwordValid())
-        isValid = false;
-    if (!arePasswordsMatching()) {
-        isValid = false;
-        cf_password.focus();
-    }
-    if (!isValidDate) {
-        isValid = false;
-        birthday.focus();
-    }
-
-    if (isValid) {
         if (isInputFieldEmpty(name)) {
             name.focus();
             isValid = false;
@@ -87,6 +68,24 @@ function validateForm() {
             cf_password.focus();
             isValid = false;
         }
+
+    if (isValid) {
+    if (!emailValid())
+        isValid = false;
+    if (!phoneNumValid())
+        isValid = false;
+    if (!icValid())
+        isValid = false;
+    if (!passwordValid())
+        isValid = false;
+    if (!arePasswordsMatching()) {
+        isValid = false;
+        cf_password.focus();
+    }
+    if (!isValidDate) {
+        isValid = false;
+        birthday.focus();
+    }
     }
 
     return isValid;

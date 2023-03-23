@@ -5,17 +5,16 @@ function validateForm() {
     const price = document.getElementById("price");
 
     var isValid = true;
-
-    if (!isValidPrice)
+    if (isInputFieldEmpty(name)) {
         isValid = false;
+    }
+    if (isInputFieldEmpty(price)) {
+        isValid = false;
+    }
 
     if (isValid) {
-        if (isInputFieldEmpty(name)) {
+        if (!isValidPrice)
             isValid = false;
-        }
-        if (isInputFieldEmpty(price)) {
-            isValid = false;
-        }
     }
 
     return isValid;
@@ -41,6 +40,6 @@ function formatPrice(input) {
 
     input.value = formattedPrice;
 }
-function cancel(){
-        window.location.href = "prod_list.jsp";
+function cancel() {
+    window.location.href = "prod_list.jsp";
 }
