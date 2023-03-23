@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Welcome Page</title>
+        <title>Home Page</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 
     </head>
