@@ -15,7 +15,6 @@ function arePasswordsMatching() {
             const errorMessage = "Passwords do not match";
             confirmPasswordField.style.borderColor = "red";
             errorDiv.innerHTML = errorMessage;
-            confirmPasswordField.focus();
             return false;
         } else {
             confirmPasswordField.style.borderColor = "";
@@ -26,31 +25,8 @@ function arePasswordsMatching() {
     } else {
         confirmPasswordField.style.borderColor = "";
         errorDiv.innerHTML = "";
-        passwordField.focus();
         return false;
     }
-}
-function isGregorianDate() {
-    // Get the date input element by id
-    const dateInput = document.getElementById("date");
-
-    // Parse the date value into a Date object
-    const date = new Date(dateInput.value);
-
-    // Check if the year is within the valid range for the Gregorian calendar
-    const year = date.getFullYear();
-    if (year < 1582 || year > 9999) {
-        return false;
-    }
-
-    // Check if the month is within the valid range for the Gregorian calendar
-    const month = date.getMonth();
-    if (year === 1582 && month < 9) {
-        return false;
-    }
-
-    // All checks passed, date is in the Gregorian calendar
-    return true;
 }
 
 
@@ -73,36 +49,46 @@ function validateForm() {
         isValid = false;
     if (!passwordValid())
         isValid = false;
-    if (!arePasswordsMatching())
+    if (!arePasswordsMatching()) {
         isValid = false;
-    if (isInputFieldEmpty(name))
+        cf_password.focus();
+    }
+    if (!isValidDate) {
         isValid = false;
-
+        birthday.focus();
+    }
 
     if (isValid) {
         if (isInputFieldEmpty(name)) {
+            name.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(phone_num)) {
+            phone_num.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(email)) {
+            email.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(birthday)) {
+            birthday.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(ic)) {
+            ic.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(password)) {
+            password.focus();
             isValid = false;
         }
         if (isInputFieldEmpty(cf_password)) {
+            cf_password.focus();
             isValid = false;
         }
     }
-    
+
     return isValid;
 }
 function deleteStaff(id) {
@@ -122,31 +108,32 @@ function passwordValid() {
     return validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Please enter a password with at least 8 characters and containing both letters and numbers!');
 }
 function isValidDate(inputField) {
+    const s_date = inputField.value;
 
-    const date = new Date(inputField.value);
+    const date = new Date(s_date);
 
     const errorDiv = document.getElementById(inputField.id + "_error");
 
     const year = date.getFullYear();
-    if (year < 1582 || year > 9999) {
+    if (year < 1582 || year > 9999 || s_date === "") {
         const errorMessage = "pls fill in GregorianDate";
         inputField.style.borderColor = "red";
         errorDiv.innerHTML = errorMessage;
-        inputField.focus();
+        inputField.value = "";
         return false;
     }
 
     const month = date.getMonth();
-    if (year === 1582 && month < 9) {
+    if (year === 1582 && month < 9 || s_date === "") {
         const errorMessage = "pls fill in GregorianDate";
         inputField.style.borderColor = "red";
         errorDiv.innerHTML = errorMessage;
-        inputField.focus();
+        inputField.value = "";
         return false;
     }
 
     return true;
 }
-function cancel(){
-        window.location.href = "staff_list.jsp";
+function cancel() {
+    window.location.href = "staff_list.jsp";
 }
