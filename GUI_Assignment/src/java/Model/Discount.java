@@ -18,9 +18,9 @@ public class Discount extends DBModel {
         super("discount");
         this.discountId = discountId;
         this.discountPercentage = discountPercentage;
-        this.discountStartDate = discountStartDate;
-        this.discountEndDate = discountEndDate;
-        this.product = product;
+        this.discountStartDate = discountStartDate != null ? discountStartDate : new Date(253402214400000L);
+        this.discountEndDate = discountEndDate != null ? discountEndDate : new Date(253402214400000L);
+        this.product = product != null ? product : new Product();
     }
 
     public Discount(int discountId) {
@@ -30,6 +30,9 @@ public class Discount extends DBModel {
 
     public Discount() {
         super("discount");
+        this.discountStartDate = new Date(253402214400000L);
+        this.discountEndDate = new Date(253402214400000L);
+        this.product = new Product();
     }
 
     public int getDiscountId() {
@@ -61,15 +64,15 @@ public class Discount extends DBModel {
     }
 
     public void setDiscountStartDate(Date discountStartDate) {
-        this.discountStartDate = discountStartDate;
+        this.discountStartDate = discountStartDate != null ? discountStartDate : new Date(253402214400000L);
     }
 
     public void setDiscountEndDate(Date discountEndDate) {
-        this.discountEndDate = discountEndDate;
+        this.discountEndDate = discountEndDate != null ? discountEndDate : new Date(253402214400000L);
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        this.product = product  != null ? product : new Product();
     }
 
 }

@@ -21,14 +21,14 @@ public class Orders extends DBModel {
     public Orders(int ordersId, Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) {
         super("orders");
         this.ordersId = ordersId;
-        this.ordersDate = ordersDate;
-        this.ordersPaymentType = ordersPaymentType;
+        this.ordersDate = ordersDate != null ? ordersDate : new Date(253402214400000L);
+        this.ordersPaymentType = ordersPaymentType != null ? ordersPaymentType : "";
         this.ordersTtlPrice = ordersTtlPrice;
         this.ordersTax = ordersTax;
         this.ordersDeliveryFee = ordersDeliveryFee;
         this.ordersExpressShipping = ordersExpressShipping;
-        this.member = member;
-        this.address = address;
+        this.member = member != null ? member : new Member();
+        this.address = address != null ? address : new AddressBook();
     }
 
     public Orders(int ordersId) {
@@ -81,11 +81,11 @@ public class Orders extends DBModel {
     }
 
     public void setOrdersDate(Date ordersDate) {
-        this.ordersDate = ordersDate;
+        this.ordersDate = ordersDate != null ? ordersDate : new Date(253402214400000L);
     }
 
     public void setOrdersPaymentType(String ordersPaymentType) {
-        this.ordersPaymentType = ordersPaymentType;
+        this.ordersPaymentType = ordersPaymentType != null ? ordersPaymentType : "";
     }
 
     public void setOrdersTtlPrice(double ordersTtlPrice) {
@@ -105,11 +105,11 @@ public class Orders extends DBModel {
     }
 
     public void setMember(Member member) {
-        this.member = member;
+        this.member = member != null ? member : new Member();
     }
 
     public void setAddress(AddressBook address) {
-        this.address = address;
+        this.address = address != null ? address : new AddressBook();
     }
 
 }
