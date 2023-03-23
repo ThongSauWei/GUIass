@@ -13,8 +13,8 @@ public class Cartlist extends DBModel {
 
     public Cartlist(Cart cart, Product product, int cartQuantity) {
         super("cartlist");
-        this.cart = cart;
-        this.product = product;
+        this.cart = cart != null ? cart : new Cart();
+        this.product = product != null ? product : new Product();
         this.cartQuantity = cartQuantity;
     }
 
@@ -25,6 +25,8 @@ public class Cartlist extends DBModel {
 
     public Cartlist() {
         super("cartlist");
+        this.product = new Product();
+        this.cart = new Cart();
     }
 
     public Cart getCart() {
@@ -40,11 +42,11 @@ public class Cartlist extends DBModel {
     }
 
     public void setCart(Cart cart) {
-        this.cart = cart;
+        this.cart = cart != null ? cart : new Cart();
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        this.product = product != null ? product : new Product();
     }
 
     public void setCartQuantity(int cartQuantity) {

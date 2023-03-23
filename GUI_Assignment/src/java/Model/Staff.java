@@ -1,6 +1,7 @@
 package Model;
 
 import DataAccess.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,12 +20,22 @@ public class Staff extends DBModel {
     public Staff(int staffId, String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
         super("staff");
         this.staffId = staffId;
-        this.staffName = staffName;
-        this.staffPass = staffPass;
-        this.staffIc = staffIc;
-        this.staffPhNo = staffPhNo;
-        this.staffEmail = staffEmail;
-        this.staffBirthdate = staffBirthdate;
+        this.staffName = staffName != null ? staffName : "";
+        this.staffPass = staffPass != null ? staffPass : "";
+        this.staffIc = staffIc != null ? staffIc : "";
+        this.staffPhNo = staffPhNo != null ? staffPhNo : "";
+        this.staffEmail = staffEmail != null ? staffEmail : "";
+        this.staffBirthdate = staffBirthdate != null ? staffBirthdate : new Date(253402214400000L);
+    }
+
+    public Staff(String staffName, String staffPass, String staffIc, String staffPhNo, String staffEmail, Date staffBirthdate) {
+        super("staff");
+        this.staffName = staffName != null ? staffName : "";
+        this.staffPass = staffPass != null ? staffPass : "";
+        this.staffIc = staffIc != null ? staffIc : "";
+        this.staffPhNo = staffPhNo != null ? staffPhNo : "";
+        this.staffEmail = staffEmail != null ? staffEmail : "";
+        this.staffBirthdate = staffBirthdate != null ? staffBirthdate : new Date(253402214400000L);
     }
 
     public Staff(int staffId) {
@@ -34,6 +45,12 @@ public class Staff extends DBModel {
 
     public Staff() {
         super("staff");
+        this.staffName = "";
+        this.staffPass = "";
+        this.staffIc = "";
+        this.staffPhNo = "";
+        this.staffEmail = "";
+        this.staffBirthdate = new Date(253402214400000L);
     }
 
     public int getStaffId() {
@@ -64,31 +81,39 @@ public class Staff extends DBModel {
         return staffBirthdate;
     }
 
+    public String getDisplayFormatBirthdate() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(staffBirthdate);
+    }
+
+    public String getEditFormatBirthdate() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(staffBirthdate);
+    }
+
     public void setStaffId(int staffId) {
         this.staffId = staffId;
     }
 
     public void setStaffName(String staffName) {
-        this.staffName = staffName;
+        this.staffName = staffName != null ? staffName : "";
     }
 
     public void setStaffPass(String staffPass) {
-        this.staffPass = staffPass;
+        this.staffPass = staffPass != null ? staffPass : "";
     }
 
     public void setStaffIc(String staffIc) {
-        this.staffIc = staffIc;
+        this.staffIc = staffIc != null ? staffIc : "";
     }
 
     public void setStaffPhNo(String staffPhNo) {
-        this.staffPhNo = staffPhNo;
+        this.staffPhNo = staffPhNo != null ? staffPhNo : "";
     }
 
     public void setStaffEmail(String staffEmail) {
-        this.staffEmail = staffEmail;
+        this.staffEmail = staffEmail != null ? staffEmail : "";
     }
 
     public void setStaffBirthdate(Date staffBirthdate) {
-        this.staffBirthdate = staffBirthdate;
+        this.staffBirthdate = staffBirthdate != null ? staffBirthdate : new Date(253402214400000L);
     }
 }
