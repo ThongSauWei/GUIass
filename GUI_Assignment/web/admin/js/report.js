@@ -1,8 +1,8 @@
-function handleMultipleSelect() {
-    const selectElement = document.getElementById('my-select');
+function handleMultipleSelect(fromId, toId) {
+    const selectElement = document.getElementById(fromId);
     const selectedOptions = Array.from(selectElement.selectedOptions);
     const values = selectedOptions.map(option => option.value);
-    const inputElement = document.getElementById('my-input');
+    const inputElement = document.getElementById(toId);
     inputElement.value = inputElement.value + ',' + values.join(',');
 
     selectedOptions.forEach(option => {
@@ -17,10 +17,10 @@ function handleMultipleSelect() {
     });
 }
 
-function revertMultipleSelect() {
-    const selectElement = document.getElementById('my-select');
+function revertMultipleSelect(fromId, toId) {
+    const selectElement = document.getElementById(fromId);
     const inputElement = document.getElementById('my-input');
-    const secondSelect = document.getElementById('second-select');
+    const secondSelect = document.getElementById(toId);
 
     const selectedOption = Array.from(secondSelect.selectedOptions);
 
@@ -40,8 +40,8 @@ function revertMultipleSelect() {
     });
 }
 
-function handleAllSelect() {
-    const selectElement = document.getElementById('my-select');
+function handleAllSelect(fromId, toId) {
+    const selectElement = document.getElementById(fromId);
     const options = Array.from(selectElement.options);
     const values = options.map(option => option.value);
     const inputElement = document.getElementById('my-input');
@@ -52,16 +52,16 @@ function handleAllSelect() {
         const newOption = document.createElement('option');
         newOption.value = option.value;
         newOption.text = option.text;
-        const secondSelect = document.getElementById('second-select');
+        const secondSelect = document.getElementById(toId);
         secondSelect.add(newOption);
         option.remove();
     });
 }
 
-function revertAllSelect() {
-    const selectElement = document.getElementById('my-select');
+function revertAllSelect(fromId, toId) {
+    const selectElement = document.getElementById(fromId);
     const inputElement = document.getElementById('my-input');
-    const secondSelect = document.getElementById('second-select');
+    const secondSelect = document.getElementById(toId);
 
     const options = Array.from(secondSelect.options);
 
