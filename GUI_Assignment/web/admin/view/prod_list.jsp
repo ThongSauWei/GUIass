@@ -2,13 +2,8 @@
 <%@page import="Model.Product"%>
 <%@page import="Controller.prodController"%>
 
-<%String search = request.getParameter("search") == null? "" : request.getParameter("search");
-    String stta = request.getParameter("status") == null? "a" : request.getParameter("status");
-    int status = 1;
-    if (Character.isDigit(stta.charAt(0))) {
-        status = Integer.parseInt(stta.charAt(0) + "");
-    }
-%>
+<%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+    int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));%>
 <!DOCTYPE jsp>
 <jsp>
     <head>
@@ -18,6 +13,16 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
+
+
+        <style>
+            .fixed-bottom-center {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-5">
@@ -87,6 +92,7 @@
                 </div>
             </div>
 
+            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill">Return</a>
 
             <script src="../js/list_page_util.js" type="text/javascript"></script>
     </body>

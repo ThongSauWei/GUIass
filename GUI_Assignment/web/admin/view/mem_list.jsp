@@ -3,13 +3,16 @@
 <%@page import="Controller.MemController"%>
 
 <%
-    String id = request.getParameter("id") ;
+    String id = request.getParameter("id");
     String delete = request.getParameter("delete");
-    String search = request.getParameter("search");
-    
+    String search = request.getParameter("search") != null ? request.getParameter("search") : "";
+
     if (delete != null && id != null) {
         new MemController().dltMem(id);
     }
+
+    //turn off alert feature
+    delete = "0";
 
 %><!DOCTYPE jsp>
 <jsp>
@@ -20,8 +23,19 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
+
+
+        <style>
+            .fixed-bottom-center {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
     </head>
     <body>
+        <%= delete != null ? delete.equals("1") ? "<script>alert('" + id + " is deleted.')</script>" : "" : ""%>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -58,8 +72,7 @@
                             <%ArrayList<Member> members = new MemController().getMem(search);
                                 if (members == null) {
                                     response.sendRedirect("unexpected_error.jsp");
-                                }
-                                else if(members.size() == 0){
+                                } else if (members.size() == 0) {
                                     out.print("<td colspan=4>No Record.</td>");
                                 }
                                 for (Member member : members) {%>
@@ -75,6 +88,7 @@
                 </div>
             </div>
 
+            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
 
             <script src="../js/list_page_util.js" type="text/javascript"></script>
     </body>

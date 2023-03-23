@@ -14,6 +14,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
 
+
+        <style>
+            .fixed-bottom-center {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-5">
@@ -80,6 +89,8 @@
                 </div>
             </div>
 
+
+            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill">Return</a>
 
             <script src="../js/list_page_util.js" type="text/javascript"></script>
             <% if (delete != null)
