@@ -54,7 +54,6 @@
             String ic = request.getParameter("ic");
             String password = request.getParameter("password");
             action = Integer.parseInt(request.getParameter("action"));
-            //    public boolean updateStaff(String s_id, String name, String password, String ic, String phone_num, String email, String s_date) {
 
             if (new StaffController().updateStaff(id, name, password, ic, phoneNum, email, birthday)) {
                 if (action == 1) {
@@ -144,11 +143,11 @@
                         </tr>
                         <tr>
                             <th scope="row">Password</th>
-                            <td><span id="password_error" class="error-message"></span><input onchange="arePasswordsMatching()" onblur="passwordValid()" type="text" id="password" name="password" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPass()%>"></td>
+                            <td><span id="password_error" class="error-message"></span><input onchange="arePasswordsMatching()" onblur="passwordValid()" type="text" id="password" name="password" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPass()%>" maxlength="10"></td>
                         </tr>
                         <tr>
                             <th scope="row">Confirm Password</th>
-                            <td><span id="cf_password_error" class="error-message"></span><input onblur="arePasswordsMatching()" onkeyup="cf_password_onkeyup()" type="text" id="cf_password" name="cf_password" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPass()%>"></td>
+                            <td><span id="cf_password_error" class="error-message"></span><input onblur="arePasswordsMatching()" onkeyup="cf_password_onkeyup()" type="text" id="cf_password" name="cf_password" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPass()%>" maxlength="10"></td>
                         </tr>
                     </tbody>
                 </table>
