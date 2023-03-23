@@ -22,7 +22,7 @@ public class prodController {
         System.out.println(new prodController().getProds("air"));
     }
 
-    public boolean updateProd(String s_id,String name, String desc, double price, char active) throws SQLException {
+    public boolean updateProd(String s_id, String name, String desc, double price, char active) throws SQLException {
         int id = Integer.parseInt(s_id);
         try {
             return new DBTable().Product.Update(new ProductMapper(), new Product(id, name, desc, price, active));
@@ -31,8 +31,8 @@ public class prodController {
         }
         return false;
     }
-    
-    public boolean addProd( String name, String desc, double price, char active){
+
+    public boolean addProd(String name, String desc, double price, char active) {
         try {
             return new DBTable().Product.Add(new ProductMapper(), new Product(name, desc, price, active));
         } catch (SQLException ex) {
@@ -40,8 +40,8 @@ public class prodController {
         }
         return false;
     }
-    
-    public Product getLatestProd(){
+
+    public Product getLatestProd() {
         try {
             return new DBTable().Product.getData(new ProductMapper(), new ArrayList<>(), "SELECT * FROM product ORDER BY product_id desc FETCH FIRST 1 ROWS ONLY").get(0);
         } catch (SQLException ex) {
@@ -90,14 +90,17 @@ public class prodController {
 
         return products;
     }
-    
-    public Product getProd(String id){
+
+    public Product getProd(String id) {
         return getProd(Integer.parseInt(id));
     }
-    
-    public Product getProd(int id){
+
+    public Product getProd(int id) {
         try {
-            return new DBTable().Product.getData(new ProductMapper(), id).get(0);
+            ArrayList<Product> products = new DBTable().Product.getData(new ProductMapper(), id);
+            if (products.size() > 0) {
+                return products.get(0);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
         }
