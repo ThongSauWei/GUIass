@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Model.Staff"%>
 <%@page import="Controller.StaffController"%>
 <%
@@ -78,7 +79,13 @@
     }
     boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
     if (!isNew) {
-        product = new StaffController().getStaff(id).get(0);
+        ArrayList<Staff> products = new StaffController().getStaff(id);
+        if (products.size() > 0) {
+            product = products.get(0);
+        } else {
+            response.sendRedirect("unexpected_error.jsp");
+            return;
+        }
     }
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
 %>
@@ -175,7 +182,7 @@
             </form>
         </div>
     </body>
-    <%if(isSaved){%><script>alert('Record Saved.');</script> <%}%>
+    <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_staff.js" type="text/javascript"></script>
 </html>
