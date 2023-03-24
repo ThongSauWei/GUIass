@@ -47,7 +47,7 @@
             }
 
         } else if (submit == 0) {
-
+            
             String name = request.getParameter("name");
             String phoneNum = request.getParameter("phoneNum");
             String email = request.getParameter("email");
@@ -66,7 +66,7 @@
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getStaff(id).get(0).getStaffId() + "");
+                    response.sendRedirect("staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + id + "");
                     return;
                 }
             } else {
