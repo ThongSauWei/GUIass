@@ -55,7 +55,7 @@ public class OrdersMapper extends RowMapper<Orders> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Orders order) throws SQLException {
-        String sqlQuery = "Update " + order.TABLENAME + "SET "
+        String sqlQuery = "Update " + order.TABLENAME + " SET "
                 + ORDERS_DATE + " = ?, "
                 + ORDERS_PAYMENT_TYPE + " = ?, "
                 + ORDERS_TTL_PRICE + " = ?, "

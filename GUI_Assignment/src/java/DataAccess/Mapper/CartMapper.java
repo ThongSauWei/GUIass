@@ -34,7 +34,7 @@ public class CartMapper extends RowMapper<Cart> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Cart cart) throws SQLException {
-        String sqlQuery = "Update " + cart.TABLENAME + "SET "
+        String sqlQuery = "Update " + cart.TABLENAME + " SET "
                 + MEMBER_ID + " = ? WHERE " + CART_ID + " = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);

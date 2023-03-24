@@ -22,7 +22,7 @@ public class CartlistMapper extends RowMapper<Cartlist> {
 
     @Override
     public PreparedStatement prepareAdd(Connection conn, Cartlist cl) throws SQLException {
-        String sqlQuery = "INSERT INTO " + cl.TABLENAME + "VALUES(?,?,?)";
+        String sqlQuery = "INSERT INTO " + cl.TABLENAME + " VALUES(?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         stmt.setInt(1, cl.getCart().getCartId());
@@ -33,7 +33,7 @@ public class CartlistMapper extends RowMapper<Cartlist> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Cartlist cl) throws SQLException {
-        String sqlQuery = "Update " + cl.TABLENAME + "SET "
+        String sqlQuery = "Update " + cl.TABLENAME + " SET "
                 + CART_QTY + " = ? "
                 + "WHERE " + CART_ID + " = ? AND " + PRODUCT_ID + " = ?";
 

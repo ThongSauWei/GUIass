@@ -52,7 +52,7 @@ public class AddressBookMapper extends RowMapper<AddressBook> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, AddressBook address) throws SQLException {
-        String sqlQuery = "Update " + address.TABLENAME + "SET "
+        String sqlQuery = "Update " + address.TABLENAME + " SET "
                 + ADDRESS_NAME + " = ?, "
                 + ADDRESS_PHONE + " = ?, "
                 + ADDRESS_NO + " = ?, "

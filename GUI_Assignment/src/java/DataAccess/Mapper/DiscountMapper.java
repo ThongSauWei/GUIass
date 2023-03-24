@@ -44,7 +44,7 @@ public class DiscountMapper extends RowMapper<Discount> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Discount discount) throws SQLException {
-        String sqlQuery = "Update " + discount.TABLENAME + "SET "
+        String sqlQuery = "Update " + discount.TABLENAME + " SET "
                 + DISCOUNT_PERCENTAGE + " = ?, "
                 + DISCOUNT_START_DATE + " = ?, "
                 + DISCOUNT_END_DATE + " = ?, "

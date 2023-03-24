@@ -44,7 +44,7 @@ public class ProductMapper extends RowMapper<Product> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Product product) throws SQLException {
-        String sqlQuery = "Update " + product.TABLENAME + "SET "
+        String sqlQuery = "Update " + product.TABLENAME + " SET "
                 + PRODUCT_NAME + " = ?, "
                 + PRODUCT_DESC + " = ?, "
                 + PRODUCT_PRICE + " = ?, "
