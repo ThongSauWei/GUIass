@@ -204,9 +204,7 @@ public class DbSet<T extends DBModel> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectStatement);
 
-            if (!rs.isBeforeFirst()) {
-                return convertResultSetToList(rs);
-            }
+            return convertResultSetToList(rs);
         } catch (SQLException ex) {
             Logger.getLogger(DbSet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -220,6 +218,7 @@ public class DbSet<T extends DBModel> {
         int columns = md.getColumnCount();
         List<HashMap<String, Object>> list = new ArrayList<>();
 
+        
         while (rs.next()) {
             HashMap<String, Object> row = new HashMap<>(columns);
             for (int i = 1; i <= columns; ++i) {
@@ -230,4 +229,5 @@ public class DbSet<T extends DBModel> {
 
         return list;
     }
+
 }
