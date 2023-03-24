@@ -36,7 +36,7 @@
             String name = request.getParameter("name");
             String desc = request.getParameter("description");
             double price = Double.parseDouble(request.getParameter("price"));
-            char active = request.getParameter("active").charAt(0);
+            char active = request.getParameter("active") != null ? request.getParameter("active").charAt(0) : '0';
 
             if (new prodController().updateProd(id, name, desc, price, active)) {
                 if (action == 1) {
@@ -48,7 +48,7 @@
                     return;
                 }
                 if (action == 3) {
-                    response.sendRedirect("prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + new prodController().getProd(id) + "");
+                    response.sendRedirect("prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
                     return;
                 }
             } else {
