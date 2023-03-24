@@ -22,11 +22,6 @@ import java.util.logging.Logger;
  */
 public class MemController {
 
-    public static void main(String[] args) {
-
-        System.out.print(new MemController().getMem("John"));
-    }
-
     public ArrayList<Member> getMem(String search) {
         DBTable dbTable = new DBTable();
         try {
@@ -70,16 +65,14 @@ public class MemController {
             for (AddressBook addressbook : addressbooks) {
                 dbTable.AddressBook.Delete(new AddressBookMapper(), addressbook);
             }
-
-            //new DBTable().MemberAddress.Delete(new MemberAddressMapper(), new MemberAddress(member));
-            //    dbTable.AddressBook.Delete(new AddressBookMapper(), new AddressBook());
+            
             return dbTable.Member.Delete(new MemberMapper(), member);
         } catch (SQLException ex) {
             Logger.getLogger(MemController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-
+    
     public boolean dltMem(String id) {
         return dltMem(Integer.parseInt(id));
     }
