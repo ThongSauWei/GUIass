@@ -37,7 +37,7 @@ public class MemberMapper extends RowMapper<Member> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Member member) throws SQLException {
-        String sqlQuery = "Update " + member.TABLENAME + "SET "
+        String sqlQuery = "Update " + member.TABLENAME + " SET "
                 + MEMBER_NAME + " = ?, "
                 + MEMBER_PASS + " = ? WHERE " + MEMBER_ID + " = ?";
 

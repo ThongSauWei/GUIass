@@ -50,7 +50,7 @@ public class StaffMapper extends RowMapper<Staff> {
 
     @Override
     public PreparedStatement prepareUpdate(Connection conn, Staff staff) throws SQLException {
-        String sqlQuery = "Update " + staff.TABLENAME + "SET "
+        String sqlQuery = "Update " + staff.TABLENAME + " SET "
                 + STAFF_NAME + " = ?, "
                 + STAFF_PASS + " = ?, "
                 + STAFF_IC + " = ?, "
