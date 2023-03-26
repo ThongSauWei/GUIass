@@ -39,7 +39,7 @@ public class ProdList extends HttpServlet {
                 out.print("<td>" + product.getProductDesc() + "</td>");
                 out.print("<td>" + product.getProductPrice() + "</td>");
                 out.print("<td><input type=\"checkbox\" " + (product.getProductActive() == '1' ? "checked" : "") + " disabled></td>");
-                out.print("<td><a href=\"prod_maint.jsp?id=" + product.getProductId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
+                out.print("<td><a href=\"../../ProdMaint?id=" + product.getProductId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
                 out.print("</tr>");
             }
         }
