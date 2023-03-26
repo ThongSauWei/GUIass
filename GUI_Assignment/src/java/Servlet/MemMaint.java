@@ -27,7 +27,7 @@ public class MemMaint extends HttpServlet {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
             ArrayList<Member> members = new MemController().getMem(search);
             if (members == null) {
-                response.sendRedirect("unexpected_error.jsp");
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             } else if (members.isEmpty()) {
                 out.println("<td colspan=4>No Record.</td>");
             }
