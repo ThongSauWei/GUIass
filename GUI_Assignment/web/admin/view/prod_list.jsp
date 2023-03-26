@@ -67,10 +67,10 @@
                             <tr>
                                 <th style="width: 5%">ID</th>
                                 <th style="width: 20%">Name</th>
-                                <th style="width: 15%">Description</th>
-                                <th style="width: 20%">Price</th>
-                                <th style="width: 10%">Active</th>
-                                <th style="width: 15%">Edit</th>
+                                <th style="width: 57%">Description</th>
+                                <th style="width: 8%">Price</th>
+                                <th style="width: 5%">Active</th>
+                                <th style="width: 5%">Edit</th>
                             </tr>
                         </thead>
                         <tbody>
