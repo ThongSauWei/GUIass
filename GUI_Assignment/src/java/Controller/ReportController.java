@@ -4,7 +4,7 @@
  */
 package Controller;
 
-import DataAccess.DbSet;
+import DataAccess.DBaccess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -213,7 +213,7 @@ public class ReportController {
     }
 
     public static List<HashMap<String, Object>> reportSelector(String query) {
-        return DbSet.customizeSqlSelect(query);
+        return DBaccess.customizeSqlSelect(query);
     }
 
     public List<HashMap<String, Object>> salesReport() {
