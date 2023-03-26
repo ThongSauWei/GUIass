@@ -21,7 +21,15 @@ public class Product extends DBModel {
         this.productPrice = productPrice;
         this.productActive = productActive;
     }
-
+    
+    public Product(String productName, String productDesc, double productPrice, char productActive) {
+        super("product");
+        this.productName = productName;
+        this.productDesc = productDesc;
+        this.productPrice = productPrice;
+        this.productActive = productActive;
+        
+    }
     public Product(int productId) {
         super("product");
         this.productId = productId;
@@ -29,6 +37,12 @@ public class Product extends DBModel {
 
     public Product() {
         super("product");
+        this.productId = 0;
+        this.productName = "";
+        this.productDesc = "";
+        this.productPrice = 0.0;
+        this.productActive = '0';
+        
     }
 
     public int getProductId() {
