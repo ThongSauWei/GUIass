@@ -26,13 +26,12 @@
                 width:50%;
                 min-width:400px;
             }
-
         </style>
     </head>
     <body>
         <div class="form_wid container mt-5">
             <h2 class="text-center mb-3"><%=isNew ? "Add New" : "Edit"%> Staff</h2>
-            <form action="../../StaffMaint" onsubmit="return validateForm()" >
+            <form method="POST" action="../../StaffMaint" onsubmit="return validateForm()" >
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
