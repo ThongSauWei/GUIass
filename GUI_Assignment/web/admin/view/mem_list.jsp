@@ -18,11 +18,14 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+            .home-btn{
+                z-index: 1;
+            }
         </style>
     </head>
     <body>
 
-        <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
+        <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill home-btn">Return</a>
         
         <div class="container mt-5">
             <div class="row justify-content-center">
