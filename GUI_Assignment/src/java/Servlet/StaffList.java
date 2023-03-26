@@ -38,7 +38,7 @@ public class StaffList extends HttpServlet {
                 out.println(" <td>" + staff.getDisplayFormatBirthdate() + "</td>");
                 out.println("<td>" + staff.getStaffIc() + "</td>");
                 out.println(" <td>" + staff.getStaffPass() + "</td>");
-                out.println("  <td><a href=\"staff_maint.jsp?id=" + staff.getStaffId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
+                out.println("  <td><a href=\"../../StaffMaint?id=" + staff.getStaffId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
                 out.println("</tr>");
             }
         }
