@@ -1,4 +1,4 @@
-<% String search = request.getParameter("search") != null ? (String)request.getParameter("search") : "";%>
+<% String search = request.getParameter("search") != null ? (String) request.getParameter("search") : "";%>
 
 <!DOCTYPE jsp>
 <jsp>
@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
-
+        <script src="../js/list_page_util.js" type="text/javascript"></script>
 
         <style>
             .fixed-bottom-center {
@@ -21,6 +21,9 @@
         </style>
     </head>
     <body>
+
+        <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
+        
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -42,6 +45,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row mt-5">
                 <div class="col-md-12">
                     <table class="table table-hover table-striped">
@@ -54,14 +58,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                           <jsp:include page="../../MemMaint" />
+                            <jsp:include page="../../MemMaint" />
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
-
-            <script src="../js/list_page_util.js" type="text/javascript"></script>
     </body>
 </jsp>
