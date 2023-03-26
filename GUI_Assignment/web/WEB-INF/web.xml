@@ -8,6 +8,10 @@
         <servlet-name>MemMaint</servlet-name>
         <servlet-class>Servlet.MemMaint</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffList</servlet-name>
+        <servlet-class>Servlet.StaffList</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StaffMaint</servlet-name>
         <url-pattern>/StaffMaint</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>MemMaint</servlet-name>
         <url-pattern>/MemMaint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffList</servlet-name>
+        <url-pattern>/StaffList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
