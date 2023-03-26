@@ -24,12 +24,9 @@ public class prodController {
 
     public boolean updateProd(String s_id, String name, String desc, double price, char active) throws SQLException {
         int id = Integer.parseInt(s_id);
-        try {
+
             return new DBTable().Product.Update(new ProductMapper(), new Product(id, name, desc, price, active));
-        } catch (SQLException ex) {
-            Logger.getLogger(prodController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+
     }
 
     public boolean addProd(String name, String desc, double price, char active) {
