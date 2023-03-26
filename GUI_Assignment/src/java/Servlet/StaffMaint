@@ -17,14 +17,6 @@ import javax.servlet.http.HttpSession;
  */
 public class StaffMaint extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -117,7 +109,7 @@ public class StaffMaint extends HttpServlet {
 
         }
 
-        boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
+        boolean isNew = request.getParameter("isNew").equals("true");
         if (!isNew) {
             ArrayList<Staff> staffs = new StaffController().getStaff(id);
             if (!staffs.isEmpty()) {
@@ -127,7 +119,6 @@ public class StaffMaint extends HttpServlet {
                 response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?id=" + staff.getStaffId() + "&isNew=false");
             } else {
                 response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
-                return;
             }
         }
 
