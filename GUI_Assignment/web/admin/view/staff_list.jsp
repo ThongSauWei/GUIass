@@ -3,8 +3,8 @@
     String delete = request.getParameter("delete");
 %>
 
-<!DOCTYPE jsp>
-<jsp>
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Staff Listing</title>
@@ -22,18 +22,18 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
-            
+
             .home-btn{
                 z-index: 1;
             }
         </style>
     </head>
-    
-        <% if (delete != null)
-                    if (delete.equals("1")) {%>
-        <script>
-            alert('Record has been deleted.');
-        </script>                <%}%>
+
+    <% if (delete != null)
+                if (delete.equals("1")) {%>
+    <script>
+        alert('Record has been deleted.');
+    </script>                <%}%>
     <body>
 
         <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill home-btn">Return</a>
@@ -85,4 +85,4 @@
                 </div>
             </div>
     </body>
-</jsp>
+</html>
