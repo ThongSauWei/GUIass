@@ -1,7 +1,7 @@
 <% String search = request.getParameter("search") != null ? (String) request.getParameter("search") : "";%>
 
-<!DOCTYPE jsp>
-<jsp>
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Customer Listing</title>
@@ -67,4 +67,4 @@
                 </div>
             </div>
     </body>
-</jsp>
+</html>
