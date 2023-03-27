@@ -22,7 +22,18 @@ public class StaffMaint extends HttpServlet {
             throws ServletException, IOException {
 
         String id = request.getParameter("id");
+        String delete = request.getParameter("delete");
 
+        if (delete != null && id != null) {
+            if (new StaffController().dltStaff(Integer.parseInt(id))) {
+                response.sendRedirect("/asgmt2/admin/view/staff_list.jsp?delete=1");
+                return;
+            } else {
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                return;
+            }
+        }
+        
         boolean isNew = request.getParameter("isNew").equals("true");
         if (!isNew) {
             ArrayList<Staff> staffs = new StaffController().getStaff(id);
@@ -44,17 +55,6 @@ public class StaffMaint extends HttpServlet {
             throws ServletException, IOException {
 
         String id = request.getParameter("id");
-        String delete = request.getParameter("delete");
-
-        if (delete != null && id != null) {
-            if (new StaffController().dltStaff(Integer.parseInt(id))) {
-                response.sendRedirect("/asgmt2/admin/view/staff_list.jsp?delete=1");
-                return;
-            } else {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
-                return;
-            }
-        }
 
         int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
         if (request.getParameter("submit") != null) {
