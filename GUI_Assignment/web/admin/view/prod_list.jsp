@@ -1,7 +1,7 @@
 <%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
     int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));%>
-<!DOCTYPE jsp>
-<jsp>
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Product Listing</title>
@@ -80,3 +80,4 @@
                 </div>
             </div>
     </body>
+</html>
