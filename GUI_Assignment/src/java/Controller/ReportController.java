@@ -4,7 +4,7 @@
  */
 package Controller;
 
-import DataAccess.DbSet;
+import DataAccess.DBaccess;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -99,6 +99,14 @@ public class ReportController {
         return this.groupBy;
     }
 
+    public String getOrder() {
+        return this.orderBy;
+    }
+
+    public String getConditions() {
+        return this.wheres;
+    }
+
     public static String decodeSalesColumn(String column) {
         return decoder(column, ReportController.SalesColumnName);
     }
@@ -138,56 +146,54 @@ public class ReportController {
     }
 
     public static String salesFormatDisplay(String inputStr) {
-    Map<String, String> columnMap = new HashMap<>();
-    columnMap.put("product_id", "Product Id");
-    columnMap.put("product_name", "Product Name");
-    columnMap.put("total_units_sold", "Total Units Sold");
-    columnMap.put("total_revenue", "Total Revenue");
+        Map<String, String> columnMap = new HashMap<>();
+        columnMap.put("product_id", "Product Id");
+        columnMap.put("product_name", "Product Name");
+        columnMap.put("total_units_sold", "Total Units Sold");
+        columnMap.put("total_revenue", "Total Revenue");
 
-    String[] parts = inputStr.split(",");
-    StringBuilder outputBuilder = new StringBuilder();
-    boolean hasDesc = false; 
-    boolean hasOrderBy = false;
-    for (String part : parts) {
-        part = part.trim(); 
-        if (part.startsWith("GROUP BY ")) {
-            outputBuilder.append("GROUP BY ");
-            part = part.substring(9); 
-        } else if (part.startsWith("ORDER BY ")) {
-            outputBuilder.append("ORDER BY ");
-            part = part.substring(9); 
-            hasOrderBy = true;
+        String[] parts = inputStr.split(",");
+        StringBuilder outputBuilder = new StringBuilder();
+        boolean hasDesc = false;
+        boolean hasOrderBy = false;
+        for (String part : parts) {
+            part = part.trim();
+            if (part.startsWith("GROUP BY ")) {
+                outputBuilder.append("GROUP BY ");
+                part = part.substring(9);
+            } else if (part.startsWith("ORDER BY ")) {
+                outputBuilder.append("ORDER BY ");
+                part = part.substring(9);
+                hasOrderBy = true;
+            }
+
+            String[] columnParts = part.split("\\.");
+            String columnName = columnParts[columnParts.length - 1];
+
+            if (columnName.endsWith(" DESC")) {
+                columnName = columnName.substring(0, columnName.length() - 5);
+                hasDesc = true;
+            }
+
+            String formattedName = columnMap.getOrDefault(columnName, columnName);
+            columnParts[columnParts.length - 1] = formattedName;
+
+            if (columnParts.length == 2 && columnParts[0].equals("p")) {
+                columnParts[0] = "";
+            }
+
+            outputBuilder.append(String.join(".", columnParts));
+            outputBuilder.append(", ");
         }
 
-        String[] columnParts = part.split("\\.");
-        String columnName = columnParts[columnParts.length - 1];
-        
-        if (columnName.endsWith(" DESC")) {
-            columnName = columnName.substring(0, columnName.length() - 5);
-            hasDesc = true;
-        }
-        
-        String formattedName = columnMap.getOrDefault(columnName, columnName);
-        columnParts[columnParts.length - 1] = formattedName;
+        outputBuilder.setLength(outputBuilder.length() - 2);
 
-        if (columnParts.length == 2 && columnParts[0].equals("p")) {
-            columnParts[0] = "";
+        if (!hasDesc && hasOrderBy) {
+            outputBuilder.append(" ASC");
         }
 
-        outputBuilder.append(String.join(".", columnParts));
-        outputBuilder.append(", ");
+        return outputBuilder.toString().replace('.', ' ');
     }
-
-    outputBuilder.setLength(outputBuilder.length() - 2);
-
-    if (!hasDesc && hasOrderBy) {
-        outputBuilder.append(" ASC");
-    }
-
-    return outputBuilder.toString().replace('.', ' ');
-}
-
-
 
     public static String decodeSalesGroupBy(Map<String, String> map) {
         String concatenatedKeys = "," + String.join(",", map.keySet());
@@ -213,7 +219,7 @@ public class ReportController {
     }
 
     public static List<HashMap<String, Object>> reportSelector(String query) {
-        return DbSet.customizeSqlSelect(query);
+        return DBaccess.customizeSqlSelect(query);
     }
 
     public List<HashMap<String, Object>> salesReport() {
@@ -235,10 +241,6 @@ public class ReportController {
         }
 
         return columnNames;
-    }
-
-    public String getOrder() {
-        return this.orderBy;
     }
 
     public static StringBuilder nameToDisplay(String column) {
@@ -283,26 +285,5 @@ public class ReportController {
         }
 
         return names;
-    }
-
-    public String getConditions() {
-        return this.wheres;
-    }
-
-    public String[] parseWhereCondition() {
-        String sql = this.wheres;
-        String[] result = new String[2];
-        int start = sql.indexOf("WHERE") + 5;
-        if (start == -1) {
-            return null;
-        }
-        String condition = sql.substring(start).trim();
-        String[] parts = condition.split("=");
-        if (parts.length != 2) {
-            return null;
-        }
-        result[0] = parts[0].trim();
-        result[1] = parts[1].trim();
-        return result;
     }
 }
