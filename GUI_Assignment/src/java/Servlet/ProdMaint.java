@@ -29,15 +29,19 @@ public class ProdMaint extends HttpServlet {
 
         boolean isNew = request.getParameter("isNew").equals("true");
         if (!isNew) {
-            Product product;
-            String id = request.getParameter("id");
-            product = new prodController().getProd(id);
-            if (product != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("product", product);
-                response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?id=" + product.getProductId() + "&isNew=false");
-            } else {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+            try {
+                Product product;
+                String id = request.getParameter("id");
+                product = new prodController().getProd(id);
+                if (product != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("product", product);
+                    response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?id=" + product.getProductId() + "&isNew=false");
+                } else {
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProdMaint.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -53,33 +57,37 @@ public class ProdMaint extends HttpServlet {
         if (request.getParameter("submit") != null) {
             int submit = Integer.parseInt(request.getParameter("submit"));
             if (submit == 1) {
-                String name = request.getParameter("name");
-                String desc = request.getParameter("description");
-                double price = Double.parseDouble(request.getParameter("price"));
-                char active = request.getParameter("active").charAt(0);
-
-                if (new prodController().addProd(name, desc, price, active)) {
-                    if (action == 1) {
-                        response.sendRedirect("/asgmt2/admin/view/prod_list.jsp");
-                        return;
-                    }
-                    if (action == 2) {
-                        response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
-                        return;
-                    }
-                    if (action == 3) {
-                        String id = request.getParameter("id");
-                        product = new prodController().getLatestProd();
-                        if (product != null) {
-                            HttpSession session = request.getSession();
-                            session.setAttribute("product", product);
+                try {
+                    String name = request.getParameter("name");
+                    String desc = request.getParameter("description");
+                    double price = Double.parseDouble(request.getParameter("price"));
+                    char active = request.getParameter("active").charAt(0);
+                    
+                    if (new prodController().addProd(name, desc, price, active)) {
+                        if (action == 1) {
+                            response.sendRedirect("/asgmt2/admin/view/prod_list.jsp");
+                            return;
                         }
-                        response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
+                        if (action == 2) {
+                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
+                            return;
+                        }
+                        if (action == 3) {
+                            String id = request.getParameter("id");
+                            product = new prodController().getLatestProd();
+                            if (product != null) {
+                                HttpSession session = request.getSession();
+                                session.setAttribute("product", product);
+                            }
+                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
+                            return;
+                        }
+                    } else {
+                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                         return;
                     }
-                } else {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
-                    return;
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProdMaint.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (submit == 0) {
 
