@@ -8,7 +8,10 @@ import Controller.prodController;
 import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +45,8 @@ public class ProdList extends HttpServlet {
                 out.print("<td><a href=\"../../ProdMaint?id=" + product.getProductId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
                 out.print("</tr>");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @Override
