@@ -4,7 +4,10 @@ import Controller.StaffController;
 import Model.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +44,8 @@ public class StaffList extends HttpServlet {
                 out.println("  <td><a href=\"../../StaffMaint?id=" + staff.getStaffId() + "&isNew=false\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"edit fa fa-pencil\"></i></a></td>");
                 out.println("</tr>");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
