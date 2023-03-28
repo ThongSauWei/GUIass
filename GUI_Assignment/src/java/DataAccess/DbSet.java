@@ -196,38 +196,4 @@ public class DbSet<T extends DBModel> {
         }
     }
 
-    //customize sql SELECT runner
-    public static List<HashMap<String, Object>> customizeSqlSelect(String selectStatement) {
-        Connection conn = null;
-        try {
-            conn = ConnectionDriver.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(selectStatement);
-
-            return convertResultSetToList(rs);
-        } catch (SQLException ex) {
-            Logger.getLogger(DbSet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            ConnectionDriver.endConnection(conn);
-        }
-        return null;
-    }
-
-    public static List<HashMap<String, Object>> convertResultSetToList(ResultSet rs) throws SQLException {
-        ResultSetMetaData md = rs.getMetaData();
-        int columns = md.getColumnCount();
-        List<HashMap<String, Object>> list = new ArrayList<>();
-
-        
-        while (rs.next()) {
-            HashMap<String, Object> row = new HashMap<>(columns);
-            for (int i = 1; i <= columns; ++i) {
-                row.put(md.getColumnName(i), rs.getObject(i));
-            }
-            list.add(row);
-        }
-
-        return list;
-    }
-
 }
