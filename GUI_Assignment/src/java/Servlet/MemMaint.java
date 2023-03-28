@@ -8,7 +8,10 @@ import Controller.MemController;
 import Model.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 public class MemMaint extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
-            ArrayList<Member> members = new MemController().getMem(search);
+            ArrayList<Member> members = new MemController().getMems(search);
             if (members == null) {
                 response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             } else if (members.isEmpty()) {
@@ -50,13 +53,21 @@ public class MemMaint extends HttpServlet {
         String delete = request.getParameter("delete");
 
         if (id == null && delete == null) {
-            processRequest(request, response);
+            try {
+                processRequest(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(MemMaint.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
 
             if (delete != null && id != null) {
-                if(new MemController().dltMem(id) == false)
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                try {
+                    if(new MemController().dltMem(id) == false)
+                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                } catch (SQLException ex) {
+                    Logger.getLogger(MemMaint.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
             response.sendRedirect("/asgmt2/admin/view/mem_list.jsp?search="+search);
