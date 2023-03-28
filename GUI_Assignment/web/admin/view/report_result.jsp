@@ -106,8 +106,6 @@
                                 for (String column : columns) {%>
                             <td><%=row.get(column.replace(" ", "_").toUpperCase())%></td>
                             <%}%>
-
-
                         </tr>
                         <%}
                             } else {
@@ -117,7 +115,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
             <table class="" style="font-size: 10px;">
                 <thead class="thead-dark">
@@ -135,12 +132,9 @@
                     <%}%>
                 </tbody>
             </table>
-
         </div>
 
-
         <a id="back-btn" onclick="history.back()" class=" mb-1 btn btn-danger fixed-bottom-center  rounded-pill"><strong>X</strong></a>
-        <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
