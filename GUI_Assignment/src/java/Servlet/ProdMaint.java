@@ -33,12 +33,12 @@ public class ProdMaint extends HttpServlet {
                 if (product != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("product", product);
-                    response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?id=" + product.getProductId() + "&isNew=false");
+                    response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?id=" + product.getProductId() + "&isNew=false");
                 } else {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             } catch (SQLException ex) {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -62,11 +62,11 @@ public class ProdMaint extends HttpServlet {
 
                     if (new prodController().addProd(name, desc, price, active)) {
                         if (action == 1) {
-                            response.sendRedirect("/asgmt2/admin/view/prod_list.jsp");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_list.jsp");
                             return;
                         }
                         if (action == 2) {
-                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
                             return;
                         }
                         if (action == 3) {
@@ -76,13 +76,13 @@ public class ProdMaint extends HttpServlet {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("product", product);
                             }
-                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
                         }
                     } else {
-                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (SQLException ex) {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             } else if (submit == 0) {
 
@@ -95,11 +95,11 @@ public class ProdMaint extends HttpServlet {
                 try {
                     if (new prodController().updateProd(id, name, desc, price, active)) {
                         if (action == 1) {
-                            response.sendRedirect("/asgmt2/admin/view/prod_list.jsp");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_list.jsp");
                             return;
                         }
                         if (action == 2) {
-                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=true&action=" + action + "");
                             return;
                         }
                         if (action == 3) {
@@ -108,13 +108,13 @@ public class ProdMaint extends HttpServlet {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("product", product);
                             }
-                            response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
                         }
                     } else {
-                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (SQLException ex) {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             }
         }
