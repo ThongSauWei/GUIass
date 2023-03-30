@@ -3,11 +3,8 @@ package Servlet;
 import Controller.StaffController;
 import Model.Staff;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +34,10 @@ public class StaffMaint extends HttpServlet {
                     return;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(StaffMaint.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             }
         }
-        
+
         boolean isNew = request.getParameter("isNew").equals("true");
         if (!isNew) {
             try {
@@ -55,7 +52,7 @@ public class StaffMaint extends HttpServlet {
                     response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(StaffMaint.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -102,7 +99,7 @@ public class StaffMaint extends HttpServlet {
                         response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(StaffMaint.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
 
             } else if (submit == 0) {
@@ -115,7 +112,7 @@ public class StaffMaint extends HttpServlet {
                     String ic = request.getParameter("ic");
                     String password = request.getParameter("password");
                     action = Integer.parseInt(request.getParameter("action"));
-                    
+
                     if (new StaffController().updateStaff(id, name, password, ic, phoneNum, email, birthday)) {
                         if (action == 1) {
                             response.sendRedirect("/asgmt2/admin/view/staff_list.jsp");
@@ -139,7 +136,7 @@ public class StaffMaint extends HttpServlet {
                         response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(StaffMaint.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
 
             }
