@@ -27,14 +27,14 @@ public class StaffMaint extends HttpServlet {
         if (delete != null && id != null) {
             try {
                 if (new StaffController().dltStaff(Integer.parseInt(id))) {
-                    response.sendRedirect("/asgmt2/admin/view/staff_list.jsp?delete=1");
+                    response.sendRedirect("/GUI_Assignment/admin/view/staff_list.jsp?delete=1");
                     return;
                 } else {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     return;
                 }
             } catch (SQLException ex) {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -47,12 +47,12 @@ public class StaffMaint extends HttpServlet {
                     staff = staffs.get(0);
                     HttpSession session = request.getSession();
                     session.setAttribute("staff", staff);
-                    response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?id=" + staff.getStaffId() + "&isNew=false");
+                    response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?id=" + staff.getStaffId() + "&isNew=false");
                 } else {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             } catch (SQLException ex) {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -78,11 +78,11 @@ public class StaffMaint extends HttpServlet {
                     action = Integer.parseInt(request.getParameter("action"));
                     if (new StaffController().addStaff(name, password, ic, phoneNum, email, birthday)) {
                         if (action == 1) {
-                            response.sendRedirect("/asgmt2/admin/view/staff_list.jsp");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_list.jsp");
                             return;
                         }
                         if (action == 2) {
-                            response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?isNew=true&action=" + action + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=true&action=" + action + "");
                             return;
                         }
                         if (action == 3) {
@@ -93,13 +93,13 @@ public class StaffMaint extends HttpServlet {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("staff", staff);
                             }
-                            response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getLatestStaff().getStaffId() + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getLatestStaff().getStaffId() + "");
                         }
                     } else {
-                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
 
             } else if (submit == 0) {
@@ -115,11 +115,11 @@ public class StaffMaint extends HttpServlet {
 
                     if (new StaffController().updateStaff(id, name, password, ic, phoneNum, email, birthday)) {
                         if (action == 1) {
-                            response.sendRedirect("/asgmt2/admin/view/staff_list.jsp");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_list.jsp");
                             return;
                         }
                         if (action == 2) {
-                            response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?isNew=true&action=" + action + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=true&action=" + action + "");
                             return;
                         }
                         if (action == 3) {
@@ -130,13 +130,13 @@ public class StaffMaint extends HttpServlet {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("staff", staff);
                             }
-                            response.sendRedirect("/asgmt2/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + id + "");
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + id + "");
                         }
                     } else {
-                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
 
             }
