@@ -98,7 +98,7 @@
             <%String[] opt = null;%>
             <div class="sections" id="section2">
                 <h1 class="text-center mt-5">Sales Report</h1>
-                <form action="report_result.jsp" method="POST" onsubmit="return validateForm()">
+                <form action="../../ReportResult" method="POST" onsubmit="return validateForm()">
                     <table class="table table-striped table-dark mt-5" style="width: 550px;margin:auto;">
                         <thead class="bg-primary">
                             <tr>
