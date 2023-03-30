@@ -7,10 +7,7 @@ package Servlet;
 import Controller.prodController;
 import Model.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +38,7 @@ public class ProdMaint extends HttpServlet {
                     response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(ProdMaint.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -50,7 +47,7 @@ public class ProdMaint extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Product product = null;
 
         int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
@@ -62,7 +59,7 @@ public class ProdMaint extends HttpServlet {
                     String desc = request.getParameter("description");
                     double price = Double.parseDouble(request.getParameter("price"));
                     char active = request.getParameter("active").charAt(0);
-                    
+
                     if (new prodController().addProd(name, desc, price, active)) {
                         if (action == 1) {
                             response.sendRedirect("/asgmt2/admin/view/prod_list.jsp");
@@ -80,14 +77,12 @@ public class ProdMaint extends HttpServlet {
                                 session.setAttribute("product", product);
                             }
                             response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
-                            return;
                         }
                     } else {
                         response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
-                        return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(ProdMaint.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
             } else if (submit == 0) {
 
@@ -114,14 +109,12 @@ public class ProdMaint extends HttpServlet {
                                 session.setAttribute("product", product);
                             }
                             response.sendRedirect("/asgmt2/admin/view/prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
-                            return;
                         }
                     } else {
                         response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
-                        return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(ProdMaint.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
             }
         }
