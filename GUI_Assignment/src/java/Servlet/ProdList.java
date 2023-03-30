@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,7 @@ public class ProdList extends HttpServlet {
             ArrayList<Product> products = new prodController().getProds(search, status);
             if (products == null) {
                 response.sendRedirect("unexpected_error.jsp");
-            } else if (products.size() == 0) {
+            } else if (products.isEmpty()) {
                 out.print("<td colspan=6>No Record.</td>");
             }
             for (Product product : products) {
@@ -46,9 +44,10 @@ public class ProdList extends HttpServlet {
                 out.print("</tr>");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ProdList.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
