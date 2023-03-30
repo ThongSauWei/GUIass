@@ -28,7 +28,7 @@ public class MemMaint extends HttpServlet {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
             ArrayList<Member> members = new MemController().getMems(search);
             if (members == null) {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             } else if (members.isEmpty()) {
                 out.println("<td colspan=4>No Record.</td>");
             }
@@ -54,7 +54,7 @@ public class MemMaint extends HttpServlet {
             try {
                 processRequest(request, response);
             } catch (SQLException ex) {
-                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         } else {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
@@ -62,13 +62,13 @@ public class MemMaint extends HttpServlet {
             if (delete != null && id != null) {
                 try {
                     if (new MemController().dltMem(id) == false) {
-                        response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (SQLException ex) {
-                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             }
-            response.sendRedirect("/asgmt2/admin/view/mem_list.jsp?search=" + search);
+            response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search);
         }
 
     }
