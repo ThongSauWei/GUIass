@@ -70,12 +70,12 @@ public class ReportResult extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/admin/view/report_result.jsp");
             rd.forward(request, response);
         } else {
-            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             return;
         }
 
         if (contorl == null) {
-            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             return;
         }
 
