@@ -43,7 +43,7 @@ public class StaffList extends HttpServlet {
                 out.println("</tr>");
             }
         } catch (SQLException ex) {
-            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
         }
     }
 
