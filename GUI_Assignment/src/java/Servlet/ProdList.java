@@ -44,7 +44,7 @@ public class ProdList extends HttpServlet {
                 out.print("</tr>");
             }
         } catch (SQLException ex) {
-            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
         }
     }
 
