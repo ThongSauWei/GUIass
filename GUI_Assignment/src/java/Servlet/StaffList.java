@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +27,7 @@ public class StaffList extends HttpServlet {
             ArrayList<Staff> staffs = new StaffController().getStaff(search);
             if (staffs == null) {
                 response.sendRedirect("unexpected_error.jsp");
-            } else if (staffs.size() == 0) {
+            } else if (staffs.isEmpty()) {
                 out.print("<td colspan=8>No Record.</td>");
             }
             for (Staff staff : staffs) {
@@ -45,7 +43,7 @@ public class StaffList extends HttpServlet {
                 out.println("</tr>");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StaffList.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
         }
     }
 
