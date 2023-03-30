@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,21 +54,21 @@ public class MemMaint extends HttpServlet {
             try {
                 processRequest(request, response);
             } catch (SQLException ex) {
-                Logger.getLogger(MemMaint.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
             }
         } else {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
 
             if (delete != null && id != null) {
                 try {
-                    if(new MemController().dltMem(id) == false)
+                    if (new MemController().dltMem(id) == false) {
                         response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
+                    }
                 } catch (SQLException ex) {
-                    Logger.getLogger(MemMaint.class.getName()).log(Level.SEVERE, null, ex);
+                    response.sendRedirect("/asgmt2/admin/view/unexpected_error.jsp");
                 }
             }
-            
-            response.sendRedirect("/asgmt2/admin/view/mem_list.jsp?search="+search);
+            response.sendRedirect("/asgmt2/admin/view/mem_list.jsp?search=" + search);
         }
 
     }
