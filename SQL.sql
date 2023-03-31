@@ -128,7 +128,7 @@ VALUES
 ('Lego Classic Bricks and Animals', 'Discover timeless adventures with this Lego Classic set, featuring colorful bricks and a menagerie of animal models.', 39.99, '0'),
 ('Lego Harry Potter Hogwarts Great Hall', 'Experience the magic of Hogwarts with this highly detailed Lego Harry Potter set, featuring a grand staircase, potions room, and more.', 99.99, '1'),
 ('Lego City Space Lunar Space Station', 'Explore the wonders of space with this Lego City set, featuring a modular space station and multiple vehicles and characters.', 69.99, '0'),
-('Lego Ninjago Legacy Destiny's Bounty', 'Relive classic Ninjago moments with this highly detailed Lego set, featuring a buildable ship and numerous characters and accessories.', 129.99, '1'),
+('Lego Ninjago Legacy Destiny Bounty', 'Relive classic Ninjago moments with this highly detailed Lego set, featuring a buildable ship and numerous characters and accessories.', 129.99, '1'),
 ('Lego Friends Heartlake City Airplane', 'Take off on exciting adventures with this Lego Friends airplane set, featuring a detailed cockpit and passenger area.', 59.99, '0'),
-('Lego Marvel Avengers Iron Man Hall of Armor', 'Build Tony Stark's Hall of Armor with this highly detailed Lego Marvel set, featuring multiple Iron Man suits and accessories.', 59.99, '1'),
+('Lego Marvel Avengers Iron Man Hall of Armor', 'Build Tony Stark Hall of Armor with this highly detailed Lego Marvel set, featuring multiple Iron Man suits and accessories.', 59.99, '1'),
 ('Lego Star Wars Millennium Falcon', 'Join Han Solo and Chewbacca on the iconic Millennium Falcon with this highly detailed Lego Star Wars set, featuring numerous characters and accessories.', 159.99, '0');
