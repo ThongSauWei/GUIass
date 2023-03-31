@@ -193,8 +193,8 @@
                             <th>Active</th>
                             <td style="padding-left:0;">
                                 <select class="form-control" id="status-select" name="status" style="width:150px;">
-                                    <option value="2">All</option>
-                                    <option value="1" selected="">Active Only</option>
+                                    <option value="2" selected>All</option>
+                                    <option value="1">Active Only</option>
                                     <option value="0">Inactive Only</option>
                                 </select>
                             </td>
