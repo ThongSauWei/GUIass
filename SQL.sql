@@ -122,6 +122,14 @@ CREATE TABLE ratereview(
 	FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
+INSERT INTO staff (staff_name, staff_pass, staff_ic, staff_phone, staff_email, staff_birthdate)
+VALUES 
+('John Doe', 'p@ssw0rd123', '980101101234', '0123456789', 'johndoe@example.com', '1998-01-01'),
+('Lin Xiao Ming', 'p@ssw0rd123', '991231105678', '0198765432', 'linxiaoming@example.com', '1999-12-31'),
+('Jane Smith', 'p@ssw0rd123', '030202089101', '0176543210', 'janesmith@example.com', '2003-02-02'),
+('David Wong', 'p@ssw0rd123', '000712012345', '0167890123', 'davidwong@example.com', '2000-07-12'),
+('Zhang Mei Li', 'p@ssw0rd123', '980616103456', '0134567890', 'zhangmeili@example.com', '1998-06-16');
+
 INSERT INTO product (product_name, product_desc, product_price, product_active)
 VALUES 
 ('Lego Creator 3-in-1 Townhouse Toy Store', 'Build a 3-level toy store and townhouse, packed with detailed features and imaginative accessories.', 49.99, '1'),
