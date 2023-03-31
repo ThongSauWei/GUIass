@@ -93,7 +93,7 @@
             <div id="section1" class=" btn-group-vertical">
                 <h1 class="text-center mb-5">Report</h1>
                 <a id="sales-link" class="mt-1 btn btn-primary btn-lg rounded-lg ">Sales</a>
-                <a id="popularity-link" class="mt-1  btn btn-primary btn-lg rounded-lg ">Popularity</a>
+                 <!-- <a id="popularity-link" class="mt-1  btn btn-primary btn-lg rounded-lg ">Popularity</a> -->
             </div>
             <%String[] opt = null;%>
             <div class="sections" id="section2">
