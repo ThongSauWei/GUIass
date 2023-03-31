@@ -86,14 +86,11 @@ public class StaffMaint extends HttpServlet {
                             return;
                         }
                         if (action == 3) {
-                            ArrayList<Staff> staffs = new StaffController().getStaff(id);
-                            if (!staffs.isEmpty()) {
-                                Staff staff;
-                                staff = staffs.get(0);
-                                HttpSession session = request.getSession();
-                                session.setAttribute("staff", staff);
-                            }
-                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new StaffController().getLatestStaff().getStaffId() + "");
+                            Staff staff = new StaffController().getLatestStaff();
+                            HttpSession session = request.getSession();
+                            session.setAttribute("staff", staff);
+
+                            response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + staff.getStaffId() + "");
                         }
                     } else {
                         response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
