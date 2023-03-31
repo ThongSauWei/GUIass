@@ -66,10 +66,7 @@ public class MemMaint extends HttpServlet {
                     }
                 } catch (SQLException ex) {
                     response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
-                } catch (IllegalStateException e) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
-
             }
             response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search);
         }
