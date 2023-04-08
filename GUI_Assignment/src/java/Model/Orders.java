@@ -31,6 +31,18 @@ public class Orders extends DBModel {
         this.address = address;
     }
 
+    public Orders(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address, String tableName) {
+        super(tableName);
+        this.ordersDate = ordersDate;
+        this.ordersPaymentType = ordersPaymentType;
+        this.ordersTtlPrice = ordersTtlPrice;
+        this.ordersTax = ordersTax;
+        this.ordersDeliveryFee = ordersDeliveryFee;
+        this.ordersExpressShipping = ordersExpressShipping;
+        this.member = member;
+        this.address = address;
+    }
+
     public Orders(int ordersId) {
         super("orders");
         this.ordersId = ordersId;

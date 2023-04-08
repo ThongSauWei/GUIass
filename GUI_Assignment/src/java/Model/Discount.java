@@ -23,6 +23,14 @@ public class Discount extends DBModel {
         this.product = product;
     }
 
+    public Discount(int discountPercentage, Date discountStartDate, Date discountEndDate, Product product, String tableName) {
+        super(tableName);
+        this.discountPercentage = discountPercentage;
+        this.discountStartDate = discountStartDate;
+        this.discountEndDate = discountEndDate;
+        this.product = product;
+    }
+
     public Discount(int discountId) {
         super("discount");
         this.discountId = discountId;

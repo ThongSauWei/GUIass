@@ -16,4 +16,8 @@ public class Converter {
     public static String convertToString(Object obj) {
         return String.valueOf(obj);
     }
+
+    public static String convertDateToLongString(java.util.Date utilDate) {
+        return convertToString(utilDate.getTime());
+    }
 }
