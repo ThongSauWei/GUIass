@@ -18,6 +18,7 @@ public class DBTable {
     public DbSet<Cartlist> Cartlist;
     public DbSet<Discount> Discount;
     public DbSet<RateReview> RateReview;
+    public DbSet<ImageTable> ImageTable;
 
     public DBTable() {
         this.Staff = new DbSet<>(new Staff());
@@ -31,6 +32,7 @@ public class DBTable {
         this.Cartlist = new DbSet<>(new Cartlist());
         this.Discount = new DbSet<>(new Discount());
         this.RateReview = new DbSet<>(new RateReview());
+        this.ImageTable = new DbSet<>(new ImageTable());
     }
 
     public DbSet<Staff> getStaff() {
@@ -75,5 +77,9 @@ public class DBTable {
 
     public DbSet<RateReview> getRateReview() {
         return RateReview;
+    }
+
+    public DbSet<ImageTable> getImageTable() {
+        return ImageTable;
     }
 }

@@ -3,6 +3,8 @@ package Utility;
 /**
  * @author LOH XIN JIE
  */
+import java.text.SimpleDateFormat;
+
 public class Converter {
 
     public static java.util.Date convertSQLDateToUtilDate(java.sql.Date sqlDate) {
@@ -17,7 +19,9 @@ public class Converter {
         return String.valueOf(obj);
     }
 
-    public static String convertDateToLongString(java.util.Date utilDate) {
-        return convertToString(utilDate.getTime());
+    //example : 20230408161001529
+    public static String convertDateToFormatString(java.util.Date utilDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSS");
+        return format.format(utilDate);
     }
 }

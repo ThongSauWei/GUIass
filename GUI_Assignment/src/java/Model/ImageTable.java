@@ -8,7 +8,8 @@ import java.io.InputStream;
 
 public class ImageTable extends DBModel {
 
-    private String transId;
+    private int imageID;
+    private String transID;
     private String imageName;
     private String imageContentType;
     private InputStream inputImage;
@@ -18,39 +19,42 @@ public class ImageTable extends DBModel {
         super("imagetable");
     }
 
-    public ImageTable(String transId) {
+    public ImageTable(int imageID) {
         super("imagetable");
-        this.transId = transId;
+        this.imageID = imageID;
     }
 
     //no image
-    public ImageTable(String transId, String imageName, String imageContentType) {
+    public ImageTable(int imageID, String imageName, String imageContentType, String transID) {
         super("imagetable");
-        this.transId = transId;
+        this.imageID = imageID;
         this.imageName = imageName;
         this.imageContentType = imageContentType;
+        this.transID = transID;
     }
 
     //output image  byte[] -> outputStream
-    public ImageTable(String transId, String imageName, String imageContentType, byte[] outputImage) {
+    public ImageTable(int imageID, String imageName, String imageContentType, String transID, byte[] outputImage) {
         super("imagetable");
-        this.transId = transId;
+        this.imageID = imageID;
         this.imageName = imageName;
         this.imageContentType = imageContentType;
         this.outputImage = outputImage;
+        this.transID = transID;
     }
 
     //input image
-    public ImageTable(String transId, String imageName, String imageContentType, InputStream inputImage, String tableName) {
-        super(tableName);
-        this.transId = transId;
+    public ImageTable(int imageID, String imageName, String imageContentType, String transID, InputStream inputImage) {
+        super("imagetable");
+        this.imageID = imageID;
         this.imageName = imageName;
         this.imageContentType = imageContentType;
         this.inputImage = inputImage;
+        this.transID = transID;
     }
 
-    public String getTransId() {
-        return transId;
+    public int getImageId() {
+        return imageID;
     }
 
     public String getImageName() {
@@ -69,8 +73,12 @@ public class ImageTable extends DBModel {
         return inputImage;
     }
 
-    public void setTransId(String transId) {
-        this.transId = transId;
+    public String getTransID() {
+        return transID;
+    }
+
+    public void setImageId(int imageID) {
+        this.imageID = imageID;
     }
 
     public void setImageName(String imageName) {
@@ -87,5 +95,9 @@ public class ImageTable extends DBModel {
 
     public void setInputImage(InputStream inputImage) {
         this.inputImage = inputImage;
+    }
+
+    public void setTransID(String transID) {
+        this.transID = transID;
     }
 }

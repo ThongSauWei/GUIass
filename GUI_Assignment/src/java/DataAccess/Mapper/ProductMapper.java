@@ -21,7 +21,7 @@ public class ProductMapper extends RowMapper<Product> {
                 result.getString(PRODUCT_DESC),
                 result.getDouble(PRODUCT_PRICE),
                 result.getString(PRODUCT_ACTIVE).charAt(0),
-                new ImageTable(result.getString(TRANS_ID)));
+                new ImageTable(result.getInt(IMAGE_ID)));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ProductMapper extends RowMapper<Product> {
                 + PRODUCT_DESC + ", "
                 + PRODUCT_PRICE + ", "
                 + PRODUCT_ACTIVE + ", "
-                + TRANS_ID + ") "
+                + IMAGE_ID + ") "
                 + "VALUES(?,?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
@@ -41,7 +41,7 @@ public class ProductMapper extends RowMapper<Product> {
         stmt.setString(2, product.getProductDesc());
         stmt.setDouble(3, product.getProductPrice());
         stmt.setString(4, Converter.convertToString(product.getProductActive()));
-        stmt.setString(5, product.getImageTable().getTransId());
+        stmt.setInt(5, product.getImageTable().getImageId());
         return stmt;
     }
 
@@ -52,7 +52,7 @@ public class ProductMapper extends RowMapper<Product> {
                 + PRODUCT_DESC + " = ?, "
                 + PRODUCT_PRICE + " = ?, "
                 + PRODUCT_ACTIVE + " = ?, "
-                + TRANS_ID + " = ? WHERE " + PRODUCT_ID + " = ?";
+                + IMAGE_ID + " = ? WHERE " + PRODUCT_ID + " = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         stmt.setInt(6, product.getProductId());
@@ -60,7 +60,7 @@ public class ProductMapper extends RowMapper<Product> {
         stmt.setString(2, product.getProductDesc());
         stmt.setDouble(3, product.getProductPrice());
         stmt.setString(4, Converter.convertToString(product.getProductActive()));
-        stmt.setString(5, product.getImageTable().getTransId());
+        stmt.setInt(5, product.getImageTable().getImageId());
         return stmt;
     }
 
