@@ -11,6 +11,9 @@ function validateForm() {
     if (isInputFieldEmpty(price)) {
         isValid = false;
     }
+    if (!validateImageInput()) {
+        isValid = false;
+    }
 
     if (isValid) {
         if (!isValidPrice)
@@ -42,4 +45,46 @@ function formatPrice(input) {
 }
 function cancel() {
     window.location.href = "prod_list.jsp";
+}
+
+const image_input = document.querySelector("#image_input");
+var uploaded_image = "";
+
+image_input.addEventListener("change", function () {
+    validateImageInput();
+    const file = this.files[0];
+    const fileSizeInMB = file.size / (1024 * 1024);
+    if (fileSizeInMB > 10) {
+        alert("The selected image is too large (maximum size is 10MB).");
+        this.value = null;
+    } else {
+        const img = document.querySelector("#img");
+        img.style.display = "none";
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            uploaded_image = reader.result;
+            document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+
+function validateImageInput() {
+    const input = document.querySelector("#image_input");
+    const errorDiv = document.querySelector("#image_error");
+    const errorDiv2 = document.querySelector("#display_image");
+
+    if (input.disabled == false) {
+        if (!input.value) {
+            input.style.borderColor = "red";
+            errorDiv2.style.borderColor = "red";
+            errorDiv.innerHTML = "Upload an Image";
+            return false;
+        }
+    }
+
+    input.style.borderColor = "";
+    errorDiv.innerHTML = "";
+    errorDiv2.style.borderColor = "";
+    return true;
 }
