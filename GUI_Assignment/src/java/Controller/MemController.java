@@ -13,8 +13,6 @@ import Model.Member;
 import Model.MemberAddress;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,9 +20,8 @@ import java.util.logging.Logger;
  */
 public class MemController {
 
-    public ArrayList<Member> getMem(String search) {
+    public ArrayList<Member> getMems(String search) throws SQLException {
         DBTable dbTable = new DBTable();
-        try {
             if (search == null) {
                 return dbTable.getMember().getData(new MemberMapper());
             } else {
@@ -37,13 +34,9 @@ public class MemController {
                 }
                 return members;
             }
-        } catch (SQLException ex) {
-            return null;
-        }
     }
 
-    public boolean dltMem(int id) {
-        try {
+    public boolean dltMem(int id) throws SQLException {
             DBTable dbTable = new DBTable();
 
             ArrayList<Member> sdfasd = dbTable.Member.getData(new MemberMapper(), id);
@@ -67,13 +60,10 @@ public class MemController {
             }
             
             return dbTable.Member.Delete(new MemberMapper(), member);
-        } catch (SQLException ex) {
-            Logger.getLogger(MemController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+       
     }
     
-    public boolean dltMem(String id) {
+    public boolean dltMem(String id) throws SQLException {
         return dltMem(Integer.parseInt(id));
     }
 }

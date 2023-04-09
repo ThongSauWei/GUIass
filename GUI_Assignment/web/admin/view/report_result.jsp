@@ -7,54 +7,15 @@
     Document   : report_result
     Created on : Mar 23, 2023, 1:44:49 PM
     Author     : Yeet
---%>
+--%> 
 
 <%
-    String reportName = request.getParameter("reportName") != null ? request.getParameter("reportName") : "";
-    String submit = request.getParameter("submit") != null ? request.getParameter("submit") : "";
-    if (submit.equals("") || reportName.equals("")) {
-        response.sendRedirect("unexpected_error.jsp");
-        return;
-    }
-    String[] conditions = null;
-    ReportController contorl = null;
-    List<HashMap<String, Object>> rows = null;
-    String group = null;
-    String order = null;
-    if (submit.equals("1")) {//sales
-        String column = request.getParameter("column") != null ? request.getParameter("column") : "";
-        String dateFrom = request.getParameter("dateFrom") != null ? request.getParameter("dateFrom") : "";
-        String dateTo = request.getParameter("dateTo") != null ? request.getParameter("dateTo") : "";
-        String groupby = request.getParameter("groupby") != null ? request.getParameter("groupby") : "";
-        String orderby = request.getParameter("orderby") != null ? request.getParameter("orderby") : "";
-        String status = request.getParameter("status") != null ? request.getParameter("status") : "";
-        String acs = request.getParameter("acs") != null? request.getParameter("acs") : "";
-
-        conditions = new String[6];
-        conditions[0] = "Date From";
-        conditions[1] = dateFrom;
-        conditions[2] = "Date To";
-        conditions[3] = dateTo;
-        conditions[4] = "Status";
-        conditions[5] = status.equals("1") == true ? "Active" : (status.equals("0") == true ? "Inactive" : "All");
-
-        contorl = new ReportController(1, column, dateFrom, dateTo, groupby, orderby, status, acs);
-        
-        group = contorl.getGroup();
-        group = ReportController.salesFormatDisplay(contorl.getGroup());
-        
-        order = ReportController.salesFormatDisplay(contorl.getOrder());
-        
-        rows = contorl.salesReport();
-    } else {
-        response.sendRedirect("unexpected_error.jsp");
-        return;
-    }
-
-    if (contorl == null) {
-        response.sendRedirect("unexpected_error.jsp");
-        return;
-    }
+    String reportName = (String) request.getAttribute("reportName");
+    String group = (String) request.getAttribute("group");
+    String order = (String) request.getAttribute("order");
+    ReportController contorl = (ReportController) request.getAttribute("contorl");
+    List<HashMap<String, Object>> rows = (List<HashMap<String, Object>>) request.getAttribute("rows");
+    String[] conditions = (String[]) request.getAttribute("conditions");
 %>
 <!DOCTYPE html>
 <html>
@@ -73,10 +34,10 @@
             }
             @media print{
                 #back-btn{
-                   display: none;
+                    display: none;
                 }
                 *{
-                 color: black !important;    
+                    color: black !important;
                 }
             }
         </style>
@@ -84,7 +45,7 @@
     <body>
         <div class="container">
             <h1 class="text-center mt-5"><%= reportName%> Report</h1>
-            <h4 class="text-center mt-3 mb-3"><%=group + (order.equals("") == false ? "; "+order : "")%></h4>
+            <h4 class="text-center mt-3 mb-3"><%=group + (order.equals("") == false ? "; " + order : "")%></h4>
             <div class="col-md-12">
 
                 <table class="table table-hover table-striped">
@@ -106,8 +67,6 @@
                                 for (String column : columns) {%>
                             <td><%=row.get(column.replace(" ", "_").toUpperCase())%></td>
                             <%}%>
-
-
                         </tr>
                         <%}
                             } else {
@@ -117,7 +76,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
             <table class="" style="font-size: 10px;">
                 <thead class="thead-dark">
@@ -135,12 +93,9 @@
                     <%}%>
                 </tbody>
             </table>
-
         </div>
 
-
         <a id="back-btn" onclick="history.back()" class=" mb-1 btn btn-danger fixed-bottom-center  rounded-pill"><strong>X</strong></a>
-        <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>

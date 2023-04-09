@@ -93,12 +93,12 @@
             <div id="section1" class=" btn-group-vertical">
                 <h1 class="text-center mb-5">Report</h1>
                 <a id="sales-link" class="mt-1 btn btn-primary btn-lg rounded-lg ">Sales</a>
-                <a id="popularity-link" class="mt-1  btn btn-primary btn-lg rounded-lg ">Popularity</a>
+                 <!-- <a id="popularity-link" class="mt-1  btn btn-primary btn-lg rounded-lg ">Popularity</a> -->
             </div>
             <%String[] opt = null;%>
             <div class="sections" id="section2">
                 <h1 class="text-center mt-5">Sales Report</h1>
-                <form action="report_result.jsp" onsubmit="return validateForm()">
+                <form action="../../ReportResult" method="POST" onsubmit="return validateForm()">
                     <table class="table table-striped table-dark mt-5" style="width: 550px;margin:auto;">
                         <thead class="bg-primary">
                             <tr>
@@ -193,8 +193,8 @@
                             <th>Active</th>
                             <td style="padding-left:0;">
                                 <select class="form-control" id="status-select" name="status" style="width:150px;">
-                                    <option value="2">All</option>
-                                    <option value="1" selected="">Active Only</option>
+                                    <option value="2" selected>All</option>
+                                    <option value="1">Active Only</option>
                                     <option value="0">Inactive Only</option>
                                 </select>
                             </td>

@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <servlet>
+        <servlet-name>StaffMaint</servlet-name>
+        <servlet-class>Servlet.StaffMaint</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MemMaint</servlet-name>
+        <servlet-class>Servlet.MemMaint</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffList</servlet-name>
+        <servlet-class>Servlet.StaffList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProdMaint</servlet-name>
+        <servlet-class>Servlet.ProdMaint</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProdList</servlet-name>
+        <servlet-class>Servlet.ProdList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportResult</servlet-name>
+        <servlet-class>Servlet.ReportResult</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StaffMaint</servlet-name>
+        <url-pattern>/StaffMaint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MemMaint</servlet-name>
+        <url-pattern>/MemMaint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffList</servlet-name>
+        <url-pattern>/StaffList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProdMaint</servlet-name>
+        <url-pattern>/ProdMaint</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProdList</servlet-name>
+        <url-pattern>/ProdList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportResult</servlet-name>
+        <url-pattern>/ReportResult</url-pattern>
+    <servlet-mapping>
     <servlet>
         <servlet-name>RetrieveImageServlet</servlet-name>
         <servlet-class>Controller.RetrieveImageServlet</servlet-class>

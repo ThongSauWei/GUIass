@@ -1,11 +1,7 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="Model.Product"%>
-<%@page import="Controller.prodController"%>
-
 <%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
     int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));%>
-<!DOCTYPE jsp>
-<jsp>
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Product Listing</title>
@@ -14,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
 
+        <script src="../js/list_page_util.js" type="text/javascript"></script>
 
         <style>
             .fixed-bottom-center {
@@ -22,9 +19,15 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+            .home-btn{
+                z-index: 1;
+            }
         </style>
     </head>
     <body>
+
+        <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill home-btn">Return</a>
+
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -64,35 +67,17 @@
                             <tr>
                                 <th style="width: 5%">ID</th>
                                 <th style="width: 20%">Name</th>
-                                <th style="width: 15%">Description</th>
-                                <th style="width: 20%">Price</th>
-                                <th style="width: 10%">Active</th>
-                                <th style="width: 15%">Edit</th>
+                                <th style="width: 57%">Description</th>
+                                <th style="width: 8%">Price</th>
+                                <th style="width: 5%">Active</th>
+                                <th style="width: 5%">Edit</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%ArrayList<Product> products = new prodController().getProds(search, status);
-                                if (products == null) {
-                                    response.sendRedirect("unexpected_error.jsp");
-                                } else if (products.size() == 0) {
-                                    out.print("<td colspan=6>No Record.</td>");
-                                }
-                                for (Product product : products) {%>
-                            <tr>
-                                <td><%= product.getProductId()%></td>
-                                <td><%= product.getProductName()%></td>
-                                <td><%= product.getProductDesc()%></td>
-                                <td><%= product.getProductPrice()%></td>
-                                <td><input type="checkbox" <%= product.getProductActive() == '1' ? "checked" : ""%> disabled></td>
-                                <td><a href="prod_maint.jsp?id=<%=product.getProductId()%>&isNew=false" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
-                            </tr>
-                            <%}%>
+                            <jsp:include page="../../ProdList" />
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill">Return</a>
-
-            <script src="../js/list_page_util.js" type="text/javascript"></script>
     </body>
+</html>

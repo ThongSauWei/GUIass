@@ -92,7 +92,7 @@ function validateForm() {
 }
 function deleteStaff(id) {
     if (confirm('Are you sure?'))
-        window.location.href = "staff_maint.jsp?id=" + id + "&delete=1";
+        window.location.href = "../../StaffMaint?id=" + id + "&delete=1";
 }
 function emailValid() {
     return validateInput('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address!');

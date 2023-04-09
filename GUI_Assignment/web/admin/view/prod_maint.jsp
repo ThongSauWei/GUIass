@@ -1,75 +1,9 @@
-<%@page import="java.util.ArrayList"%>
 <%@page import="Model.Product"%>
-<%@page import="Controller.prodController"%>
-<%
-    Product product = null;
-
-    int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
-    if (request.getParameter("submit") != null) {
-        int submit = Integer.parseInt(request.getParameter("submit"));
-        if (submit == 1) {
-            String name = request.getParameter("name");
-            String desc = request.getParameter("description");
-            double price = Double.parseDouble(request.getParameter("price"));
-            char active = request.getParameter("active").charAt(0);
-
-            if (new prodController().addProd(name, desc, price, active)) {
-                if (action == 1) {
-                    response.sendRedirect("prod_list.jsp");
-                    return;
-                }
-                if (action == 2) {
-                    response.sendRedirect("prod_maint.jsp?isNew=true&action=" + action + "");
-                    return;
-                }
-                if (action == 3) {
-                    response.sendRedirect("prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + new prodController().getLatestProd().getProductId() + "");
-                    return;
-                }
-            } else {
-                response.sendRedirect("unexpected_error.jsp");
-                return;
-            }
-        } else if (submit == 0) {
-
-            String id = request.getParameter("id");
-            String name = request.getParameter("name");
-            String desc = request.getParameter("description");
-            double price = Double.parseDouble(request.getParameter("price"));
-            char active = request.getParameter("active") != null ? request.getParameter("active").charAt(0) : '0';
-
-            if (new prodController().updateProd(id, name, desc, price, active)) {
-                if (action == 1) {
-                    response.sendRedirect("prod_list.jsp");
-                    return;
-                }
-                if (action == 2) {
-                    response.sendRedirect("prod_maint.jsp?isNew=true&action=" + action + "");
-                    return;
-                }
-                if (action == 3) {
-                    response.sendRedirect("prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
-                    return;
-                }
-            } else {
-                response.sendRedirect("unexpected_error.jsp");
-                return;
-            }
-        }
-    }
-
-    boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
-    if (!isNew) {
-        String id = request.getParameter("id");
-        product = new prodController().getProd(id);
-
-        if (product == null) {
-            response.sendRedirect("unexpected_error.jsp");
-            return;
-        }
-    }
-
+<% boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
+    int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
+    Product product = (Product) session.getAttribute("product");
+    session.removeAttribute("product");
 %>
 <!DOCTYPE html>
 <html>
@@ -89,13 +23,12 @@
                 width:50%;
                 min-width:400px;
             }
-
         </style>
     </head>
     <body>
         <div class="form_wid container mt-5">
             <h2 class="text-center mb-3"><%= isNew ? "Add New" : "Edit"%> Product</h2>
-            <form action="prod_maint.jsp" onsubmit="return validateForm()">
+            <form method="POST" action="../../ProdMaint" onsubmit="return validateForm()">
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>

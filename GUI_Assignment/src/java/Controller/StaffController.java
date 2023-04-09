@@ -7,67 +7,37 @@ package Controller;
 import DataAccess.DBTable;
 import DataAccess.Mapper.StaffMapper;
 import Model.Staff;
+import static Utility.Util.stringToDate;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Yeet
  */
 public class StaffController {
-    public boolean dltStaff(int id) {
-        try {
-            DBTable dbTable = new DBTable();
-
-            
-            return dbTable.Staff.Delete(new StaffMapper(), new Staff(id));
-        } catch (SQLException ex) {
-            Logger.getLogger(MemController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+    public boolean dltStaff(int id) throws SQLException {
+            return new DBTable().Staff.Delete(new StaffMapper(), new Staff(id));
     }
 
-    public boolean updateStaff(String s_id, String name, String password, String ic, String phone_num, String email, String s_date) {
-        try {
+    public boolean updateStaff(String s_id, String name, String password, String ic, String phone_num, String email, String s_date) throws SQLException, Exception   {
             int id = Integer.parseInt(s_id);
             Date date = stringToDate(s_date, "yyyy-mm-dd");
             return new DBTable().Staff.Update(new StaffMapper(), new Staff(id, name, password, ic, phone_num, email, date));
-        } catch (SQLException ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
     }
 
-    public Staff getLatestStaff() {
-        try {
+    public Staff getLatestStaff() throws SQLException {
             return new DBTable().Staff.getData(new StaffMapper(), new ArrayList<>(), "SELECT * FROM staff ORDER BY staff_id desc FETCH FIRST 1 ROWS ONLY").get(0);
-        } catch (SQLException ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 
-    public boolean addStaff(String name, String password, String ic, String phone_num, String email, String s_date) {
-        try {
+    public boolean addStaff(String name, String password, String ic, String phone_num, String email, String s_date) throws SQLException, Exception {
             Date date = stringToDate(s_date, "yyyy-mm-dd");
             return new DBTable().Staff.Add(new StaffMapper(), new Staff(name, password, ic, phone_num, email, date));
-        } catch (SQLException ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
     }
 
-    public ArrayList<Staff> getStaff(String search) {
+    public ArrayList<Staff> getStaff(String search) throws SQLException {
         DBTable dbTable = new DBTable();
-        try {
             if (search == null) {
                 return dbTable.getStaff().getData(new StaffMapper());
             } else {
@@ -82,13 +52,5 @@ public class StaffController {
                 }
                 return staffs;
             }
-        } catch (SQLException ex) {
-            return null;
-        }
-    }
-
-    public static Date stringToDate(String dateString, String format) throws Exception {
-        SimpleDateFormat formatter = new SimpleDateFormat(format);
-        return formatter.parse(dateString);
     }
 }

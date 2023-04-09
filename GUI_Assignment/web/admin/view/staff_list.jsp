@@ -1,11 +1,10 @@
-<%@page import="Model.Staff"%>
-<%@page import="Controller.StaffController"%>
-<%@page import="java.util.ArrayList"%>
+<%
+    String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+    String delete = request.getParameter("delete");
+%>
 
-<%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
-    String delete = request.getParameter("delete");%>
-<!DOCTYPE jsp>
-<jsp>
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Staff Listing</title>
@@ -14,6 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
 
+        <script src="../js/list_page_util.js" type="text/javascript"></script>
 
         <style>
             .fixed-bottom-center {
@@ -22,9 +22,22 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+
+            .home-btn{
+                z-index: 1;
+            }
         </style>
     </head>
+
+    <% if (delete != null)
+                if (delete.equals("1")) {%>
+    <script>
+        alert('Record has been deleted.');
+    </script>                <%}%>
     <body>
+
+        <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill home-btn">Return</a>
+
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -66,37 +79,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%ArrayList<Staff> staffs = new StaffController().getStaff(search);
-                                if (staffs == null) {
-                                    response.sendRedirect("unexpected_error.jsp");
-                                } else if (staffs.size() == 0) {
-                                    out.print("<td colspan=8>No Record.</td>");
-                                }
-                                for (Staff staff : staffs) {%>
-                            <tr>
-                                <td><%= staff.getStaffId()%></td>
-                                <td><%= staff.getStaffName()%></td>
-                                <td><%= staff.getStaffPhNo()%></td>
-                                <td><%= staff.getStaffEmail()%></td>
-                                <td><%= staff.getDisplayFormatBirthdate()%></td>
-                                <td><%= staff.getStaffIc()%></td>
-                                <td><%= staff.getStaffPass()%></td>
-                                <td><a href="staff_maint.jsp?id=<%= staff.getStaffId()%>&isNew=false" style="font-size:20px;color:grey" class="fa"><i class="edit fa fa-pencil"></i></a></td>
-                            </tr>
-                            <%}%>
+                            <jsp:include page="../../StaffList" />
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
-            <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center rounded-pill">Return</a>
-
-            <script src="../js/list_page_util.js" type="text/javascript"></script>
-            <% if (delete != null)
-                    if (delete.equals("1")) {%>
-            <script>
-                alert('Record has been deleted.');
-            </script>                <%}%>
     </body>
-</jsp>
+</html>
