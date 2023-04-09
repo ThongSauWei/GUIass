@@ -6,6 +6,7 @@ package Controller;
 
 import DataAccess.DBTable;
 import DataAccess.Mapper.ProductMapper;
+import Model.ImageTable;
 import Model.Product;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ import java.util.ArrayList;
  */
 public class prodController {
 
-    public boolean updateProd(String s_id, String name, String desc, double price, char active) throws SQLException {
+    public boolean updateProd(String s_id, String name, String desc, double price, char active, ImageTable image) throws SQLException {
         int id = Integer.parseInt(s_id);
-        return new DBTable().Product.Update(new ProductMapper(), new Product(id, name, desc, price, active));
+        return new DBTable().Product.Update(new ProductMapper(), new Product(id, name, desc, price, active, image));
     }
 
-    public boolean addProd(String name, String desc, double price, char active) throws SQLException {
-        return new DBTable().Product.Add(new ProductMapper(), new Product(name, desc, price, active));
+    public boolean addProd(String name, String desc, double price, char active, ImageTable image) throws SQLException {
+        return new DBTable().Product.Add(new ProductMapper(), new Product(name, desc, price, active, image));
     }
 
     public Product getLatestProd() throws SQLException {
