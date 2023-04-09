@@ -25,6 +25,11 @@ public class ImageTableController {
     /**
      * when image added successful will return Trans_id<br/>
      *
+     * @param request
+     * @return 
+     * @throws java.io.IOException
+     * @throws javax.servlet.ServletException
+     * @throws java.sql.SQLException
      * @MultipartConfig(<br/>
      * fileSizeThreshold = 1024 * 1024 * 1, // 1 MB<br/>
      * maxFileSize = 1024 * 1024 * 10, // 10 MB<br/>
@@ -41,12 +46,16 @@ public class ImageTableController {
      * </ul>
      */
     public int UpdateImage(HttpServletRequest request) throws IOException, ServletException, SQLException {
-        ImageTable itable = new ImageTable();
-        String transID;
 
         //name of the image form must be image
         Part imagePart = request.getPart("image");
 
+        return handleImage(imagePart);
+    }
+    
+    public int handleImage(Part imagePart) throws IOException, ServletException, SQLException{
+        ImageTable itable = new ImageTable();
+        String transID;
         if (imagePart != null) {
             //set table value
             itable.setImageName(imagePart.getSubmittedFileName());
