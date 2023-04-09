@@ -84,4 +84,11 @@ public abstract class RowMapper<T extends DBModel> {
     public static final String REVIEW_TEXT = "review_text";
     public static final String REVIEW_RATING = "review_rating";
     public static final String REVIEW_DATE = "review_date";
+
+    //imagetable
+    public static final String IMAGE_ID = "image_id";
+    public static final String TRANS_ID = "trans_id";
+    public static final String IMAGE_NAME = "image_name";
+    public static final String IMAGE_CONTENT = "image_contenttype";
+    public static final String IMAGE = "image";
 }

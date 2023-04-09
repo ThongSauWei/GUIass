@@ -28,6 +28,17 @@ public class AddressBook extends DBModel {
         this.addressPostcode = addressPostcode;
     }
 
+    public AddressBook(String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode, String tableName) {
+        super(tableName);
+        this.addressName = addressName;
+        this.addressPhone = addressPhone;
+        this.addressNo = addressNo;
+        this.addressStreet = addressStreet;
+        this.addressState = addressState;
+        this.addressCity = addressCity;
+        this.addressPostcode = addressPostcode;
+    }
+
     public AddressBook(int addressId) {
         super("addressbook");
         this.addressId = addressId;

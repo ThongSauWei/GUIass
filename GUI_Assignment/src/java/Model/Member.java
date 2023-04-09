@@ -18,6 +18,12 @@ public class Member extends DBModel {
         this.memberPass = memberPass;
     }
 
+    public Member(String memberName, String memberPass, String tableName) {
+        super(tableName);
+        this.memberName = memberName;
+        this.memberPass = memberPass;
+    }
+
     public Member(int memberId) {
         super("member");
         this.memberId = memberId;

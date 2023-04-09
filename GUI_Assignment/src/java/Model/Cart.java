@@ -16,6 +16,11 @@ public class Cart extends DBModel {
         this.member = member;
     }
 
+    public Cart(Member member, String tableName) {
+        super(tableName);
+        this.member = member;
+    }
+
     public Cart(int cartId) {
         super("cart");
         this.cartId = cartId;

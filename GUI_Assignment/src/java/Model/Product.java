@@ -12,24 +12,27 @@ public class Product extends DBModel {
     private String productDesc;
     private double productPrice;
     private char productActive;
+    private ImageTable imageTable;
 
-    public Product(int productId, String productName, String productDesc, double productPrice, char productActive) {
+    public Product(int productId, String productName, String productDesc, double productPrice, char productActive, ImageTable imageTable) {
         super("product");
         this.productId = productId;
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
         this.productActive = productActive;
+        this.imageTable = imageTable;
     }
-    
-    public Product(String productName, String productDesc, double productPrice, char productActive) {
+
+    public Product(String productName, String productDesc, double productPrice, char productActive, ImageTable imageTable) {
         super("product");
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
         this.productActive = productActive;
-        
+        this.imageTable = imageTable;
     }
+
     public Product(int productId) {
         super("product");
         this.productId = productId;
@@ -37,12 +40,6 @@ public class Product extends DBModel {
 
     public Product() {
         super("product");
-        this.productId = 0;
-        this.productName = "";
-        this.productDesc = "";
-        this.productPrice = 0.0;
-        this.productActive = '0';
-        
     }
 
     public int getProductId() {
@@ -65,6 +62,10 @@ public class Product extends DBModel {
         return productActive;
     }
 
+    public ImageTable getImageTable() {
+        return imageTable;
+    }
+
     public void setProductId(int productId) {
         this.productId = productId;
     }
@@ -83,6 +84,10 @@ public class Product extends DBModel {
 
     public void setProductActive(char productActive) {
         this.productActive = productActive;
+    }
+
+    public void setImageTable(ImageTable imageTable) {
+        this.imageTable = imageTable;
     }
 
 }
