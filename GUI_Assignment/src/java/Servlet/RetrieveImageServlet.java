@@ -1,8 +1,9 @@
-package Controller;
+package Servlet;
 
 /**
  * @author LOH XIN JIE
  */
+import Controller.ImageTableController;
 import DataAccess.*;
 import DataAccess.Mapper.ImageTableMapper;
 import Model.*;
@@ -74,7 +75,11 @@ public class RetrieveImageServlet extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        response.sendRedirect("ExampleForImage/index.jsp");
+        //request.getRequestDispatcher("ExampleForImage/index.jsp").forward(request, response);
+        //got bug the location is different when using requestDispatcher
+        //requestdispatcher http://localhost:8080/GUI_Assignment/RetrieveImageServlet
+        //will using the old location when passing
     }
 
 }

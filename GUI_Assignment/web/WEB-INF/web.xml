@@ -47,10 +47,12 @@
     <servlet-mapping>
         <servlet-name>ReportResult</servlet-name>
         <url-pattern>/ReportResult</url-pattern>
-    <servlet-mapping>
+    </servlet-mapping>
+        
+    <!--image servlet-->
     <servlet>
         <servlet-name>RetrieveImageServlet</servlet-name>
-        <servlet-class>Controller.RetrieveImageServlet</servlet-class>
+        <servlet-class>Servlet.RetrieveImageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RetrieveImageServlet</servlet-name>

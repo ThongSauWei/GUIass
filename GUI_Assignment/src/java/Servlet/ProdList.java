@@ -24,7 +24,7 @@ public class ProdList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String search = request.getParameter("search") == null ? "" : request.getParameter("search");
             int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));
             ArrayList<Product> products = new prodController().getProds(search, status);
