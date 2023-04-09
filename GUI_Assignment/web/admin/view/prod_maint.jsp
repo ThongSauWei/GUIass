@@ -23,12 +23,23 @@
                 width:50%;
                 min-width:400px;
             }
+            #display_image{
+                width: 100%;
+                height: 300px;
+                background-position: center;
+                background-size: cover;
+                overflow: hidden;
+            }
+            #img{
+                width: 100%;
+                height: 100%;
+            }
         </style>
     </head>
     <body>
         <div class="form_wid container mt-5">
             <h2 class="text-center mb-3"><%= isNew ? "Add New" : "Edit"%> Product</h2>
-            <form method="POST" action="../../ProdMaint" onsubmit="return validateForm()">
+            <form method="POST" action="../../ProdMaint" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
@@ -56,6 +67,15 @@
                         <tr>
                             <th scope="row">Active</th>
                             <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "" : product.getProductActive() == '1' ? "checked" : ""%>></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Image<%= isNew ? "" : "(not editable)"%></th>
+                            <td>
+                                <span id="image_error" class="error-message"></span>
+                                <input hidden id="image_input" type="file" name="image" accept=".jpg, .jpeg, .jfif, .pjpeg, .pjp, .png" <%= isNew ? "" : "disabled"%>>
+                                <input hidden name="imgID" value="<%=isNew ? 0 : product.getImageTable().getImageId()%>">
+                                <div class="error-border form-control" id="display_image"><img id="img" src="../../RetrieveImageServlet?imageID=<%=isNew ? 0 : product.getImageTable().getImageId()%>" alt="No Image"></div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,4 +105,11 @@
     <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>
+    <script>
+            var displayImage = document.getElementById("display_image");
+            displayImage.onclick = function () {
+                var imageInput = document.getElementById("image_input");
+                imageInput.click();
+            }
+    </script>
 </html>
