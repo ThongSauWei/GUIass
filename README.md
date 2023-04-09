@@ -2,9 +2,6 @@
 ![GUI drawio](https://user-images.githubusercontent.com/87376058/230756425-51170e26-a263-46d1-a0b3-7c5fb9a7a7b7.png)
 Link References : https://drive.google.com/file/d/1PrYG3drGRm-YMEKKkYr7R1MrAe-d_cL_/view?usp=sharing 
 
-### SQL COMMAND FILE
-[GUI_SQLCommand.zip](https://github.com/ThongSauWei/GUIass/files/11010828/GUI_SQLCommand.zip)
-
 ## BOOTSTRAP SETTING 
 ### ICON 
 to use icon provide in Bootstrap add link : - link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
