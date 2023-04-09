@@ -1,5 +1,5 @@
 ## GUI SQL ERD Diagram
-![image](https://user-images.githubusercontent.com/87376058/225523226-1144ded8-e798-45f4-b481-e501d81e2d42.png)
+![GUI drawio](https://user-images.githubusercontent.com/87376058/230756425-51170e26-a263-46d1-a0b3-7c5fb9a7a7b7.png)
 Link References : https://drive.google.com/file/d/1PrYG3drGRm-YMEKKkYr7R1MrAe-d_cL_/view?usp=sharing 
 
 ### SQL COMMAND FILE
