@@ -46,11 +46,36 @@ public class ImageTableController {
      * </ul>
      */
     public int UpdateImage(HttpServletRequest request) throws IOException, ServletException, SQLException {
+        ImageTable itable = new ImageTable();
+        String transID;
 
         //name of the image form must be image
         Part imagePart = request.getPart("image");
 
-        return uploadImage(imagePart);
+        if (imagePart != null) {
+            //set table value
+            itable.setImageName(imagePart.getSubmittedFileName());
+            itable.setImageContentType(imagePart.getContentType());
+
+            //get image
+            itable.setInputImage(imagePart.getInputStream());
+
+            //get trans id
+            transID = Converter.convertDateToFormatString(new Date());
+            itable.setTransID(transID);
+
+            //save to imagetable
+            if (db.ImageTable.Add(new ImageTableMapper(), itable)) {
+                //update success -> get image id
+                String sqlQuery = "SELECT * FROM IMAGETABLE WHERE TRANS_ID = ?";
+                ArrayList<Object> clist = new ArrayList<>();
+                clist.add(new String(transID));
+
+                return db.ImageTable.getData(new ImageTableMapper(), clist, sqlQuery).get(0).getImageId();
+            }
+        }
+
+        return -1;//invalid
     }
     
     public int uploadImage(Part imagePart) throws IOException, ServletException, SQLException{
