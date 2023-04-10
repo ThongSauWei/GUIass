@@ -66,6 +66,9 @@ image_input.addEventListener("change", function () {
             document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
         });
         reader.readAsDataURL(this.files[0]);
+        
+        const edited = document.querySelector("#imgEdited");
+        edited.value = "true";
     }
 });
 
@@ -73,8 +76,9 @@ function validateImageInput() {
     const input = document.querySelector("#image_input");
     const errorDiv = document.querySelector("#image_error");
     const errorDiv2 = document.querySelector("#display_image");
+    const imgID = parseInt(document.getElementById("imgID").value);
 
-    if (input.disabled == false) {
+    if (imgID === 0) {
         if (!input.value) {
             input.style.borderColor = "red";
             errorDiv2.style.borderColor = "red";
