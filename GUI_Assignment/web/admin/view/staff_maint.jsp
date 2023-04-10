@@ -4,7 +4,6 @@
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
     int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
     Staff product = (Staff) session.getAttribute("staff");
-    session.removeAttribute("staff");
 %>
 <!DOCTYPE html>
 <html>
