@@ -69,11 +69,12 @@
                             <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "" : product.getProductActive() == '1' ? "checked" : ""%>></td>
                         </tr>
                         <tr>
-                            <th scope="row">Image<%= isNew ? "" : "(not editable)"%></th>
+                            <th scope="row">Image</th>
                             <td>
                                 <span id="image_error" class="error-message"></span>
-                                <input hidden id="image_input" type="file" name="image" accept=".jpg, .jpeg, .jfif, .pjpeg, .pjp, .png" <%= isNew ? "" : "disabled"%>>
-                                <input hidden name="imgID" value="<%=isNew ? 0 : product.getImageTable().getImageId()%>">
+                                <input hidden id="image_input" type="file" name="image" accept=".jpg, .jpeg, .jfif, .pjpeg, .pjp, .png">
+                                <input hidden id="imgID" name="imgID" value="<%=isNew ? 0 : product.getImageTable().getImageId()%>">
+                                <%= isNew ? "" : "<input hidden id=\"imgEdited\" name=\"imgEdited\" value=\"false\">"%>
                                 <div class="error-border form-control" id="display_image"><img id="img" src="../../RetrieveImageServlet?imageID=<%=isNew ? 0 : product.getImageTable().getImageId()%>" alt="No Image"></div>
                             </td>
                         </tr>
