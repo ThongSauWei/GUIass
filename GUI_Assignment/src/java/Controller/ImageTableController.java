@@ -50,10 +50,10 @@ public class ImageTableController {
         //name of the image form must be image
         Part imagePart = request.getPart("image");
 
-        return handleImage(imagePart);
+        return uploadImage(imagePart);
     }
     
-    public int handleImage(Part imagePart) throws IOException, ServletException, SQLException{
+    public int uploadImage(Part imagePart) throws IOException, ServletException, SQLException{
         ImageTable itable = new ImageTable();
         String transID;
         if (imagePart != null) {
@@ -80,5 +80,27 @@ public class ImageTableController {
         }
 
         return -1;//invalid
+    }
+    
+    public boolean updateImage(Part imagePart, int imgID) throws IOException, ServletException, SQLException{
+        ImageTable itable = new ImageTable();
+        String transID = Converter.convertDateToFormatString(new Date());
+        if (imagePart != null) {
+            itable.setImageName(imagePart.getSubmittedFileName());
+            itable.setImageContentType(imagePart.getContentType());
+            itable.setInputImage(imagePart.getInputStream());
+            itable.setImageId(imgID);
+            itable.setTransID(transID);
+
+            if (db.ImageTable.Update(new ImageTableMapper(), itable)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean updateImage(Part imagePart, String imgID) throws IOException, ServletException, SQLException{
+        int id = Integer.parseInt(imgID);
+        return updateImage(imagePart, id);
     }
 }
