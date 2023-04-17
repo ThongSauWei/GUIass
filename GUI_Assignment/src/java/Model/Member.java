@@ -18,8 +18,8 @@ public class Member extends DBModel {
         this.memberPass = memberPass;
     }
 
-    public Member(String memberName, String memberPass, String tableName) {
-        super(tableName);
+    public Member(String memberName, String memberPass) {
+        super("member");
         this.memberName = memberName;
         this.memberPass = memberPass;
     }

@@ -25,8 +25,8 @@ public class RateReview extends DBModel {
         this.member = member;
     }
 
-    public RateReview(String reviewText, int reviewRating, Date reviewDate, Product product, Member member, String tableName) {
-        super(tableName);
+    public RateReview(String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
+        super("ratereview");
         this.reviewText = reviewText;
         this.reviewRating = reviewRating;
         this.reviewDate = reviewDate;
