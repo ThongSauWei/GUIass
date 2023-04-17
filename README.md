@@ -1,5 +1,5 @@
 ## GUI SQL ERD Diagram
-![GUI drawio](https://user-images.githubusercontent.com/87376058/230756425-51170e26-a263-46d1-a0b3-7c5fb9a7a7b7.png)
+![GUI drawio](https://user-images.githubusercontent.com/87376058/230906164-6edd75a0-171c-4a9f-91df-545b495106db.png)
 Link References : https://drive.google.com/file/d/1PrYG3drGRm-YMEKKkYr7R1MrAe-d_cL_/view?usp=sharing 
 
 ## BOOTSTRAP SETTING 
