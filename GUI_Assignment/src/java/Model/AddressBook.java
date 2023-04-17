@@ -28,8 +28,8 @@ public class AddressBook extends DBModel {
         this.addressPostcode = addressPostcode;
     }
 
-    public AddressBook(String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode, String tableName) {
-        super(tableName);
+    public AddressBook(String addressName, String addressPhone, String addressNo, String addressStreet, String addressState, String addressCity, String addressPostcode) {
+        super("addressbook");
         this.addressName = addressName;
         this.addressPhone = addressPhone;
         this.addressNo = addressNo;
