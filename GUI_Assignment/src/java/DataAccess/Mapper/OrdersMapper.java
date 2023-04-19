@@ -41,15 +41,15 @@ public class OrdersMapper extends RowMapper<Orders> {
                 + "VALUES(?,?,?,?,?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-        stmt.setInt(1, order.getOrdersId());
-        stmt.setDate(2, Converter.convertUtilDateToSQLDate(order.getOrdersDate()));
-        stmt.setString(3, order.getOrdersPaymentType());
-        stmt.setDouble(4, order.getOrdersTtlPrice());
-        stmt.setDouble(5, order.getOrdersTax());
-        stmt.setDouble(6, order.getOrdersDeliveryFee());
-        stmt.setDouble(7, order.getOrdersExpressShipping());
-        stmt.setInt(8, order.getMember().getMemberId());
-        stmt.setInt(9, order.getAddress().getAddressId());
+        //stmt.setInt(1, order.getOrdersId());
+        stmt.setDate(1, Converter.convertUtilDateToSQLDate(order.getOrdersDate()));
+        stmt.setString(2, order.getOrdersPaymentType());
+        stmt.setDouble(3, order.getOrdersTtlPrice());
+        stmt.setDouble(4, order.getOrdersTax());
+        stmt.setDouble(5, order.getOrdersDeliveryFee());
+        stmt.setDouble(6, order.getOrdersExpressShipping());
+        stmt.setInt(7, order.getMember().getMemberId());
+        stmt.setInt(8, order.getAddress().getAddressId());
         return stmt;
     }
 
