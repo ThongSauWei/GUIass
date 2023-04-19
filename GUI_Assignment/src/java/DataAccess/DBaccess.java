@@ -38,7 +38,7 @@ public class DBaccess {
         return null;
     }
 
-    public static List<HashMap<String, Object>> convertResultSetToList(ResultSet rs) throws SQLException {
+    private static List<HashMap<String, Object>> convertResultSetToList(ResultSet rs) throws SQLException {
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();
         List<HashMap<String, Object>> list = new ArrayList<>();
