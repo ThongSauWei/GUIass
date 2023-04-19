@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Yeet
  */
-public class OrderController {
+public class OrderListingController {
 
     public static List<HashMap<String, Object>> getOrdersForList(String search) throws SQLException {
         String query = ""
@@ -23,7 +23,7 @@ public class OrderController {
                 + " INNER JOIN Product p ON p.product_id = ol.product_id"
                 + " INNER JOIN Member m ON m.member_id = o.member_id "
                 + " ORDER BY o.orders_date DESC";
-            return DBaccess.customizeSqlSelect(query);
-        
+        return DBaccess.customizeSqlSelect(query);
+
     }
 }
