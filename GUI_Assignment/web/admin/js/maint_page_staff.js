@@ -44,6 +44,10 @@ function validateForm() {
             name.focus();
             isValid = false;
         }
+        if (isInputFieldEmpty(ic)) {
+            name.focus();
+            isValid = false;
+        }
         if (isInputFieldEmpty(phone_num)) {
             phone_num.focus();
             isValid = false;
