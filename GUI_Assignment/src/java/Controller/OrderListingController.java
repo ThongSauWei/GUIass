@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Yeet
  */
-public class OrderController {
+public class OrderListingController {
 
     public static List<HashMap<String, Object>> getOrdersForList(String search) throws SQLException {
         String query = ""
