@@ -26,16 +26,30 @@ public class ProdList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+            String search = request.getParameter("search") == null ? null : request.getParameter("search");
 
             HttpSession session = request.getSession();
-            if (search.equals("") == false) {
-                session.setAttribute("search", search);
-            } else {
+
+            if (search == null) {
                 search = session.getAttribute("search") != null ? (String) session.getAttribute("search") : "";
+            } else {
+                session.setAttribute("search", search);
             }
 
             int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));
+
+            if (request.getParameter("status") == null) {
+                Integer history = (Integer) session.getAttribute("status");
+                if (history != null) {
+                    if (status != history) {
+                        status = history;
+                    }
+                }
+            }
+            else{
+                session.setAttribute("status", status);
+            }
+
             ArrayList<Product> products = new prodController().getProds(search, status);
             if (products == null) {
                 response.sendRedirect("unexpected_error.jsp");
