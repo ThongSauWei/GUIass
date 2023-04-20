@@ -8,7 +8,6 @@
 <%@page import="Model.Product"%>
 <%@page import="Model.Cart"%>
 <%@page import="Model.Cartlist"%>
-<%@page import="Controller.test"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

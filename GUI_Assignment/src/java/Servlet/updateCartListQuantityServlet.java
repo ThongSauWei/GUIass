@@ -6,6 +6,7 @@ package Servlet;
 
 import DataAccess.DBTable;
 import DataAccess.DbSet;
+import DataAccess.Mapper.CartMapper;
 import DataAccess.Mapper.CartlistMapper;
 import Model.Cart;
 import Model.Cartlist;
@@ -13,12 +14,15 @@ import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -80,19 +84,34 @@ public class updateCartListQuantityServlet extends HttpServlet {
             throws ServletException, IOException {
         DBTable db = new DBTable();
         Cartlist cartQuantityUpdate = new Cartlist();
-//        CartlistMapper mapper = 
-//      int cartId=Integer.parseInt(request.getParameter(cart));
-//        int cartId = 3;
-//        HttpSession session=request.getSession();
-        cartQuantityUpdate.setCart(new Cart(1));
-        cartQuantityUpdate.setProduct(new Product(Integer.parseInt(request.getParameter("productId"))));
-        cartQuantityUpdate.setCartQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+        request.getSession().setAttribute("memberId", 2000);
+
         try {
+            HttpSession session = request.getSession();
+            int memberId = (Integer) session.getAttribute("memberId");
+            int cartId = -1;
+//            getmemberId from Session
+            String sql = "SELECT * FROM CART Where MEMBER_ID=?";
+            ArrayList<Object> list = new ArrayList();
+            list.add(memberId);
+            List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
+            for (int i = 0; i < cart.size(); i++) {
+                Cart cartSearch = cart.get(i);
+                if (cartSearch.getMember().getMemberId() == memberId) {
+                    cartId = cartSearch.getCartId();
+                }
+            }
+
+            cartQuantityUpdate.setCart(new Cart(cartId));
+            cartQuantityUpdate.setProduct(new Product(Integer.parseInt(request.getParameter("productId"))));
+            cartQuantityUpdate.setCartQuantity(Integer.parseInt(request.getParameter("quantity")));
+
             boolean updateTrue = db.Cartlist.Update(new CartlistMapper(), cartQuantityUpdate);
-            if(updateTrue){
+            if (updateTrue) {
                 response.sendRedirect("cartListServlet");
             }
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(updateCartListQuantityServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

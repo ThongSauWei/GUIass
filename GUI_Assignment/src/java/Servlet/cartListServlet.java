@@ -6,6 +6,7 @@ package Servlet;
 
 
 import DataAccess.DBTable;
+import DataAccess.Mapper.CartMapper;
 import DataAccess.Mapper.CartlistMapper;
 import DataAccess.Mapper.ProductMapper;
 import Model.Cart;
@@ -22,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -68,8 +70,28 @@ public class cartListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBTable db = new DBTable();
+        request.getSession().setAttribute("memberId", 2001);
         try {
-            List<Cartlist> cartList = db.Cartlist.getData(new CartlistMapper());
+//            Found CartId So that i can output based on the session 
+            HttpSession session = request.getSession();
+            int memberId = (Integer) session.getAttribute("memberId");
+            int cartId = -1;
+            String sql = "SELECT * FROM CART Where MEMBER_ID=?";
+            ArrayList<Object> list = new ArrayList();
+            list.add(memberId);
+            List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
+            for (int i = 0; i < cart.size(); i++) {
+                Cart cartSearch = cart.get(i);
+                if (cartSearch.getMember().getMemberId() == memberId) {
+                    cartId = cartSearch.getCartId();
+                }
+            }
+            String sqlstmt="SELECT * FROM CARTLIST WHERE CART_ID=?";
+            list.clear(); //clear List so that I clear the member Id from above.
+            list.add(cartId);
+            
+            //Loop CartList Display Cart Items
+            List<Cartlist> cartList = db.Cartlist.getData(new CartlistMapper(),list,sqlstmt);
             List<Product> productList = db.Product.getData(new ProductMapper());
             List<Product> sameProductFound = new ArrayList<>();
             //search through the product and cartlist if found then store in arraylist so i can output the product details

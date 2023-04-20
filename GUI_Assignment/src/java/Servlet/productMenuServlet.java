@@ -123,29 +123,6 @@ public class productMenuServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//        try {
-//            int lastIndex = Integer.parseInt(request.getParameter("productlastIndex"));
-//            if (lastIndex < 0) {
-//                throw new IllegalArgumentException("Invalid value for productlastIndex parameter");
-//            }
-//            DBTable db = new DBTable();
-//            String sql = "SELECT * FROM products WHERE Product_Active = 1 ORDER BY PRODUCT_ID ASC LIMIT 6 OFFSET " + (lastIndex + 1);
-//            ArrayList<Object> list = new ArrayList();
-//            List<Product> productList = db.Product.getData(new ProductMapper(), list, sql);
-//            if (productList.isEmpty()) {
-//                // If no more Product To Load
-//                request.setAttribute("storeMinimunIndex", -1);
-//            } else {
-//                request.setAttribute("productList", productList);
-//                response.sendRedirect("productMenuServlet");
-//            }
-//
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } catch (IllegalArgumentException ex) {
-//            ex.printStackTrace();
-//            response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-//        }
 
     }
 

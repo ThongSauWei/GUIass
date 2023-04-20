@@ -5,6 +5,7 @@
 package Servlet;
 
 import DataAccess.DBTable;
+import DataAccess.Mapper.CartMapper;
 import DataAccess.Mapper.CartlistMapper;
 import Model.Cart;
 import Model.Cartlist;
@@ -14,10 +15,13 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -78,19 +82,35 @@ public class addToCartPerOne extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBTable db = new DBTable();
-//        HttpSession session=request.getSession();
-//      int cartId=Integer.parseInt(request.getParameter(cart));
-        int cartId = 1;
-        int productId = Integer.parseInt(request.getParameter("menu-list-one"));
-        int cartQuantity = 1;
 
-        //set sql item values;
-        ArrayList<Object> parameters = new ArrayList<Object>();
-        String sql = "Select * From Cartlist WHERE CART_ID=? and PRODUCT_ID=?";
-        parameters.add(cartId);
-        parameters.add(productId);
-        String previousUrl = request.getHeader("Referer");
+        request.getSession().setAttribute("memberId", 2000);
         try {
+            int cartId = -1;
+            HttpSession session = request.getSession();
+            int memberId = (Integer) session.getAttribute("memberId");
+//        getMemberId
+            String sqlstmt = "SELECT * FROM CART Where MEMBER_ID=?";
+            ArrayList<Object> list = new ArrayList();
+            list.add(new Integer(memberId));
+            List<Cart> cart;
+//        getCartId
+            cart = db.Cart.getData(new CartMapper(), list, sqlstmt);
+            for (int i = 0; i < cart.size(); i++) {
+                Cart cartSearch = cart.get(i);
+                if (cartSearch.getMember().getMemberId() == memberId) {
+                     cartId = cartSearch.getCartId();
+                }
+            }
+            int productId = Integer.parseInt(request.getParameter("menu-list-one"));
+            int cartQuantity = 1;
+
+            //set sql item values;
+            ArrayList<Object> parameters = new ArrayList<Object>();
+            String sql = "Select * From Cartlist WHERE CART_ID=? and PRODUCT_ID=?";
+            parameters.add(cartId);
+            parameters.add(productId);
+            String previousUrl = request.getHeader("Referer");
+
             List<Cartlist> cartListChecking = db.Cartlist.getData(new CartlistMapper(), parameters, sql);
             if (cartListChecking != null && cartListChecking.size() > 0) {
                 Cartlist cartList = cartListChecking.get(0);
@@ -103,9 +123,11 @@ public class addToCartPerOne extends HttpServlet {
                 db.Cartlist.Add(new CartlistMapper(), cartlist);
                 response.sendRedirect(previousUrl);
             }
+
         } catch (SQLException ex) {
-            System.out.println("Add To Cart Function Error at AddtoCartController" + ex.getMessage());
+            Logger.getLogger(addToCartPerOne.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -117,5 +139,4 @@ public class addToCartPerOne extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
