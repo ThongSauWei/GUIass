@@ -1,4 +1,4 @@
-<%session.removeAttribute("search");%>
+<%session.removeAttribute("search");%><%session.removeAttribute("status");%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
