@@ -14,9 +14,11 @@ public class DbSet<T extends DBModel> {
 
     public T t;
     private Connection conn;
+    private Logger logger;
 
     public DbSet(T t) {
         this.t = t;
+        this.logger = Logger.getLogger(DbSet.class.getName());
     }
 
     //get all data in corresponding table
@@ -36,7 +38,8 @@ public class DbSet<T extends DBModel> {
             return tList;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
@@ -67,7 +70,8 @@ public class DbSet<T extends DBModel> {
             return tList;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
@@ -98,7 +102,8 @@ public class DbSet<T extends DBModel> {
             return tList;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
@@ -135,7 +140,8 @@ public class DbSet<T extends DBModel> {
             return stmt.executeUpdate() == 1;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
@@ -162,7 +168,8 @@ public class DbSet<T extends DBModel> {
             return stmt.executeUpdate() == 1;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
@@ -184,7 +191,8 @@ public class DbSet<T extends DBModel> {
             return stmt.executeUpdate() == 1;
         } catch (SQLException ex) {
             /*connection and execute error*/
-            System.out.println(ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
+            conn.rollback();
 
             /**
              * this throw is for checking to know have error occurs when during
