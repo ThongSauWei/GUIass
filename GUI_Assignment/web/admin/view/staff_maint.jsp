@@ -55,10 +55,10 @@
                             <th scope="row">Email</th>
                             <td><span id="email_error" class="error-message"></span><input onblur="emailValid()" type="text" id="email" name="email" class="error-border form-control" value="<%=isNew ? "" : product.getStaffEmail()%>"></td>
                         </tr>
-                        <tr hidden>
-                            <th scope="row">Birthday</th>
-                            <td><span id="birthday_error" class="error-message"></span><input onblur="isValidDate(this)" type="date" id="birthday" name="birthday" class="error-border form-control" value="<%=isNew ? "" : product.getEditFormatBirthdate()%>"></td>
-                        </tr>
+                        <!-- <tr> -->
+                            <!-- <th scope="row">Birthday</th> -->
+                            <!--<td>--><span hidden id="birthday_error" class="error-message"></span><input hidden onblur="isValidDate(this)" type="date" id="birthday" name="birthday" class="error-border form-control" value="<%=isNew ? "" : product.getEditFormatBirthdate()%>"><!--</td>-->
+                        <!-- </tr> -->
                         <tr>
                             <th scope="row">IC</th>
                             <td><span id="ic_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="icValid(this)" type="text" id="ic" name="ic" class="error-border form-control" value="<%=isNew ? "" : product.getStaffIc()%>" maxlength="12"></td>
