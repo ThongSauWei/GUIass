@@ -16,11 +16,11 @@
                 <table class="table">
                     <tr class="table-danger">
                         <th class="text-start w-25 text-black">Error Cause From : </th>
-                        <td class="text-center"><%=session.getAttribute("UnexceptedErrorDesc")%></td>
+                        <td class="text-center"><%=session.getAttribute("UnexceptableErrorDesc")%></td>
                     </tr>
                     <tr class="table-danger">
                         <th class="text-start w-25 text-black">For More Details Infomation : </th>
-                        <td class="text-center"><%=session.getAttribute("UnexceptedError")%></td>
+                        <td class="text-center"><%=session.getAttribute("UnexceptableError")%></td>
                     </tr>
                 </table>
                 <p class="text-center text-sm-center"><i class="bi bi-info-circle"></i> &nbsp; Please contact to admin@123.com to fixed problem</p>
