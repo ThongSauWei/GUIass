@@ -46,7 +46,6 @@
                             HashMap<Integer, Double> ratingLists = (HashMap<Integer, Double>) request.getAttribute("ratingList");
 
                             if (productList != null && !productList.isEmpty()) {
-
                         %>
                         <div class="menu-list-item-gridcontainer">
                             <%for (int i = 0; i < productList.size(); i++) {
@@ -95,7 +94,11 @@
                         <div class="menu-list-side-position">
 
                             <div class="menu-list-side-container">
+<<<<<<< HEAD
                                 <p class="menu-list-hotporpular white-text"><i class="bi bi-fire"></i>Something You May Like</p>
+=======
+                                <p class="menu-list-hotporpular white-text"><i class="bi bi-fire"></i>Recommended</p>
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                             </div>
                             <div class="menu-list-side-porpular-item-container ">
 
@@ -105,8 +108,13 @@
                                         Collections.shuffle(banner);
 //                                        Collections.shuffle(bannerRate);
                                         int bannerminimunIndex = Math.min(banner.size(), 3);
+<<<<<<< HEAD
                                         if (banner != null && !banner.isEmpty()) {
                                             for (int y = 0; y < bannerminimunIndex; y++) {
+=======
+                                        if(banner!=null && !banner.isEmpty()){
+                                        for (int y = 0; y < bannerminimunIndex; y++) {
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                                     %>
                                     <div class="row mb-3">
                                         <div class="col col-lg-4 col-xl-4 col-md-4"> 
@@ -118,6 +126,7 @@
                                                 <p class="text-white"><span class="">RM <span class="menu-list-ratingTotal pink-lego-text"><%=banner.get(y).getProductPrice()%></span></p>
 
                                                 <%
+<<<<<<< HEAD
                                                     if (bannerRate.get(productList.get(y).getProductId()) * 1.0 == 0) {
                                                 %>
                                                 <p class="white-text"><i class="bi bi-star"></i> RATING No Review Yet / <span class="menu-list-ratingTotal">10</span></p>
@@ -131,6 +140,16 @@
                                                         <button type="submit" class="btn btn-primary white-text"><i class="bi bi-eye-fill"></i> View</button>   </a>
 
 
+=======
+//                                                    double d = bannerRate.get(y) * 1.0;
+                                                %>
+                                                <p class="white-text"><i class="bi bi-star"></i> RATING : <%=bannerRate.get(productList.get(y).getProductId()) * 1.0%> / <span class="menu-list-ratingTotal">10</span></p>
+                                                <div class="d-flex justify-content-end">
+
+                                                    <a class="px-3" href="viewProductServlet?id=<%=banner.get(y).getProductId()%>&avgRating=<%=bannerRate.get(productList.get(y).getProductId()) * 1.0 <= 0 ? 0 :bannerRate.get(productList.get(y).getProductId()) * 1.0%>">
+                                                        <button type="submit" class="btn btn-primary white-text"><i class="bi bi-eye-fill"></i> View</button>   </a>
+                                                    </a>
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                                                     <form method="POST" action="addToCartPerOne" >
                                                         <button type="submit" name="menu-list-one" value="<%=banner.get(y).getProductId()%>" class=" px-3 btn btn-warning white-text"><i class="bi bi-bag-check"></i> To Cart</button>
                                                     </form>
@@ -139,20 +158,29 @@
                                             </div>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                     <%}
                                     } else {%>
+=======
+                                    <%}}else{%>
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                                     <div> Banner Currently is Unavailable</div>
                                     <%}%>
                                 </div>    
                             </div>
 
+<<<<<<< HEAD
 
+=======
+                                
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                             <div class="menu-list-side-container mt-5">
                                 <p class="menu-list-hotporpular white-text"><i class="bi bi-badge-ad-fill"></i> BANNER</p>
                             </div>
                             <%  Collections.shuffle(banner);
                                 int bannerPicture = Math.min(banner.size(), 6);%>
                             <div class="menu-list-side-banner">
+<<<<<<< HEAD
                                 <%if (banner != null && !banner.isEmpty()) {%>
                                 <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
                                                   centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
@@ -161,16 +189,34 @@
                                     <swiper-slide>
                                         <div class="menu-list-banner-container">
                                             <a href="viewProductServlet?id=<%=banner.get(z).getProductId()%>&avgRating=<%=bannerRate.get(banner.get(z).getProductId()) * 1.0%>">
+=======
+                                 <%if(banner !=null && !banner.isEmpty()){%>
+                                <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+                                                  centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
+                                   
+                                    <%for (int z = 0; z < bannerPicture; z++) {%>
+                                    <swiper-slide>
+                                        <div class="menu-list-banner-container">
+                                            <a href="viewProductServlet?id=<%=banner.get(z).getProductId()%>&avgRating=<%=bannerRate.get(banner.get(z).getProductId())*1.0%>">
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                                                 <img class="menu-list-banner-img" src="RetrieveImageServlet?imageID=<%=banner.get(z).getImageTable().getImageId()%>" />                        
                                             </a>
                                         </div>
                                     </swiper-slide>
                                     <%}%>
+<<<<<<< HEAD
 
 
                                 </swiper-container>
                                 <%} else {%>
                                 <div>Slider Currently is not available</div>
+=======
+                                    
+                                    
+                                </swiper-container>
+                                 <%}else{%>
+                                 <div>Slider Currently is not available</div>
+>>>>>>> b75b0950f122b5c9cf7e343845e9138a865b968c
                                 <%}%>
                             </div>
                         </div>
