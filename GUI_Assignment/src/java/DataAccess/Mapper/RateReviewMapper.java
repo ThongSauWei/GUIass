@@ -34,7 +34,7 @@ public class RateReviewMapper extends RowMapper<RateReview> {
                 + PRODUCT_ID + ", "
                 + MEMBER_ID + ", "
                 + ORDERS_ID + ") "
-                + "VALUES(?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         //stmt.setInt(1, rate.getReviewId());
