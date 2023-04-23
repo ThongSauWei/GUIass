@@ -21,7 +21,8 @@ public class RateReviewMapper extends RowMapper<RateReview> {
                 result.getInt(REVIEW_RATING),
                 Converter.convertSQLDateToUtilDate(result.getDate(REVIEW_DATE)),
                 new Product(result.getInt(PRODUCT_ID)),
-                new Member(result.getInt(MEMBER_ID)));
+                new Member(result.getInt(MEMBER_ID)),
+                new Orders(result.getInt(ORDERS_ID)));
     }
 
     @Override
@@ -31,8 +32,9 @@ public class RateReviewMapper extends RowMapper<RateReview> {
                 + REVIEW_RATING + ", "
                 + REVIEW_DATE + ", "
                 + PRODUCT_ID + ", "
-                + MEMBER_ID + ") "
-                + "VALUES(?,?,?,?,?)";
+                + MEMBER_ID + ", "
+                + ORDERS_ID + ") "
+                + "VALUES(?,?,?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
         //stmt.setInt(1, rate.getReviewId());
@@ -42,6 +44,7 @@ public class RateReviewMapper extends RowMapper<RateReview> {
         stmt.setDate(3, Converter.convertUtilDateToSQLDate(rate.getReviewDate()));
         stmt.setInt(4, rate.getProduct().getProductId());
         stmt.setInt(5, rate.getMember().getMemberId());
+        stmt.setInt(6, rate.getOrders().getOrdersId());
         return stmt;
     }
 
@@ -52,15 +55,17 @@ public class RateReviewMapper extends RowMapper<RateReview> {
                 + REVIEW_RATING + " = ?, "
                 + REVIEW_DATE + " = ?, "
                 + PRODUCT_ID + " = ?, "
-                + MEMBER_ID + " = ? WHERE " + REVIEW_ID + " = ?";
+                + MEMBER_ID + " = ?, "
+                + ORDERS_ID + " = ? WHERE " + REVIEW_ID + " = ?";
 
         PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-        stmt.setInt(6, rate.getReviewId());
+        stmt.setInt(7, rate.getReviewId());
         stmt.setString(1, rate.getReviewText());
         stmt.setInt(2, rate.getReviewRating());
         stmt.setDate(3, Converter.convertUtilDateToSQLDate(rate.getReviewDate()));
         stmt.setInt(4, rate.getProduct().getProductId());
         stmt.setInt(5, rate.getMember().getMemberId());
+        stmt.setInt(6, rate.getOrders().getOrdersId());
         return stmt;
     }
 

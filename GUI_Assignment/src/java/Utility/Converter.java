@@ -24,4 +24,9 @@ public class Converter {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSS");
         return format.format(utilDate);
     }
+
+    public static String convertDateToSimpleFormat(java.util.Date utilDate) {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        return format.format(utilDate);
+    }
 }
