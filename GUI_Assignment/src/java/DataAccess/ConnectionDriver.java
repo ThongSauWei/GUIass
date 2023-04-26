@@ -8,8 +8,8 @@ import java.sql.*;
 public class ConnectionDriver {
 
     private static final String DATABASE = "jdbc:derby://localhost:1527/PracticalUse";
-    private static final String USER = "XINJIE";
-    private static final String PASSWORD = "1234";
+    private static final String USER = "erika";
+    private static final String PASSWORD = "erika";
 
     public static Connection connect() throws SQLException {
         Connection conn;
