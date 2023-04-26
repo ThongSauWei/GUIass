@@ -11,6 +11,7 @@
 <%@page import="Model.Cart"%>
 <%@page import="Model.Cartlist"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/Home/view/Header.jsp"%>
 <jsp:useBean id="discountController" class="Controller.DiscountController" scope="application" />
 <jsp:useBean id="db" class="DataAccess.DBTable" scope="page" />
 <!DOCTYPE html>

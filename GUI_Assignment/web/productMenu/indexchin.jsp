@@ -9,6 +9,7 @@
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.Product"%>
+<%@include file="/Home/view/Header.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>

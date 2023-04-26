@@ -12,6 +12,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="discountController" class="Controller.DiscountController" scope="application" />
 <jsp:useBean id="db" class="DataAccess.DBTable" scope="page" />
+<%@include file="/Home/view/Header.jsp"%>
 
 <!DOCTYPE html>
 <html>
