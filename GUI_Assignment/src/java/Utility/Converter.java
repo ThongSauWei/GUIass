@@ -32,7 +32,7 @@ public class Converter {
     }
 
     public static java.util.Date convertStringToUtilDate(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);
     }
 }

@@ -26,6 +26,9 @@
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'report.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Report</button>
                     </div>
+                    <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
+                        <button onclick="window.location.href = '/GUI_Assignment/Discount/view/Display.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Discount</button>
+                    </div>
                     <div class="col-md-4 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = '#'" class="btn btn-danger btn-lg rounded-lg w-100 h-100">Logout</button>
                     </div>

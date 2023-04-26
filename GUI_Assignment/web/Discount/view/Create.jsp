@@ -11,6 +11,7 @@
 <%
     ArrayList<Product> plist = (ArrayList<Product>) request.getAttribute("plist");
     ArrayList<Product> invalidList = (ArrayList<Product>) request.getAttribute("invalidList");
+    HashMap<String,String> errorList = (HashMap<String,String>) session.getAttribute("errorList");
 %>
 <!DOCTYPE html>
 <html>
@@ -18,9 +19,22 @@
         <link rel="stylesheet" href="/GUI_Assignment/Discount/css/CreateStyle.css"/>
     </head>
     <body>
+        <%if(errorList != null && errorList.size() > 0){%>
+            <div class="w-100 d-flex justify-content-center align-middle">
+                <div class="alert alert-dismissible alert-danger w-75">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <h4>Error ! Unable To Create A New Discount</h4>
+                    <ul>
+                        <%for (String values : errorList.values()) {%>
+                            <li><%=values%></li>
+                        <%}%>
+                    </ul>
+                </div>
+            </div>
+        <%}%>
         <div class="mybox">
             <div>
-                <form class="discountForm">
+                <form class="discountForm" method="post" action="/GUI_Assignment/DiscountCreateServlet">
                     <table class="table table-borderless w-100">
                         <tr>
                             <td colspan="2" class="text-center">
@@ -33,7 +47,7 @@
                             </td>
                             <td>
                                 <select name="pdtDiscount" class="form-control" id="pdtDiscount">
-                                    <option>Select Product</option>
+                                    <option value="">Select Product</option>
                                     <%
                                         if(plist != null && plist.size() > 0){
                                             for(Product p : plist){
@@ -44,7 +58,8 @@
                                         }
                                     %>
                                 </select>
-                                <span class="text-danger dis-none" id="pdterror">Product Have Already Be Discount, 1 Product Only Can Be Discount In 1 Times</span>
+                                <span class="text-danger dis-none" id="pdterror1"></span>
+                                <span class="text-danger dis-none" id="pdterror2"></span>
                             </td>
                         </tr>
                         <tr>
@@ -69,12 +84,13 @@
                                 Discount Percentage : 
                             </td>
                             <td>
-                                <input type="number" name="percentage" class="form-control" max="100" min="0">
+                                <input type="number" name="percentage" class="form-control" max="100" min="1">
+                                <span class="text-danger dis-none" id="percentageerror"></span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
-                                <input type="submit" class="btn btn-primary" value="SUBMIT">
+                                <button type="submit" class="btn btn-primary w-100" id="submitbtn"><i class="bi bi-pencil-square"></i> &nbsp; CREATE </button>
                             </td>
                         </tr>
                     </table>
@@ -82,27 +98,52 @@
             </div>
         </div>
         <%@include file="../../Home/view/Footer.jsp" %>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script>
             $(function(){
-                $("select").change(function(){
-                    <%int i = 0;%>
+                $(".discountForm").change(function(){
+                    $("#submitbtn").attr("disabled", false);
+                    
                     <%if(invalidList != null && invalidList.size() > 0){%>
                         var pdtID = $("#pdtDiscount").val();
-                        $("#pdterror").addClass("dis-none");
-                        $("#pdterror").removeClass("dis-inline");
-                        $("input[type=submit]").attr("disabled", false);
-                        for(let i = 0; i < <%=invalidList.size()%>; i++){
-                            if(pdtID == <%=invalidList.get(i).getProductId()%>){
+                        const list = [];
+                        <%for(int i = 0; i < invalidList.size(); i++){%>
+                            list[<%=i%>] = "<%=invalidList.get(i).getProductId()%>";
+                        <%}%>
+                        $("#pdterror1").addClass("dis-none");
+                        $("#pdterror1").removeClass("dis-inline");
+                        for(let i = 0; i < list.length; i++){
+                            if(pdtID == list[i]){
                                 //show error
-                                $("#pdterror").removeClass("dis-none");
-                                $("#pdterror").addClass("dis-inline");
-                                $("input[type=submit]").attr("disabled", true);
+                                $("#pdterror1").removeClass("dis-none");
+                                $("#pdterror1").addClass("dis-inline");
+                                $("#pdterror1").html("Product Have Already Be Discount, 1 Product Only Can Be Discount In 1 Times");
+                                $("#submitbtn").attr("disabled", true);
                                 break;
                             }
-                            <%i++;%>
                         }
                     <%}%>
+                    
+                    $("#pdterror2").addClass("dis-none");
+                    $("#pdterror2").removeClass("dis-inline");
+                    
+                    if($("#pdtDiscount").val() == ""){
+                        $("#pdterror2").removeClass("dis-none");
+                        $("#pdterror2").addClass("dis-inline");
+                        $("#pdterror2").html("Product Cannot Be Empty");
+                        $("#submitbtn").attr("disabled", true);
+                    }
+                    
+                    //check discount size
+                    $("#percentageerror").addClass("dis-none");
+                    $("#percentageerror").removeClass("dis-inline");
+                    var percentageSize = $("input[type=number]").val();
+                    if(parseInt(percentageSize) > 100 || parseInt(percentageSize) < 1){
+                        //show error
+                        $("#percentageerror").removeClass("dis-none");
+                        $("#percentageerror").addClass("dis-inline");
+                        $("#percentageerror").html("The Max Size of Percentage is 100 & Min Size is 1");
+                        $("#submitbtn").attr("disabled", true);
+                    }
                 });
             });
         </script>
