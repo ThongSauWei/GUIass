@@ -7,10 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Model.Member" %>
-<%
-    Member mem = new Member(2000, "XIN JIE", "1234");
-    session.setAttribute("member", mem);
-%>
 <jsp:useBean id="cart" class="Controller.HeaderController" scope="application"></jsp:useBean>
 <jsp:useBean id="member" class="Model.Member" scope="session"></jsp:useBean>
 <!DOCTYPE html>
@@ -65,12 +61,12 @@
                             <div class="dropdown-menu">
                                 <!-- check user login and display corresponding content -->
                                 <%if(member != null && member.getMemberName() != null){%>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/logout">Logout</a>
                                 <%}%>
                                 <%if(member == null || member.getMemberName() == null){%>
                                     <!-- no login -->
-                                    <a class="dropdown-item" href="#">Login</a>
-                                    <a class="dropdown-item" href="#">Register</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/login.jsp">Login</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/register.jsp">Register</a>
                                 <%}%>
                             </div>
                         </li>
