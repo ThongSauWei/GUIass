@@ -55,7 +55,7 @@
                     <div>
                         <div class="reg">
                             <p>don't have an account?</p>
-                            <a href="register.html">Registration</a>
+                            <a href="register.jsp">Registration</a>
                         </div>
                 </form>
             </div>

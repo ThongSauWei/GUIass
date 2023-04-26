@@ -47,9 +47,9 @@ public class logout extends HttpServlet {
         if (session != null) {
             session.invalidate();
         }
-        response.sendRedirect("/GUI_Assignment/index.html");
+        response.sendRedirect("index.jsp");
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";

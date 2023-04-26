@@ -74,6 +74,8 @@ public class register extends HttpServlet {
                         Logger.getLogger(register.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (success) {
+                        member.setMemberPass("");
+                        request.getSession().setAttribute("member", member);
                         request.setAttribute("message", "register_success");
                         response.sendRedirect("/GUI_Assignment/index.jsp");
                     } else {

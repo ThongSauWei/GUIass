@@ -23,7 +23,7 @@
         <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
-        <!--header-->
+        <%--header--%>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">LEGO OFFICIAL</a>
