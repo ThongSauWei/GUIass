@@ -42,6 +42,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" id="menu">Menu</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/GUI_Assignment/DiscountCreateServlet" id="menu">Create</a>
+                        </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" id="history">Order History</a>

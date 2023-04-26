@@ -109,6 +109,15 @@
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/HomeServlet</url-pattern>
     </servlet-mapping>
+    <!--Create Discount Servlet-->
+    <servlet>
+        <servlet-name>DiscountCreateServlet</servlet-name>
+        <servlet-class>Servlet.DiscountCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountCreateServlet</servlet-name>
+        <url-pattern>/DiscountCreateServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

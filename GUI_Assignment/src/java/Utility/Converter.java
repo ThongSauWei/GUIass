@@ -3,6 +3,7 @@ package Utility;
 /**
  * @author LOH XIN JIE
  */
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Converter {
@@ -28,5 +29,10 @@ public class Converter {
     public static String convertDateToSimpleFormat(java.util.Date utilDate) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         return format.format(utilDate);
+    }
+
+    public static java.util.Date convertStringToUtilDate(String date) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        return format.parse(date);
     }
 }
