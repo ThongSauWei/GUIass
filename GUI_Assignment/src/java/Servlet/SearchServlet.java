@@ -41,7 +41,10 @@ public class SearchServlet extends HttpServlet {
 
             request.getRequestDispatcher("/Home/view/SearchResult.jsp").forward(request, response);
         } catch (SQLException ex) {
-            //turn to error page
+            //turn error page
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
         }
     }
 

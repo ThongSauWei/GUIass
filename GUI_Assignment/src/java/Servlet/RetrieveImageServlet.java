@@ -45,11 +45,19 @@ public class RetrieveImageServlet extends HttpServlet {
                 os.close();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             respone.getOutputStream().flush();
             respone.getOutputStream().close();
+            //turn error page
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, respone);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            respone.getOutputStream().flush();
+            respone.getOutputStream().close();
+            //turn error page
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted error occurs");
+            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, respone);
         }
     }
 
@@ -73,7 +81,10 @@ public class RetrieveImageServlet extends HttpServlet {
             iControl.UpdateImage(request);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //turn error page
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
         }
         response.sendRedirect("ExampleForImage/index.jsp");
         //request.getRequestDispatcher("ExampleForImage/index.jsp").forward(request, response);
