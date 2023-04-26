@@ -1,0 +1,71 @@
+<%-- 
+    Document   : login
+    Created on : Apr 20, 2023, 2:59:00 AM
+    Author     : erika
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <link href="/TestAss/login/login.css" rel="stylesheet" />
+        <link href="/TestAss/css/bootstrap.css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login</title>
+    </head>
+
+    <body>
+        <header>
+            <%
+                String message = (String) request.getSession().getAttribute("message");
+                if (message != null) {
+            %>
+            <div class="alert alert-danger text-center mx-auto mb-3" role="alert" style="background-color: rgba(242, 150, 147); position: absolute; top: 5px; left: 50%; transform: translate(-50%, 0); width: 60%;">
+                <%= message%>
+            </div>
+            <%
+                }
+            %>
+        </header>
+
+        <div class="container">
+            <div class="login_box">
+                <form action="/TestAss/login" method="POST">
+                    <h1>Login</h1>
+                    <div class="input_box">
+                        <input type="text" name="username" required="">
+                        <label for="">User Name</label>
+                        <ion-icon class="icon " name="mail-outline"></ion-icon>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="password" required="">
+                        <label for="">Password</label>
+                        <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
+                    </div>
+                    <div class="rem">
+                        <input id="chack" type="checkbox">
+                        <label for="chack">remember me</label>
+                        <a href="#">Forget Password</a>
+                    </div>
+                    <div class="login">
+                        <button>Log in</button>
+                    </div>
+                    <div>
+                        <div class="reg">
+                            <p>don't have an account?</p>
+                            <a href="register.jsp">Registration</a>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+
+        </footer>
+    </body>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</html>
