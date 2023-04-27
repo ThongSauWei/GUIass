@@ -35,7 +35,9 @@ public class StaffList extends HttpServlet {
 
             ArrayList<Staff> staffs = new StaffController().getStaff(search);
             if (staffs == null) {
-                response.sendRedirect("unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", "staffs is null");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             } else if (staffs.isEmpty()) {
                 out.print("<td colspan=8>No Record.</td>");
             }
@@ -52,7 +54,9 @@ public class StaffList extends HttpServlet {
                 out.println("</tr>");
             }
         } catch (SQLException ex) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
 
