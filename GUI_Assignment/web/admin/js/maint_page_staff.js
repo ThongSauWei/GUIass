@@ -9,8 +9,7 @@ function arePasswordsMatching() {
     const passwordField = document.getElementById("password");
     const confirmPasswordField = document.getElementById("cf_password");
     const errorDiv = document.getElementById("cf_password_error");
-    if (validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-            'Please enter a password with at least 8 characters and containing both letters and numbers!')) {
+    if (passwordValid()) {
         if (passwordField.value !== confirmPasswordField.value) {
             const errorMessage = "Passwords do not match";
             confirmPasswordField.style.borderColor = "red";
@@ -102,7 +101,7 @@ function emailValid() {
     return validateInput('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address!');
 }
 function phoneNumValid() {
-    return validateInput('phone_num', /^[0-9]{10,11}$/, 'Please enter a 10 or 11-digit numeric value for Phone Number!');
+    return validateInput('phone_num', /^[0-9]{10}$/, 'Please enter a 10-digit numeric value for Phone Number!');
 }
 function icValid(input) {
     if(validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!')){
@@ -113,7 +112,40 @@ function icValid(input) {
     }
 }
 function passwordValid() {
-    return validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Please enter a password with at least 8 characters and containing both letters and numbers!');
+    const id = 'password';
+    const errorMessage = 'Please enter a password with at least 8 characters and containing both letters and numbers!';
+    const input = document.getElementById(id);
+    const value = input.value.trim();
+    const errorDiv = document.getElementById(`${id}_error`);
+    const password = input.value;
+
+    input.style.borderColor = "";
+    errorDiv.innerHTML = "";
+
+    if (!password.length < 8) {
+
+
+        let hasLetter = false;
+        let hasNumber = false;
+
+        for (let i = 0; i < password.length; i++) {
+            const char = password[i];
+
+            if (char >= "a" && char <= "z" || char >= "A" && char <= "Z") {
+                hasLetter = true;
+            } else if (char >= "0" && char <= "9") {
+                hasNumber = true;
+            }
+
+            if (hasLetter && hasNumber) {
+                return true;
+            }
+        }
+    }
+    input.style.borderColor = "red";
+    errorDiv.innerHTML = errorMessage;
+    return false;
+
 }
 function isValidICDate(ICString) {
     

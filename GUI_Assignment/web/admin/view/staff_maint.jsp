@@ -49,7 +49,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Phone Num</th>
-                            <td><span id="phone_num_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="phoneNumValid()" type="text" id="phone_num" name="phoneNum" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPhNo()%>" maxlength="11"></td>
+                            <td><span id="phone_num_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="phoneNumValid()" type="text" id="phone_num" name="phoneNum" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPhNo()%>" maxlength="10"></td>
                         </tr>
                         <tr>
                             <th scope="row">Email</th>
