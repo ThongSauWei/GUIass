@@ -101,7 +101,7 @@ function emailValid() {
     return validateInput('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address!');
 }
 function phoneNumValid() {
-    return validateInput('phone_num', /^[0-9]{10,11}$/, 'Please enter a 10 or 11-digit numeric value for Phone Number!');
+    return validateInput('phone_num', /^[0-9]{10}$/, 'Please enter a 10-digit numeric value for Phone Number!');
 }
 function icValid(input) {
     if(validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!')){
