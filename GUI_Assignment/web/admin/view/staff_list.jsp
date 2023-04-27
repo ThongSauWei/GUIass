@@ -1,5 +1,5 @@
 <%
-    String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+    String search = request.getParameter("search") == null ? session.getAttribute("search") != null ? (String) session.getAttribute("search") : "" : request.getParameter("search");
     String delete = request.getParameter("delete");
 %>
 

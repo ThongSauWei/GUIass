@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,8 +23,16 @@ public class StaffList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            String search = request.getParameter("search") == null ? "" : request.getParameter("search");
-            String delete = request.getParameter("delete");
+            String search = request.getParameter("search") == null ? null : request.getParameter("search");
+
+            HttpSession session = request.getSession();
+
+            if (search == null) {
+                search = session.getAttribute("search") != null ? (String) session.getAttribute("search") : "";
+            } else {
+                session.setAttribute("search", search);
+            }
+
             ArrayList<Staff> staffs = new StaffController().getStaff(search);
             if (staffs == null) {
                 response.sendRedirect("unexpected_error.jsp");
