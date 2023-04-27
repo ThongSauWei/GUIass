@@ -110,7 +110,7 @@ public class DiscountCreateServlet extends HttpServlet {
             //get dropdown list
             String plistQuery = "SELECT * FROM PRODUCT WHERE PRODUCT_ACTIVE = ?";
             ArrayList<Object> condition = new ArrayList<>();
-            condition.add(new Integer(1));
+            condition.add(new Character('1'));
 
             ArrayList<Product> plist = db.Product.getData(new ProductMapper(), condition, plistQuery);
 

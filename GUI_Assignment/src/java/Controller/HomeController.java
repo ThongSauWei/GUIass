@@ -15,11 +15,13 @@ public class HomeController {
     public static ArrayList<Product> getHotSales(DBTable db) throws SQLException {
         String sqlQuery = "SELECT p.*, SUM(ol.orders_quantity) AS ttlQuantity "
                 + "FROM orders o, product p, orderlist ol "
-                + "WHERE ol.orders_id = o.orders_id AND ol.product_id = p.product_id "
+                + "WHERE ol.orders_id = o.orders_id AND ol.product_id = p.product_id AND p.product_active = ?"
                 + "GROUP BY p.product_id, p.product_name, p.product_desc, p.product_price, p.product_active, p.image_id "
                 + "ORDER BY ttlQuantity DESC";
 
-        return db.Product.getData(new ProductMapper(), new ArrayList<Object>(), sqlQuery);
+        ArrayList<Object> condition = new ArrayList<>();
+        condition.add(new Character('1'));
+        return db.Product.getData(new ProductMapper(), condition, sqlQuery);
     }
 
     //get the target product rating list

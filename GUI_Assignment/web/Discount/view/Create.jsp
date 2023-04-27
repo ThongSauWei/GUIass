@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="../../Home/view/Header.jsp"%>
 <%@page import="Model.*"%>
 <%@page import="java.util.*"%>
 <%
@@ -16,9 +15,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--add link for bootstrap, icon and -->
+        <link rel="stylesheet" href="/GUI_Assignment/css/bootstrap.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
         <link rel="stylesheet" href="/GUI_Assignment/Discount/css/CreateStyle.css"/>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
+        <br><br>
         <%if(errorList != null && errorList.size() > 0){%>
             <div class="w-100 d-flex justify-content-center align-middle">
                 <div class="alert alert-dismissible alert-danger w-75">
@@ -90,7 +99,8 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
-                                <button type="submit" class="btn btn-primary w-100" id="submitbtn"><i class="bi bi-pencil-square"></i> &nbsp; CREATE </button>
+                                <a class="btn btn-danger w-25" href = '/GUI_Assignment/admin/view/home.jsp'><i class="bi bi-x-square"></i> &nbsp; CANCEL </a>
+                                <button type="submit" class="btn btn-primary w-25" id="submitbtn"><i class="bi bi-pencil-square"></i> &nbsp; CREATE </button>
                             </td>
                         </tr>
                     </table>
