@@ -1,4 +1,5 @@
 <% String search = request.getParameter("search") != null ? (String) request.getParameter("search") : "";%>
+<% Boolean notDelete = request.getParameter("notDelete") != null ? Boolean.parseBoolean(request.getParameter("notDelete")) : false;%>
 
 <!DOCTYPE html>
 <html>
@@ -24,6 +25,8 @@
         </style>
     </head>
     <body>
+        
+        <%=notDelete? "<script>alert('Member have orders, unable to delete.');</script>" : ""%>
 
         <a href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill home-btn">Return</a>
         

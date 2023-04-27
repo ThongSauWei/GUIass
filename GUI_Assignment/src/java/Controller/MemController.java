@@ -5,6 +5,7 @@
 package Controller;
 
 import DataAccess.DBTable;
+import DataAccess.DBaccess;
 import DataAccess.Mapper.AddressBookMapper;
 import DataAccess.Mapper.MemberAddressMapper;
 import DataAccess.Mapper.MemberMapper;
@@ -47,6 +48,10 @@ public class MemController {
             ArrayList<MemberAddress> memAdds = dbTable.MemberAddress.getData(new MemberAddressMapper(), member.getMemberId());
             ArrayList<AddressBook> addressbooks = new ArrayList<>();
 
+            if(DBaccess.customizeSqlSelect("SELECT * FROM member m INNER JOIN orders o ON m.member_id = o.member_id WHERE m.member_id = "+member.getMemberId()+"").isEmpty() == false){
+                return false;
+            }
+            
             for (MemberAddress memAdd : memAdds) {
                 ArrayList<AddressBook> faslkdfl = dbTable.AddressBook.getData(new AddressBookMapper(), memAdd.getAddress().getAddressId());
                 if (faslkdfl.size() == 1) {

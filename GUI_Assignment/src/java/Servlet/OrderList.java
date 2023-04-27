@@ -34,7 +34,7 @@ public class OrderList extends HttpServlet {
             response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             return;
         } else if (orders.isEmpty()) {
-            out.println("<td colspan=5>No Record.</td>");
+            out.println("<td colspan=7>No Record.</td>");
         }
         for (HashMap<String, Object> order : orders) {
             out.println("<tr>");
