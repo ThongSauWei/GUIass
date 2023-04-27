@@ -45,14 +45,15 @@ public class ProdList extends HttpServlet {
                         status = history;
                     }
                 }
-            }
-            else{
+            } else {
                 session.setAttribute("status", status);
             }
 
             ArrayList<Product> products = new prodController().getProds(search, status);
             if (products == null) {
-                response.sendRedirect("unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", "products is null");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             } else if (products.isEmpty()) {
                 out.print("<td colspan=6>No Record.</td>");
             }
@@ -67,7 +68,9 @@ public class ProdList extends HttpServlet {
                 out.print("</tr>");
             }
         } catch (SQLException ex) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
 
