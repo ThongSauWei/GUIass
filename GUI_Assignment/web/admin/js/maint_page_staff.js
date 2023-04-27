@@ -104,11 +104,40 @@ function emailValid() {
 function phoneNumValid() {
     return validateInput('phone_num', /^[0-9]{10,11}$/, 'Please enter a 10 or 11-digit numeric value for Phone Number!');
 }
-function icValid() {
-    return validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!');
+function icValid(input) {
+    if(validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!')){
+        return isValidICDate(input.value);
+    }
+    else{
+        return false;
+    }
 }
 function passwordValid() {
     return validateInput('password', /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Please enter a password with at least 8 characters and containing both letters and numbers!');
+}
+function isValidICDate(ICString) {
+    
+    const birthday = document.getElementById('birthday');
+    const inputError = document.getElementById('ic_error');
+    const input = document.getElementById('ic');
+    
+    const dateString = ICString.substring(0, 6);
+
+    var day = parseInt(dateString.substring(4, 6));
+    var month = parseInt(dateString.substring(2, 4));
+    var year = parseInt(dateString.substring(0, 2));
+
+    if (year < 0 || year > 99 || month < 1 || month > 12 || day < 1 || day > new Date(year + 2000, month, 0).getDate()) {
+        input.style.borderColor = "red";
+        inputError.innerHTML = 'Please enter a 12-digit numeric value for IC!';
+        return false;
+    }
+
+    birthday.value = formatDate(dateString);
+
+    input.style.borderColor = "";
+    inputError.innerHTML = "";
+    return true;
 }
 function isValidDate(inputField) {
     const s_date = inputField.value;
