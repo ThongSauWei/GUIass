@@ -38,6 +38,10 @@
         <servlet-class>Servlet.ProdList</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>OrderList</servlet-name>
+        <servlet-class>Servlet.OrderList</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ReportResult</servlet-name>
         <servlet-class>Servlet.ReportResult</servlet-class>
     </servlet>
@@ -60,6 +64,10 @@
     <servlet-mapping>
         <servlet-name>ProdList</servlet-name>
         <url-pattern>/ProdList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderList</servlet-name>
+        <url-pattern>/OrderList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReportResult</servlet-name>
