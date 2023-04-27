@@ -58,9 +58,9 @@
                         <select name="product" class="form-control" value="<%=request.getParameter("product")%>">
                             <option value="">Select Product Search</option>
                             <%if (plist != null && plist.size() > 0) {%>
-                            <%for (Product p : plist) {%>
-                            <option value="<%=p.getProductId()%>" <%=String.valueOf(p.getProductId()).equals(request.getParameter("status")) == true ? "selected" : ""%>><%=p.getProductName()%></option>
-                            <%}%>
+                                <%for (Product p : plist) {%>
+                                    <option value="<%=p.getProductId()%>" <%=String.valueOf(p.getProductId()).equals(request.getParameter("product")) == true ? "selected" : ""%>><%=p.getProductName()%></option>
+                                <%}%>
                             <%}%>
                         </select>
                     </td>
@@ -106,8 +106,8 @@
             </table>
             
             <div class="text-end">
-                <a href="/GUI_Assignment/DiscountDisplayServlet" class="btn btn-secondary w-25">CLEAR SEARCH</a>
-                <input type="submit" value="SEARCH" class="btn btn-primary w-25">
+                <a href="/GUI_Assignment/DiscountDisplayServlet" class="btn btn-secondary">CLEAR SEARCH</a>
+                <input type="submit" value="SEARCH" class="btn btn-primary">
             </div>
         </form>
         
