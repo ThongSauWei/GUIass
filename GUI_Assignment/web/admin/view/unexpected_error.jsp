@@ -1,6 +1,6 @@
 <%
 
-String variableValue = (String)request.getAttribute("variableName");
+    String variableValue = (String) request.getAttribute("variableName");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,17 +15,12 @@ String variableValue = (String)request.getAttribute("variableName");
             <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading">Unexpected Error Occurred</h4>
                 <p>Please contact support for assistance.</p>
-                <p>--error message here--</p>
-                <table class="table">
-                    <tr class="table-danger">
-                        <th class="text-start w-25 text-black">Error Cause From : </th>
-                        <td class="text-center"><%=session.getAttribute("UnexceptableErrorDesc")%></td>
-                    </tr>
-                    <tr class="table-danger">
-                        <th class="text-start w-25 text-black">For More Details Infomation : </th>
-                        <td class="text-center"><%=session.getAttribute("UnexceptableError")%></td>
-                    </tr>
-                </table>
+                <br>
+                <h6>Error Cause From : </h6>
+                <p><%=session.getAttribute("UnexceptableErrorDesc")%></p>
+                <br>
+                <h6>Details : </h6>
+                <p><%=session.getAttribute("UnexceptableError")%></p>
             </div>
             <div class="my-5 text-center">
                 <a href="home.jsp" class="btn btn-primary">Go to Home Page</a>
