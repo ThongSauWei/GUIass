@@ -118,6 +118,15 @@
         <servlet-name>DiscountCreateServlet</servlet-name>
         <url-pattern>/DiscountCreateServlet</url-pattern>
     </servlet-mapping>
+    <!--Display Discont Servlet-->
+    <servlet>
+        <servlet-name>DiscountDisplayServlet</servlet-name>
+        <servlet-class>Servlet.DiscountDisplayServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountDisplayServlet</servlet-name>
+        <url-pattern>/DiscountDisplayServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
