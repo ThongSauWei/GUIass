@@ -59,15 +59,19 @@ public class MemMaint extends HttpServlet {
             }
         } else {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
-
-            if (delete != null && id != null) {
-                try {
-                    if (new MemController().dltMem(id) == false) {
+            try {
+                if (delete != null && id != null) {
+                    try {
+                        if (new MemController().dltMem(id) == false) {
+                            response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search + "&notDelete=true");
+                            return;
+                        }
+                    } catch (SQLException ex) {
                         response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
-                } catch (SQLException ex) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
+            } catch (IllegalArgumentException ex) {
+                response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search + "&notDelete=true");
             }
             response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search);
         }
