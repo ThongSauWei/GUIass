@@ -18,7 +18,7 @@ import java.text.ParseException;
 
 public class DiscountDisplayServlet extends HttpServlet {
 
-    DBTable db;
+    private DBTable db;
     private final String STATUS_VALID = "VALID";
     private final String STATUS_INVALID = "INVALID";
     private final String STATUS_COMING_SOON = "COMMING SOON";
@@ -143,7 +143,7 @@ public class DiscountDisplayServlet extends HttpServlet {
                 sqlQuery += " AND";
             }
             sqlQuery += " DISCOUNT_START_DATE >= ?";
-            condition.add(Converter.convertStringToUtilDate(startDate));
+            condition.add(Converter.convertHTMLFormatToUtilDate(startDate));
             check++;
         }
 
@@ -152,7 +152,7 @@ public class DiscountDisplayServlet extends HttpServlet {
                 sqlQuery += " AND";
             }
             sqlQuery += " DISCOUNT_END_DATE <= ?";
-            condition.add(Converter.convertStringToUtilDate(endDate));
+            condition.add(Converter.convertHTMLFormatToUtilDate(endDate));
             check++;
         }
 

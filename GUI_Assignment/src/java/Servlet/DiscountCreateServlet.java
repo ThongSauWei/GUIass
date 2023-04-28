@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class DiscountCreateServlet extends HttpServlet {
 
-    DBTable db = new DBTable();
+    private DBTable db = new DBTable();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +31,6 @@ public class DiscountCreateServlet extends HttpServlet {
             //get data
             String productID = request.getParameter("pdtDiscount");
             String startDate = request.getParameter("startDate");
-
             String endDate = request.getParameter("endDate");
             String percentage = request.getParameter("percentage");
             Discount d = new Discount();
@@ -54,8 +53,8 @@ public class DiscountCreateServlet extends HttpServlet {
             }
 
             if (startDate != null && !startDate.trim().isEmpty() && endDate != null && !endDate.trim().isEmpty()) {
-                Date start = Converter.convertStringToUtilDate(startDate);
-                Date end = Converter.convertStringToUtilDate(endDate);
+                Date start = Converter.convertHTMLFormatToUtilDate(startDate);
+                Date end = Converter.convertHTMLFormatToUtilDate(endDate);
                 //date cannot smaller than 1900 year
                 if (start.getYear() + 1900 < 1900) {
                     errorMap.put("startDateError", "Invalid Date Format, Year must Be Bigger Than 1900");

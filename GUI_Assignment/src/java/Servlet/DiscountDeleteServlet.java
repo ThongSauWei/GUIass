@@ -14,7 +14,7 @@ import Model.*;
 
 public class DiscountDeleteServlet extends HttpServlet {
 
-    DBTable db = new DBTable();
+    private DBTable db = new DBTable();
 
     @Override
     public void init() throws ServletException {

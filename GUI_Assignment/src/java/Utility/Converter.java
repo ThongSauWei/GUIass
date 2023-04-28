@@ -26,16 +26,19 @@ public class Converter {
         return format.format(utilDate);
     }
 
+    //Display for user see
     public static String convertDateToSimpleFormat(java.util.Date utilDate) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         return format.format(utilDate);
     }
 
-    public static java.util.Date convertStringToUtilDate(String date) throws ParseException {
+    //HTML DATE => UTIL DATE
+    public static java.util.Date convertHTMLFormatToUtilDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);
     }
 
+    //UTIL DATE => HTML DATE
     public static String convertDateToHTMLFormat(java.util.Date utilDate) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(utilDate);
