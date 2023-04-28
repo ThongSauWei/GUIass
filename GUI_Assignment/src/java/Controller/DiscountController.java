@@ -56,9 +56,9 @@ public class DiscountController {
         String sqlQuery = "SELECT * "
                 + "FROM DISCOUNT "
                 + "WHERE PRODUCT_ID = ? AND "
-                + "(DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?) OR "
+                + "((DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?) OR "
                 + "(DISCOUNT_START_DATE >= ? AND DISCOUNT_END_DATE <= ?) OR "
-                + "(DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?)";
+                + "(DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?))";
 
         ArrayList<Object> condition = new ArrayList<>();
         condition.add(new Integer(productID));
@@ -69,23 +69,7 @@ public class DiscountController {
         condition.add(endDate);
         condition.add(endDate);
 
-        ArrayList<Discount> dlist = db.Discount.getData(new DiscountMapper(), condition, sqlQuery);
-
-        if (dlist != null && !dlist.isEmpty()) {
-            //have touch to another discount time
-            ArrayList<String> timeMatchList = new ArrayList<>();
-            for (Discount d : dlist) {
-                String time = "DISCOUNT ID : " + d.getDiscountId() + " : "
-                        + "FROM " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate())
-                        + " TO " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate());
-
-                timeMatchList.add(time);
-            }
-            request.setAttribute("timeMatchError", timeMatchList);
-            return true;//have match
-        } else {
-            return false;//no match
-        }
+        return dateValidationMatchErrorMessage(condition, sqlQuery, db, request);
     }
 
     /**
@@ -138,5 +122,64 @@ public class DiscountController {
         condition.add(endDate);
 
         return db.Discount.getData(new DiscountMapper(), condition, sqlQuery).get(0);
+    }
+
+    /**
+     * <h3>Main Checking : to validate the date user choose cannot touch the
+     * date already exist</h3>
+     * <h2>This matching checking will without the target discount id</h2>
+     * <p>
+     * check follow the SQL statement
+     * </p>
+     *
+     * @param db
+     * @param productID
+     * @param startDate
+     * @param endDate
+     * @param request
+     * @param discountID
+     * @return true when match, false when no match
+     * @throws java.sql.SQLException
+     */
+    public static boolean dateValidationMatchWithOutSelf(DBTable db, int productID, Date startDate, Date endDate, HttpServletRequest request, int discountID) throws SQLException {
+        String sqlQuery = "SELECT * "
+                + "FROM DISCOUNT "
+                + "WHERE DISCOUNT_ID != ? AND "
+                + "PRODUCT_ID = ? AND "
+                + "((DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?) OR "
+                + "(DISCOUNT_START_DATE >= ? AND DISCOUNT_END_DATE <= ?) OR "
+                + "(DISCOUNT_START_DATE <= ? AND DISCOUNT_END_DATE >= ?))";
+
+        ArrayList<Object> condition = new ArrayList<>();
+        condition.add(new Integer(discountID));
+        condition.add(new Integer(productID));
+        condition.add(startDate);
+        condition.add(startDate);
+        condition.add(startDate);
+        condition.add(endDate);
+        condition.add(endDate);
+        condition.add(endDate);
+
+        return dateValidationMatchErrorMessage(condition, sqlQuery, db, request);
+    }
+
+    private static boolean dateValidationMatchErrorMessage(ArrayList<Object> condition, String sqlQuery, DBTable db, HttpServletRequest request) throws SQLException {
+        ArrayList<Discount> dlist = db.Discount.getData(new DiscountMapper(), condition, sqlQuery);
+
+        if (dlist != null && !dlist.isEmpty()) {
+            //have touch to another discount time
+            ArrayList<String> timeMatchList = new ArrayList<>();
+            for (Discount d : dlist) {
+                String time = "DISCOUNT ID : " + d.getDiscountId() + " : "
+                        + "FROM " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate())
+                        + " TO " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate());
+
+                timeMatchList.add(time);
+            }
+            request.setAttribute("timeMatchError", timeMatchList);
+            return true;//have match
+        } else {
+            return false;//no match
+        }
     }
 }

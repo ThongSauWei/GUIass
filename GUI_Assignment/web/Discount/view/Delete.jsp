@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
-                                <a class="btn btn-danger w-25" href = '/GUI_Assignment/Discount/view/Display.jsp'><i class="bi bi-arrow-left-square"></i> &nbsp; CANCEL </a>
+                                <a class="btn btn-danger w-25" href = '/GUI_Assignment/DiscountDisplayServlet'><i class="bi bi-arrow-left-square"></i> &nbsp; CANCEL </a>
                                 <button type="submit" class="btn btn-primary w-25" id="submitbtn"><i class="bi bi-x-square"></i> &nbsp; DELETE </button>
                             </td>
                         </tr>

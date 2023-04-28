@@ -144,7 +144,7 @@
         <servlet-name>DiscountDeleteServlet</servlet-name>
         <url-pattern>/DiscountDeleteServlet</url-pattern>
     </servlet-mapping>
-    <!--Discount Post Form Servlet-->
+    <!--Create Discount Post Form Servlet-->
     <servlet>
         <servlet-name>DiscountFormServlet</servlet-name>
         <servlet-class>Servlet.DiscountFormServlet</servlet-class>
@@ -152,6 +152,24 @@
     <servlet-mapping>
         <servlet-name>DiscountFormServlet</servlet-name>
         <url-pattern>/DiscountFormServlet</url-pattern>
+    </servlet-mapping>
+    <!--Update Discount Post Form Servlet-->
+    <servlet>
+        <servlet-name>DiscountUpdateFormServlet</servlet-name>
+        <servlet-class>Servlet.DiscountUpdateFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountUpdateFormServlet</servlet-name>
+        <url-pattern>/DiscountUpdateFormServlet</url-pattern>
+    </servlet-mapping>
+    <!--Discount Update Servlet-->
+    <servlet>
+        <servlet-name>DiscountUpdateServlet</servlet-name>
+        <servlet-class>Servlet.DiscountUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountUpdateServlet</servlet-name>
+        <url-pattern>/DiscountUpdateServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
