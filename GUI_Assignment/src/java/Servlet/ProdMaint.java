@@ -10,8 +10,6 @@ import Model.ImageTable;
 import Model.Product;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -42,10 +40,14 @@ public class ProdMaint extends HttpServlet {
                     session.setAttribute("product", product);
                     response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?id=" + product.getProductId() + "&isNew=false");
                 } else {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                    request.getSession().setAttribute("UnexceptableError", "product is null");
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
-                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
         }
 
@@ -68,12 +70,16 @@ public class ProdMaint extends HttpServlet {
                     Part image = request.getPart("image");
                     imageID = new ImageTableController().uploadImage(image);
                 } catch (SQLException | IOException | ServletException ex) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     return;
                 }
 
                 if (imageID == -1) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                    request.getSession().setAttribute("UnexceptableError", "image not found");
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     return;
                 }
 
@@ -99,13 +105,19 @@ public class ProdMaint extends HttpServlet {
                             }
                             response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + product.getProductId() + "");
                         } else {
-                            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                            request.getSession().setAttribute("UnexceptableError", "action not found");
+                            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                         }
                     } else {
-                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                        request.getSession().setAttribute("UnexceptableError", "product insert failed");
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     }
                 } catch (SQLException ex) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                 }
             } else if (submit == 0) {
 
@@ -122,11 +134,15 @@ public class ProdMaint extends HttpServlet {
                         Part image = request.getPart("image");
                         boolean imgUpdated = new ImageTableController().updateImage(image, imageID);
                         if (imgUpdated == false) {
-                            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                            request.getSession().setAttribute("UnexceptableError", "image update failed");
+                            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                             return;
                         }
                     } catch (SQLException | IOException | ServletException ex) {
-                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                         return;
                     }
                 }
@@ -150,10 +166,14 @@ public class ProdMaint extends HttpServlet {
                             response.sendRedirect("/GUI_Assignment/admin/view/prod_maint.jsp?isNew=false&&action=" + action + "&isSaved=true&id=" + id + "");
                         }
                     } else {
-                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                        request.getSession().setAttribute("UnexceptableError", "product update failed");
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     }
                 } catch (SQLException ex) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                 }
             }
         }

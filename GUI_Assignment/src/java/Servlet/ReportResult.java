@@ -26,7 +26,9 @@ public class ReportResult extends HttpServlet {
         String reportName = request.getParameter("reportName") != null ? request.getParameter("reportName") : "";
         String submit = request.getParameter("submit") != null ? request.getParameter("submit") : "";
         if (submit.equals("") || reportName.equals("")) {
-            response.sendRedirect("unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", "some error");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             return;
         }
         String[] conditions = null;
@@ -70,12 +72,16 @@ public class ReportResult extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/admin/view/report_result.jsp");
             rd.forward(request, response);
         } else {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", "report error");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             return;
         }
 
         if (contorl == null) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", "report error");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             return;
         }
 

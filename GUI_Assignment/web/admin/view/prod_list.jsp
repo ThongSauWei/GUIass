@@ -1,5 +1,13 @@
-<%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
-    int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));%>
+<%
+    String search = request.getParameter("search") == null ? session.getAttribute("search") != null ? (String) session.getAttribute("search") : "" : request.getParameter("search");
+    int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));
+    if (status == 1) {
+        Integer history = (Integer) session.getAttribute("status");
+        if (history != null) {
+            status = history;
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
