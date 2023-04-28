@@ -75,7 +75,7 @@ public class DiscountController {
             //have touch to another discount time
             ArrayList<String> timeMatchList = new ArrayList<>();
             for (Discount d : dlist) {
-                String time = d.getDiscountId() + " : "
+                String time = "DISCOUNT ID : " + d.getDiscountId() + " : "
                         + "FROM " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate())
                         + " TO " + Converter.convertDateToSimpleFormat(d.getDiscountStartDate());
 
@@ -103,15 +103,18 @@ public class DiscountController {
      */
     public static boolean dateValidateLogic(Date startDate, Date endDate, HashMap<String, String> errorMap) {
         Date currDate = new Date();
+        currDate.setHours(0);
+        currDate.setMinutes(0);
+        currDate.setSeconds(0);
 
         //startDate >= currDate
         if (startDate.before(currDate)) {
-            errorMap.put("startDate", "Discount Start Date Must After Or On Today");
+            errorMap.put("startDate", "Discount Start Date Must After Today");
         }
 
         //endDate >= currDate
         if (endDate.before(currDate)) {
-            errorMap.put("endDate", "Discount End Date Must After Or On Today");
+            errorMap.put("endDate", "Discount End Date Must After Today");
         }
 
         //endDate >= startDate
@@ -119,10 +122,10 @@ public class DiscountController {
             errorMap.put("endDate", "Discount End Date Cannot Before Start Date");
         }
 
-        return !errorMap.get("endDate").isEmpty() || !errorMap.get("startDate").isEmpty();//have error
+        return errorMap.get("endDate") != null || errorMap.get("startDate") != null;//have error
     }
 
-    public static Discount getTargetDiscount(DBTable db, int productID, Date startDate, Date endDate) {
+    public static Discount getTargetDiscount(DBTable db, int productID, Date startDate, Date endDate) throws SQLException {
         String sqlQuery = "SELECT * "
                 + "FROM DISCOUNT "
                 + "WHERE PRODUCT_ID = ? "

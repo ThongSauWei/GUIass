@@ -9,8 +9,7 @@
 <%@page import="java.util.*"%>
 <%
     ArrayList<Product> plist = (ArrayList<Product>) request.getAttribute("plist");
-    ArrayList<Product> invalidList = (ArrayList<Product>) request.getAttribute("invalidList");
-    HashMap<String,String> errorList = (HashMap<String,String>) session.getAttribute("errorList");
+    HashMap<String,String> errorList = (HashMap<String,String>) request.getAttribute("errorList");
 %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +42,7 @@
         <br><br>
         <div class="mybox">
             <div>
-                <form class="discountForm" method="post" action="/GUI_Assignment/DiscountCreateServlet">
+                <form class="discountForm" method="post" action="/GUI_Assignment/DiscountFormServlet">
                     <table class="table table-borderless w-100">
                         <tr>
                             <td colspan="2" class="text-center">
@@ -61,31 +60,51 @@
                                         if(plist != null && plist.size() > 0){
                                             for(Product p : plist){
                                     %>
-                                                <option value="<%=p.getProductId()%>"><%=p.getProductName()%></option>
+                                                <option value="<%=p.getProductId()%>" <%=String.valueOf(p.getProductId()).equals(request.getParameter("pdtDiscount")) == true ? "selected" : ""%>><%=p.getProductName()%></option>
                                     <%
                                             }
                                         }
                                     %>
                                 </select>
-                                <span class="text-danger dis-none" id="pdterror1"></span>
-                                <span class="text-danger dis-none" id="pdterror2"></span>
+                                <span class="text-danger" id="pdterror">
+                                    <%=errorList == null ? "" : errorList.get("productIdError") == null ? "" : errorList.get("productIdError")%>
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 Discount Date : 
+                                <%
+                                    ArrayList<String> timeMatch = (ArrayList<String>) request.getAttribute("timeMatchError");
+                                    if(timeMatch != null && timeMatch.size() > 0){
+                                %>
+                                        <p class="text-danger">Time Slot Unavailable, This Product Have Discount On : </p>
+                                        <ul>
+                                            <%for(String time : timeMatch){%>
+                                                <li class="text-danger"><%=time%></li>
+                                            <%}%>
+                                        </ul>
+                                <%
+                                    }
+                                %>
                             </td>
                         </tr>
                         <tr>
                             <td>FROM</td>
                             <td>
-                                <input type="date" name="startDate" class="form-control" style="display: inline-block">
+                                <input type="date" name="startDate" class="form-control" style="display: inline-block" value="<%=request.getParameter("startDate")%>">
+                                <span class="text-danger" id="startDate">
+                                    <%=errorList == null ? "" : errorList.get("startDate") == null ? "" : errorList.get("startDate")%>
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td>TO</td>
                             <td>
-                                <input type="date" name="endDate" class="form-control" style="display: inline-block">
+                                <input type="date" name="endDate" class="form-control" style="display: inline-block" value="<%=request.getParameter("endDate")%>">
+                                <span class="text-danger" id="endDate">
+                                    <%=errorList == null ? "" : errorList.get("endDate") == null ? "" : errorList.get("endDate")%>
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -93,8 +112,10 @@
                                 Discount Percentage : 
                             </td>
                             <td>
-                                <input type="number" name="percentage" class="form-control" max="100" min="1">
-                                <span class="text-danger dis-none" id="percentageerror"></span>
+                                <input type="number" name="percentage" class="form-control" max="100" min="1" value="<%=request.getParameter("percentage")%>">
+                                <span class="text-danger" id="percentageerror">
+                                    <%=errorList == null ? "" : errorList.get("percentageError") == null ? "" : errorList.get("percentageError")%>
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -113,46 +134,53 @@
                 $(".discountForm").change(function(){
                     $("#submitbtn").attr("disabled", false);
                     
-                    <%if(invalidList != null && invalidList.size() > 0){%>
-                        var pdtID = $("#pdtDiscount").val();
-                        const list = [];
-                        <%for(int i = 0; i < invalidList.size(); i++){%>
-                            list[<%=i%>] = "<%=invalidList.get(i).getProductId()%>";
-                        <%}%>
-                        $("#pdterror1").addClass("dis-none");
-                        $("#pdterror1").removeClass("dis-inline");
-                        for(let i = 0; i < list.length; i++){
-                            if(pdtID == list[i]){
-                                //show error
-                                $("#pdterror1").removeClass("dis-none");
-                                $("#pdterror1").addClass("dis-inline");
-                                $("#pdterror1").html("Product Have Already Be Discount, 1 Product Only Can Be Discount In 1 Times");
-                                $("#submitbtn").attr("disabled", true);
-                                break;
-                            }
-                        }
-                    <%}%>
-                    
-                    $("#pdterror2").addClass("dis-none");
-                    $("#pdterror2").removeClass("dis-inline");
-                    
                     if($("#pdtDiscount").val() == ""){
-                        $("#pdterror2").removeClass("dis-none");
-                        $("#pdterror2").addClass("dis-inline");
-                        $("#pdterror2").html("Product Cannot Be Empty");
+                        $("#pdterror").removeClass("dis-none");
+                        $("#pdterror").addClass("dis-inline");
+                        $("#pdterror").html("Product Cannot Be Empty");
                         $("#submitbtn").attr("disabled", true);
+                    }else{
+                        $("#pdterror").addClass("dis-none");
+                        $("#pdterror").removeClass("dis-inline");
                     }
                     
                     //check discount size
-                    $("#percentageerror").addClass("dis-none");
-                    $("#percentageerror").removeClass("dis-inline");
                     var percentageSize = $("input[type=number]").val();
                     if(parseInt(percentageSize) > 100 || parseInt(percentageSize) < 1){
                         //show error
                         $("#percentageerror").removeClass("dis-none");
                         $("#percentageerror").addClass("dis-inline");
-                        $("#percentageerror").html("The Max Size of Percentage is 100 & Min Size is 1");
+                        $("#percentageerror").html("Discount Percentage Out Of Range, Cannot Be More Than 100 Or Smaller Than 1");
                         $("#submitbtn").attr("disabled", true);
+                    }else if(percentageSize == ""){
+                        //show error
+                        $("#percentageerror").removeClass("dis-none");
+                        $("#percentageerror").addClass("dis-inline");
+                        $("#percentageerror").html("Discount Percentage Cannot Be Empty");
+                        $("#submitbtn").attr("disabled", true);
+                    }else{
+                        $("#percentageerror").addClass("dis-none");
+                        $("#percentageerror").removeClass("dis-inline");
+                    }
+                    
+                    if($("#startDate").val() == ""){
+                        $("#startDate").removeClass("dis-none");
+                        $("#startDate").addClass("dis-inline");
+                        $("#startDate").html("Discount Start Date Cannot Be Empty");
+                        $("#submitbtn").attr("disabled", true);
+                    }else{
+                        $("#startDate").addClass("dis-none");
+                        $("#startDate").removeClass("dis-inline");
+                    }
+                    
+                    if($("#endDate").val() == ""){
+                        $("#endDate").removeClass("dis-none");
+                        $("#endDate").addClass("dis-inline");
+                        $("#endDate").html("Discount End Date Cannot Be Empty");
+                        $("#submitbtn").attr("disabled", true);
+                    }else{
+                        $("#endDate").addClass("dis-none");
+                        $("#endDate").removeClass("dis-inline");
                     }
                 });
             });

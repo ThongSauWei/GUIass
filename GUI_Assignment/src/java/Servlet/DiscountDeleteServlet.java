@@ -24,7 +24,8 @@ public class DiscountDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //clear success message
+        request.getSession().removeAttribute("DiscountSuccess");
         try {
             int discountID = Integer.parseInt(request.getParameter("discountID"));
 
@@ -53,8 +54,6 @@ public class DiscountDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().removeAttribute("errorList");
-        request.getSession().removeAttribute("DiscountSuccess");
         try {
             int discountID = Integer.parseInt(request.getParameter("discountID"));
 
@@ -64,7 +63,7 @@ public class DiscountDeleteServlet extends HttpServlet {
             db.Discount.Delete(new DiscountMapper(), discount);
 
             request.getSession().setAttribute("DiscountSuccess", "Delete Successful");
-            request.getRequestDispatcher("/DiscountDisplayServlet").forward(request, response);
+            response.sendRedirect("/GUI_Assignment/DiscountDisplayServlet?discountID=" + discountID);
         } catch (SQLException ex) {
             //turn error page
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());

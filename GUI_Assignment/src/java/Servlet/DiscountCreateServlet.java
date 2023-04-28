@@ -7,111 +7,19 @@ import javax.servlet.http.*;
 import javax.servlet.*;
 import Model.*;
 import DataAccess.*;
-import DataAccess.Mapper.DiscountMapper;
 import DataAccess.Mapper.ProductMapper;
 import java.io.*;
 import java.util.*;
-import Utility.*;
-import java.text.ParseException;
 import java.sql.SQLException;
 
 public class DiscountCreateServlet extends HttpServlet {
 
     private DBTable db = new DBTable();
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().removeAttribute("errorList");
+        //clear success message
         request.getSession().removeAttribute("DiscountSuccess");
-        //error map
-        HashMap<String, String> errorMap = new HashMap<>();
-        //post for form
-        try {
-            //get data
-            String productID = request.getParameter("pdtDiscount");
-            String startDate = request.getParameter("startDate");
-            String endDate = request.getParameter("endDate");
-            String percentage = request.getParameter("percentage");
-            Discount d = new Discount();
-
-            //check product id
-            if (productID != null && !productID.trim().isEmpty()) {
-                int id = Integer.parseInt(productID);
-                d.setProduct(new Product(id));
-                //get unavaliable list
-                ArrayList<Product> ulist = getUnableProduct();
-                if (ulist != null && ulist.size() > 0) {
-                    for (Product p : ulist) {
-                        if (p.getProductId() == id) {
-                            errorMap.put("productIdError", "Product Have Already Be Discount, 1 Product Only Can Be Discount In 1 Times");
-                        }
-                    }
-                }
-            } else {
-                errorMap.put("productIdError", "Choice cannot be empty");
-            }
-
-            if (startDate != null && !startDate.trim().isEmpty() && endDate != null && !endDate.trim().isEmpty()) {
-                Date start = Converter.convertHTMLFormatToUtilDate(startDate);
-                Date end = Converter.convertHTMLFormatToUtilDate(endDate);
-                //date cannot smaller than 1900 year
-                if (start.getYear() + 1900 < 1900) {
-                    errorMap.put("startDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
-                } else {
-                    d.setDiscountStartDate(start);
-                }
-
-                if (end.getYear() + 1900 < 1900) {
-                    errorMap.put("endDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
-                } else {
-                    d.setDiscountEndDate(end);
-                }
-
-                if (end.before(start)) {
-                    errorMap.put("logicDateError", "End Date Cannot Smaller Than Start Date");
-                }
-            } else {
-                errorMap.put("emptyError", "Start Date And End Date Cannot Be Empty");
-            }
-
-            if (percentage != null && !percentage.trim().isEmpty()) {
-                int percentages = Integer.parseInt(request.getParameter("percentage"));
-                d.setDiscountPercentage(percentages);
-                if (percentages > 100 || percentages < 1) {
-                    errorMap.put("percentageError", "The Max Size of Percentage is 100 & Min Size is 1");
-                }
-            } else {
-                errorMap.put("percentageError", "Percentage Cannot Be Empty");
-            }
-
-            if (errorMap.size() > 0) {
-                //back to page
-                request.getSession().setAttribute("errorList", errorMap);
-                response.sendRedirect("DiscountCreateServlet");
-            } else {
-                //save data no error
-                db.Discount.Add(new DiscountMapper(), d);
-                request.getSession().setAttribute("DiscountSuccess", "Create Successfull");
-                response.sendRedirect("/GUI_Assignment/DiscountDisplayServlet");
-            }
-
-        } catch (ParseException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         try {
             //get dropdown list
             String plistQuery = "SELECT * FROM PRODUCT WHERE PRODUCT_ACTIVE = ?";
@@ -120,10 +28,7 @@ public class DiscountCreateServlet extends HttpServlet {
 
             ArrayList<Product> plist = db.Product.getData(new ProductMapper(), condition, plistQuery);
 
-            ArrayList<Product> invalidList = getUnableProduct();
-
             request.setAttribute("plist", plist);
-            request.setAttribute("invalidList", invalidList);
             request.getRequestDispatcher("Discount/view/Create.jsp").forward(request, response);
         } catch (SQLException ex) {
             //turn error page
@@ -133,18 +38,16 @@ public class DiscountCreateServlet extends HttpServlet {
         }
     }
 
-    protected ArrayList<Product> getUnableProduct() throws SQLException {
-        //get unavaliable list
-        String ulistQuery = "SELECT * "
-                + "FROM DISCOUNT "
-                + "INNER JOIN PRODUCT ON DISCOUNT.PRODUCT_ID = PRODUCT.PRODUCT_ID "
-                + "WHERE DISCOUNT.DISCOUNT_START_DATE <= ? AND DISCOUNT.DISCOUNT_END_DATE >= ?";
-        ArrayList<Object> condition = new ArrayList<>();
-        Date currDate = new Date();
-        condition.add(currDate);
-        condition.add(currDate);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-        return db.Product.getData(new ProductMapper(), condition, ulistQuery);
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override

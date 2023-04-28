@@ -144,6 +144,15 @@
         <servlet-name>DiscountDeleteServlet</servlet-name>
         <url-pattern>/DiscountDeleteServlet</url-pattern>
     </servlet-mapping>
+    <!--Discount Post Form Servlet-->
+    <servlet>
+        <servlet-name>DiscountFormServlet</servlet-name>
+        <servlet-class>Servlet.DiscountFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountFormServlet</servlet-name>
+        <url-pattern>/DiscountFormServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
