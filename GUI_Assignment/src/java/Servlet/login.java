@@ -20,7 +20,16 @@ import javax.servlet.http.HttpSession;
  */
 public class login extends HttpServlet {
 
-    void processRequest(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
@@ -42,6 +51,7 @@ public class login extends HttpServlet {
         DBTable data = new DBTable();
 
         String username = request.getParameter("username");
+        String password = request.getParameter("password");
         HttpSession session = request.getSession();
 
         // check username and password
@@ -51,16 +61,22 @@ public class login extends HttpServlet {
         ArrayList<Member> members = null;
         try {
             members = data.Member.getData(new MemberMapper(), list, sql);
+
+            if (members.size() == 1) {
+                Member member = members.get(0);
+                if (member.getMemberPass().equals(password)) {
+                    session.setAttribute("member", member);
+                    response.sendRedirect("/GUI_Assignment/index.jsp");
+                } else {
+                    session.setAttribute("message", "Invalid password, please try again.");
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
+                }
+            } else {
+                session.setAttribute("message", "Invalid username, please try again.");
+                request.getRequestDispatcher("login/login.jsp").forward(request, response);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (members.size() == 1) {
-            Member member = members.get(0);
-            session.setAttribute("member", member);
-            response.sendRedirect("/GUI_Assignment/index.jsp");
-        } else {
-            session.setAttribute("message", "Invalid username or password, please try again");
-            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
         }
     }
 

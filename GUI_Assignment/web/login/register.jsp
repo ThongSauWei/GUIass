@@ -37,7 +37,7 @@
                     <div class="input_box">
                         <input type="text" name="username" required="">
                         <label for="">User Name</label>
-                        <ion-icon class="icon " name="mail-outline"></ion-icon>
+                        <ion-icon class="icon " name="person-outline"></ion-icon>
                     </div>
                     <div class="input_box">
                         <input type="password" name="password" required="">
@@ -55,7 +55,7 @@
                     <div>
                         <div class="reg">
                             <p>Already have an account?</p>
-                            <a href="login.html">Login</a>
+                            <a href="login.jsp">Login</a>
                         </div>
                 </form>
             </div>

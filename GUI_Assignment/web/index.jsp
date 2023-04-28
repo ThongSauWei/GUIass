@@ -44,7 +44,7 @@
             <%if(member != null && member.getMemberName() != null){%>
                 <div class="box">
                     <div class="title-box">
-                        <h4>ORDERS HAVENT RATE</h4>
+                        <h4>ORDERS HAVEN'T RATE</h4>
                     </div>
                     <div class="hover-box" data-bs-toggle="modal" data-bs-target="#CHECK-RATING">
                         <h4>Click Me !!</h4>

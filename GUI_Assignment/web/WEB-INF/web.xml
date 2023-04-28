@@ -11,11 +11,27 @@
     <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>Servlet.InitServlet</servlet-class>
-        <load-on-startup></load-on-startup>
+        <!--        <load-on-startup></load-on-startup>-->
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
         <servlet-class>Servlet.logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffRegister</servlet-name>
+        <servlet-class>Servlet.StaffRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>staffLogin</servlet-name>
+        <servlet-class>Servlet.staffLogin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>staffLogout</servlet-name>
+        <servlet-class>Servlet.staffLogout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>salesRecord</servlet-name>
+        <servlet-class>Servlet.salesRecord</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitServlet</servlet-name>
@@ -115,6 +131,22 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffRegister</servlet-name>
+        <url-pattern>/StaffRegister</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>staffLogin</servlet-name>
+        <url-pattern>/staffLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>staffLogout</servlet-name>
+        <url-pattern>/staffLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>salesRecord</servlet-name>
+        <url-pattern>/salesRecord</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

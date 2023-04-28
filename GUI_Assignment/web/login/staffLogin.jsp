@@ -1,23 +1,25 @@
 <%-- 
-    Document   : login
-    Created on : Apr 20, 2023, 2:59:00 AM
+    Document   : register
+    Created on : Apr 18, 2023, 1:11:06 AM
     Author     : erika
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8" />
-        <link href="/GUI_Assignment/login/login.css" rel="stylesheet" />
+        <link href="/GUI_Assignment/login/staffLogin.css" rel="stylesheet" />
         <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login</title>
+        <title>Staff Login</title>
     </head>
 
     <body>
         <header>
+        </header>
+
+        <div class="container" style="max-width: 100% !important;" >
             <%
                 String message = (String) request.getSession().getAttribute("message");
                 if (message != null) {
@@ -28,15 +30,12 @@
             <%
                 }
             %>
-        </header>
-
-        <div class="container" style="max-width:100% !important;" >
             <div class="login_box">
-                <form action="/GUI_Assignment/login" method="POST">
-                    <h1>Login</h1>
+                <form action="/GUI_Assignment/staffLogin" method="POST">
+                    <h1>Staff Login</h1><br/>
                     <div class="input_box">
-                        <input type="text" name="username" required="">
-                        <label for="">User Name</label>
+                        <input type="text" name="id" required="">
+                        <label for="">Staff ID</label>
                         <ion-icon class="icon " name="person-outline"></ion-icon>
                     </div>
                     <div class="input_box">
@@ -45,26 +44,24 @@
                         <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
                     </div>
                     <div class="login">
-                        <button>Log in</button>
+                        <button type="submit">Login</button>
                     </div>
                     <div>
                         <div class="reg">
                             <p>Don't have an account?</p>
-                            <a href="register.jsp">Registration</a>
-                        </div>
-                        <div class="reg" style="margin-top: 0px !important;">
-                            <p>Login as Staff?</p>
-                            <a href="satffLogin.jsp">Staff Login</a>
+                            <a href="StaffLogin.jsp">Register as staff</a>
                         </div>
                 </form>
             </div>
         </div>
 
         <footer>
-           <%@include file="/Home/view/Footer.jsp"%> 
+
         </footer>
     </body>
-    
+
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </html>

@@ -67,6 +67,7 @@
                                     <!-- no login -->
                                     <a class="dropdown-item" href="/GUI_Assignment/login/login.jsp">Login</a>
                                     <a class="dropdown-item" href="/GUI_Assignment/login/register.jsp">Register</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/staffLogin.jsp">Staff Login</a>
                                 <%}%>
                             </div>
                         </li>
