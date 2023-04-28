@@ -23,8 +23,7 @@ public class DiscountDisplayServlet extends HttpServlet {
     private final String STATUS_INVALID = "INVALID";
     private final String STATUS_COMING_SOON = "COMMING SOON";
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             //get product list for dropdown
@@ -80,6 +79,18 @@ public class DiscountDisplayServlet extends HttpServlet {
             request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     protected ArrayList<Product> getActiveProductList() throws SQLException {

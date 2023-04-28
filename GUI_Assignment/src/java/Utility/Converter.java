@@ -35,4 +35,9 @@ public class Converter {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);
     }
+
+    public static String convertDateToHTMLFormat(java.util.Date utilDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(utilDate);
+    }
 }

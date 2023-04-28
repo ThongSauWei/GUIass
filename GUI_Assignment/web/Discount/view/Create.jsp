@@ -27,10 +27,9 @@
         <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
-        <br><br>
         <%if(errorList != null && errorList.size() > 0){%>
             <div class="w-100 d-flex justify-content-center align-middle">
-                <div class="alert alert-dismissible alert-danger w-75">
+                <div class="alert alert-dismissible alert-danger w-100">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <h4>Error ! Unable To Create A New Discount</h4>
                     <ul>
@@ -41,6 +40,7 @@
                 </div>
             </div>
         <%}%>
+        <br><br>
         <div class="mybox">
             <div>
                 <form class="discountForm" method="post" action="/GUI_Assignment/DiscountCreateServlet">
@@ -99,7 +99,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
-                                <a class="btn btn-danger w-25" href = '/GUI_Assignment/admin/view/home.jsp'><i class="bi bi-x-square"></i> &nbsp; CANCEL </a>
+                                <a class="btn btn-danger w-25" href = '/GUI_Assignment/Discount/view/Display.jsp'><i class="bi bi-arrow-left-square"></i> &nbsp; CANCEL </a>
                                 <button type="submit" class="btn btn-primary w-25" id="submitbtn"><i class="bi bi-pencil-square"></i> &nbsp; CREATE </button>
                             </td>
                         </tr>

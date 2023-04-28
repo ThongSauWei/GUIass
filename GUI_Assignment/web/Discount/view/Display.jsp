@@ -38,6 +38,14 @@
         </style>
     </head>
     <body>
+        <%if ((String)session.getAttribute("DiscountSuccess") != null) {%>
+        <div class="w-100 d-flex justify-content-center align-middle">
+            <div class="alert alert-dismissible alert-success w-100">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <h4><%=(String) session.getAttribute("DiscountSuccess")%></h4>
+            </div>
+        </div>
+        <%}%>
         <br><br>
         <div class="text-center">
             <h3><i class="bi bi-tags-fill"></i> &nbsp; DISCOUNT</h3>
@@ -147,12 +155,12 @@
                                 <td>
                                     <%--if invalid will not display Update button--%>
                                     <%if(!ddm.getStatus().equals("INVALID")){%>
-                                        <a href="/GUI_Assignment/DiscountUpdateServlet?id=<%=ddm.getDiscount().getDiscountId()%>" class="btn btn-warning m-1">
+                                        <a href="/GUI_Assignment/DiscountUpdateServlet?discountID=<%=ddm.getDiscount().getDiscountId()%>" class="btn btn-warning m-1">
                                             <i class="bi bi-arrow-up-square"></i> &nbsp; UPDATE
                                         </a>
                                         <br>
                                     <%}%>
-                                    <a href="/GUI_Assignment/DiscountDeleteServlet?id=<%=ddm.getDiscount().getDiscountId()%>" class="btn btn-danger m-1">
+                                    <a href="/GUI_Assignment/DiscountDeleteServlet?discountID=<%=ddm.getDiscount().getDiscountId()%>" class="btn btn-danger m-1">
                                         <i class="bi bi-x-square"></i> &nbsp; DELETE
                                     </a>
                                 </td>
@@ -167,5 +175,6 @@
                 </tbody>
             </table>
         </div>
+        <%@include file="../../Home/view/Footer.jsp" %>
     </body>
 </html>

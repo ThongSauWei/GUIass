@@ -23,14 +23,16 @@ public class DiscountCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().removeAttribute("errorList");
+        request.getSession().removeAttribute("DiscountSuccess");
         //error map
         HashMap<String, String> errorMap = new HashMap<>();
         //post for form
         try {
             //get data
             String productID = request.getParameter("pdtDiscount");
-            Date startDate = Converter.convertStringToUtilDate(request.getParameter("startDate"));
-            Date endDate = Converter.convertStringToUtilDate(request.getParameter("endDate"));
+            String startDate = request.getParameter("startDate");
+
+            String endDate = request.getParameter("endDate");
             String percentage = request.getParameter("percentage");
             Discount d = new Discount();
 
@@ -51,21 +53,27 @@ public class DiscountCreateServlet extends HttpServlet {
                 errorMap.put("productIdError", "Choice cannot be empty");
             }
 
-            //date cannot smaller than 1900 year
-            if (startDate.getYear() + 1900 < 1900) {
-                errorMap.put("startDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
-            } else {
-                d.setDiscountStartDate(startDate);
-            }
+            if (startDate != null && !startDate.trim().isEmpty() && endDate != null && !endDate.trim().isEmpty()) {
+                Date start = Converter.convertStringToUtilDate(startDate);
+                Date end = Converter.convertStringToUtilDate(endDate);
+                //date cannot smaller than 1900 year
+                if (start.getYear() + 1900 < 1900) {
+                    errorMap.put("startDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
+                } else {
+                    d.setDiscountStartDate(start);
+                }
 
-            if (endDate.getYear() + 1900 < 1900) {
-                errorMap.put("endDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
-            } else {
-                d.setDiscountEndDate(endDate);
-            }
+                if (end.getYear() + 1900 < 1900) {
+                    errorMap.put("endDateError", "Invalid Date Format, Year must Be Bigger Than 1900");
+                } else {
+                    d.setDiscountEndDate(end);
+                }
 
-            if (endDate.before(startDate)) {
-                errorMap.put("logicDateError", "End Date Cannot Smaller Than Start Date");
+                if (end.before(start)) {
+                    errorMap.put("logicDateError", "End Date Cannot Smaller Than Start Date");
+                }
+            } else {
+                errorMap.put("emptyError", "Start Date And End Date Cannot Be Empty");
             }
 
             if (percentage != null && !percentage.trim().isEmpty()) {
@@ -85,21 +93,20 @@ public class DiscountCreateServlet extends HttpServlet {
             } else {
                 //save data no error
                 db.Discount.Add(new DiscountMapper(), d);
-                request.getSession().setAttribute("successMessage", "Create Successfull");
-                response.sendRedirect("/GUI_Assignment/index.jsp");
+                request.getSession().setAttribute("DiscountSuccess", "Create Successfull");
+                response.sendRedirect("/GUI_Assignment/DiscountDisplayServlet");
             }
 
         } catch (ParseException ex) {
-            //catch set into hashmap
-            //date cannot be empty
-            errorMap.put("logicDateError", "Start Date and End Date Cannot be empty");
-            request.getSession().setAttribute("errorList", errorMap);
-            response.sendRedirect("DiscountCreateServlet");
+            //turn error page
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         } catch (SQLException ex) {
             //turn error page
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
             request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
 

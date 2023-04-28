@@ -135,6 +135,15 @@
         <servlet-name>DiscountDisplayServlet</servlet-name>
         <url-pattern>/DiscountDisplayServlet</url-pattern>
     </servlet-mapping>
+    <!--Discount Delete Servlet-->
+    <servlet>
+        <servlet-name>DiscountDeleteServlet</servlet-name>
+        <servlet-class>Servlet.DiscountDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountDeleteServlet</servlet-name>
+        <url-pattern>/DiscountDeleteServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
