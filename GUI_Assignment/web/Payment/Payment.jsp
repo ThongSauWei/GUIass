@@ -174,15 +174,9 @@
                             </label>
                         </div>
 
-
                         <!-- Available Shipping Method -->
                         <h2 class="section-heading" style="margin-top: -17px;">Available Shipping Method</h2>
                         <div class="line-1"></div>
-
-                        <!--                        <input type="radio" id="normalDelivery" name="shippingMethod" value="normalDelivery">
-                                                <label for="normalDelivery">Normal Delivery</label>
-                                                <input type="radio" id="expressShipping" name="shippingMethod" value="expressShipping">
-                                                <label for="expressShipping">Express Shipping</label>-->
 
                         <div class="col-xl-10 pb-5">
                             <input class="checkbox-budget" type="radio" id="normalDelivery" name="shippingMethod" value="normalDelivery">
@@ -205,8 +199,6 @@
                                     <span class="text-decoration">_</span>
                                     <span class="decoration">&rArr;</span>
                                 </button>
-
-
 
                                 <a class="btn-glitch-fill" style="float: right;" href="junguo.jsp">
                                     <span class="text">// Continue
@@ -282,7 +274,6 @@
                 </div>
             </div>
 
-
             <section class="right">
                 <div class="cart-item-box">
 
@@ -300,7 +291,7 @@
                                     <div class="row text-muted">
                                         <%= cartItem.getProduct().getProductName()%>
                                     </div>
-                                    <div class="number" style="margin-left: -13px;">
+                                    <div class="number" style="margin-left: 73px;">
                                         <%= cartItem.getCartQuantity()%>
                                     </div>
 
@@ -325,12 +316,6 @@
                             </div>
                             <% }%>
                             
-
-
-
-
-
-
                             <div class="amount" style="border-top: 1px solid hsl(0, 0%, 90%);">
 
                                 <div class="tax" style="margin-top: 10px;">

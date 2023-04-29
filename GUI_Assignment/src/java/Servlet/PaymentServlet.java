@@ -162,9 +162,10 @@ public class PaymentServlet extends HttpServlet {
         String errorMessage = null;
 
 //        int memberid = 2000;
+        Member member = (Member) session.getAttribute("member");
+        int memberId = member.getMemberId();
         try {
-            Member member = (Member) session.getAttribute("member");
-            int memberId = member.getMemberId();
+
             if (memberId != 0) {
                 // Search for member's addresses
                 ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
@@ -209,7 +210,7 @@ public class PaymentServlet extends HttpServlet {
         // If there is an error, set an attribute and redirect to p.jsp
         if (errorMessage != null) {
             //get back the value(Payment.jsp)
-            int memberId = 2000;
+//            int memberId = 2000;
             retrieveMemberAddressesAndBooks(memberId, request);
 
             try {
@@ -223,8 +224,8 @@ public class PaymentServlet extends HttpServlet {
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("/Payment/Payment.jsp").forward(request, response);
         } else {
-            Member member = (Member) session.getAttribute("member");
-            int memberId = member.getMemberId();
+//            Member member = (Member) session.getAttribute("member");
+//            int memberId = member.getMemberId();
             // No errors, redirect to appropriate page
             if (paymentMethod.equals("creditCard")) {
                 try {
