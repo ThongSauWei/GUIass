@@ -14,8 +14,9 @@ public class RateReview extends DBModel {
     private Date reviewDate;
     private Product product;
     private Member member;
+    private Orders orders;
 
-    public RateReview(int reviewId, String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
+    public RateReview(int reviewId, String reviewText, int reviewRating, Date reviewDate, Product product, Member member, Orders orders) {
         super("ratereview");
         this.reviewId = reviewId;
         this.reviewText = reviewText;
@@ -23,15 +24,17 @@ public class RateReview extends DBModel {
         this.reviewDate = reviewDate;
         this.product = product;
         this.member = member;
+        this.orders = orders;
     }
 
-    public RateReview(String reviewText, int reviewRating, Date reviewDate, Product product, Member member) {
+    public RateReview(String reviewText, int reviewRating, Date reviewDate, Product product, Member member, Orders orders) {
         super("ratereview");
         this.reviewText = reviewText;
         this.reviewRating = reviewRating;
         this.reviewDate = reviewDate;
         this.product = product;
         this.member = member;
+        this.orders = orders;
     }
 
     public RateReview(int reviewId) {
@@ -67,6 +70,10 @@ public class RateReview extends DBModel {
         return member;
     }
 
+    public Orders getOrders() {
+        return orders;
+    }
+
     public void setReviewId(int reviewId) {
         this.reviewId = reviewId;
     }
@@ -91,4 +98,8 @@ public class RateReview extends DBModel {
         this.member = member;
     }
 
+    public void setOrders(Orders orders) {
+        this.orders = orders;
+    }
+    
 }
