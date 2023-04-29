@@ -5,9 +5,6 @@ package Controller;
  */
 import Model.*;
 import DataAccess.*;
-import DataAccess.Mapper.DiscountMapper;
-import java.sql.SQLException;
-import java.util.*;
 import DataAccess.Mapper.*;
 import java.sql.SQLException;
 import java.util.*;
