@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,21 +22,11 @@ public class StaffList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            String search = request.getParameter("search") == null ? null : request.getParameter("search");
-
-            HttpSession session = request.getSession();
-
-            if (search == null) {
-                search = session.getAttribute("search") != null ? (String) session.getAttribute("search") : "";
-            } else {
-                session.setAttribute("search", search);
-            }
-
+            String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+            String delete = request.getParameter("delete");
             ArrayList<Staff> staffs = new StaffController().getStaff(search);
             if (staffs == null) {
-                request.getSession().setAttribute("UnexceptableError", "staffs is null");
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                response.sendRedirect("unexpected_error.jsp");
             } else if (staffs.isEmpty()) {
                 out.print("<td colspan=8>No Record.</td>");
             }
@@ -54,9 +43,7 @@ public class StaffList extends HttpServlet {
                 out.println("</tr>");
             }
         } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
         }
     }
 

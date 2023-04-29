@@ -55,13 +55,8 @@ function isInputFieldEmpty(inputField) {
         return false;
     }
 }
+
 function deleteMember(id) {
     if (confirm('Are you sure?'))
         window.location.href = "member_list.jsp?id=" + id + "&delete=1";
-}
-function formatDate(dateString) {
-    const year = parseInt(dateString.substring(0, 2)) + 2000;
-    const month = dateString.substring(2, 4);
-    const day = dateString.substring(4, 6);
-    return `${year}-${month}-${day}`;
 }

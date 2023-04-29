@@ -65,7 +65,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Active</th>
-                            <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>></td>
+                            <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "" : product.getProductActive() == '1' ? "checked" : ""%>></td>
                         </tr>
                         <tr>
                             <th scope="row">Image</th>

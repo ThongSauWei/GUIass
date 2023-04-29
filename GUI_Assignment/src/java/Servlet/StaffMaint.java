@@ -30,15 +30,11 @@ public class StaffMaint extends HttpServlet {
                     response.sendRedirect("/GUI_Assignment/admin/view/staff_list.jsp?delete=1");
                     return;
                 } else {
-                    request.getSession().setAttribute("UnexceptableError", "staff delete failed");
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     return;
                 }
             } catch (SQLException ex) {
-                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -53,14 +49,10 @@ public class StaffMaint extends HttpServlet {
                     session.setAttribute("staff", staff);
                     response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?id=" + staff.getStaffId() + "&isNew=false");
                 } else {
-                    request.getSession().setAttribute("UnexceptableError", "staffs empty");
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
             } catch (SQLException ex) {
-                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
             }
         }
 
@@ -101,14 +93,10 @@ public class StaffMaint extends HttpServlet {
                             response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + staff.getStaffId() + "");
                         }
                     } else {
-                        request.getSession().setAttribute("UnexceptableError", "staff insert failed");
-                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
 
             } else if (submit == 0) {
@@ -142,14 +130,10 @@ public class StaffMaint extends HttpServlet {
                             response.sendRedirect("/GUI_Assignment/admin/view/staff_maint.jsp?isNew=false&action=" + action + "&isSaved=true&id=" + id + "");
                         }
                     } else {
-                        request.getSession().setAttribute("UnexceptableError", "staff update failed");
-                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                     }
                 } catch (Exception ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
-                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
 
             }
