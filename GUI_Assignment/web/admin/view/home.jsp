@@ -22,6 +22,9 @@
                         <button onclick="window.location.href = 'mem_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Member</button>
                     </div>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
+                        <button onclick="window.location.href = 'order_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Order</button>
+                    </div>
+                    <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'report.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Report</button>
                     </div>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
