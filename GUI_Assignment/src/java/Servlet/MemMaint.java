@@ -28,7 +28,10 @@ public class MemMaint extends HttpServlet {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
             ArrayList<Member> members = new MemController().getMems(search);
             if (members == null) {
-                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", "Members is null");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                return;
             } else if (members.isEmpty()) {
                 out.println("<td colspan=4>No Record.</td>");
             }
@@ -54,19 +57,27 @@ public class MemMaint extends HttpServlet {
             try {
                 processRequest(request, response);
             } catch (SQLException ex) {
-                response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
         } else {
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
-
-            if (delete != null && id != null) {
-                try {
-                    if (new MemController().dltMem(id) == false) {
-                        response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            try {
+                if (delete != null && id != null) {
+                    try {
+                        if (new MemController().dltMem(id) == false) {
+                            response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search + "&notDelete=true");
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     }
-                } catch (SQLException ex) {
-                    response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
                 }
+            } catch (IllegalArgumentException ex) {
+                response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search + "&notDelete=true");
             }
             response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search);
         }

@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="/GUI_Assignment/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
         <!--change title and favicon-->
-        <title>LEGO</title>
+        <title>${companyName}</title>
         <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
@@ -37,10 +37,13 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="home">Home</a>
+                            <a class="nav-link" href="/GUI_Assignment/index.jsp" id="home">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" id="menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/GUI_Assignment/DiscountCreateServlet" id="menu">Create</a>
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item">
@@ -86,6 +89,6 @@
                 </div>
             </div>
         </nav>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <br><br>
     </body>
 </html>
