@@ -1,3 +1,4 @@
+<%boolean isAdmin = session.getAttribute("staffLogin") == null ? false : ((String) session.getAttribute("staffLogin")).equals("admin");%>
 <%@page import="Model.Product"%>
 <% boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
@@ -63,10 +64,11 @@
                             <th scope="row">Price</th>
                             <td><span id="price_error" class="error-message"></span><input onkeypress="return isPriceKey(event)" onchange="formatPrice(this)" onblur="isValidPrice()" type="text" id="price" name="price" class="error-border form-control" value="<%=isNew ? "" : product.getProductPrice()%>"></td>
                         </tr>
+                        <%if (isAdmin) {%>
                         <tr>
                             <th scope="row">Active</th>
-                            <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>></td>
-                        </tr>
+                            <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "" : product.getProductActive() == '1' ? "checked" : ""%>></td>
+                        </tr><%}%>
                         <tr>
                             <th scope="row">Image</th>
                             <td>
