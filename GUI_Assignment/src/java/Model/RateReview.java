@@ -101,5 +101,4 @@ public class RateReview extends DBModel {
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
-    
 }
