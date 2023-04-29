@@ -59,7 +59,7 @@ public class staffLogin extends HttpServlet {
             ArrayList<Staff> staffs = null;
 
             if (id.equals("admin") && password.equals("admin0")) {
-                session.setAttribute("staff", "admin");
+                session.setAttribute("staffLogin", "admin");
                 response.sendRedirect("admin/view/home.jsp");
             } else {
                 try {
@@ -69,7 +69,7 @@ public class staffLogin extends HttpServlet {
                     if (staffs.size() == 1) {
                         Staff staff = staffs.get(0);
                         if (staff.getStaffPass().equals(password)) {
-                            session.setAttribute("staff", staff.getStaffName());
+                            session.setAttribute("staffLogin", staff.getStaffName());
                             session.setAttribute("staffs", staff);
                             response.sendRedirect("admin/view/home.jsp");
                         } else {
