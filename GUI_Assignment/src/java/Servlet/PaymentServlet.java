@@ -305,10 +305,6 @@ public class PaymentServlet extends HttpServlet {
 
                 response.sendRedirect("PaymentMethodServlet");
             }
-//            else {
-//                // handle invalid payment method
-//                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid payment method");
-//            }
         }
 
     }

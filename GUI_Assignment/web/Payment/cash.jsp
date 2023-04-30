@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="Model.*"%>
-<%@page import="Model.PageModel.ExampleModel"%>
+<%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
 <%@page import="Model.Product"%>
 <%@page import="Model.Cartlist"%>
@@ -23,7 +23,7 @@
 
     ArrayList<Discount> discount1 = (ArrayList<Discount>) request.getAttribute("dlist");
 
-    ArrayList<ExampleModel> cartItems = PaymentController.getCartItem(cart, product);
+    ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cart, product);
 
     String shippingAddress = (String) session.getAttribute("shippingAddress");
     int totalProducts = (Integer) session.getAttribute("totalProducts");
@@ -124,7 +124,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% for (ExampleModel cartItem : cartItems) {%>
+                                            <% for (PaymentModel cartItem : cartItems) {%>
                                             <% int i = 0;%>
 
 

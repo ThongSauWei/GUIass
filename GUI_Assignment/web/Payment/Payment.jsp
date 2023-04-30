@@ -4,7 +4,7 @@
     Author     : Thong Sau Wei
 --%>
 
-<%@page import="Model.PageModel.ExampleModel"%>
+<%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
 <%@page import="Model.*"%>
 <%@page import="java.util.ArrayList"%>
@@ -24,7 +24,7 @@
     ArrayList<MemberAddress> mAdd = (ArrayList<MemberAddress>) request.getAttribute("memberAddress");
     ArrayList<AddressBook> aBook = (ArrayList<AddressBook>) request.getAttribute("addressBook");
 
-    ArrayList<ExampleModel> cartItems = PaymentController.getCartItem(cart, product);
+    ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cart, product);
     double deliveryFee = (Double) session.getAttribute("deliveryFee");
 
     int totalProducts = (Integer) session.getAttribute("totalProducts");
@@ -284,7 +284,7 @@
 
                         <div id="displayCart" class="rounded">
 
-                            <% for (ExampleModel cartItem : cartItems) {%>
+                            <% for (PaymentModel cartItem : cartItems) {%>
                             <div class="row item">
                                 <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 25px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
                                 <div class="col-8" style="margin-left: 10px;">

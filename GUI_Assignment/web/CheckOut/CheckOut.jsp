@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="Model.*"%>
-<%@page import="Model.PageModel.ExampleModel"%>
+<%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
 <%@page import="Model.Product"%>
 <%@page import="Model.Cartlist"%>
@@ -22,7 +22,7 @@
     ArrayList<MemberAddress> mAdd = (ArrayList<MemberAddress>) request.getAttribute("memberAddress");
     ArrayList<AddressBook> aBook = (ArrayList<AddressBook>) request.getAttribute("addressBook");
 
-    ArrayList<ExampleModel> cartItems = PaymentController.getCartItem(cart, product);
+    ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cart, product);
     String shippingMethod = (String) session.getAttribute("shippingMethod");
     String paymentMethod = (String) session.getAttribute("paymentMethod");
     double dF = (Double) session.getAttribute("deliveryFee");
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <% for (ExampleModel cartItem : cartItems) {%>
+                    <% for (PaymentModel cartItem : cartItems) {%>
                     <div class="row border-bottom">
                         <div class="row main align-items-center">
                             <div class="col-3"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>" width="100" height="100"></div>
