@@ -84,11 +84,7 @@ public class updateCartListQuantityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//
-        Member mem = new Member();
-        mem.setMemberId(2001);
-//        mem=null;
-        request.getSession().setAttribute("member", mem);
+
         try {
             DBTable db = new DBTable();
             Cartlist cartQuantityUpdate = new Cartlist();

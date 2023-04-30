@@ -70,10 +70,10 @@ public class cartListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Member mem = new Member();
-        mem.setMemberId(2001);
-//                mem=null;
-        request.getSession().setAttribute("member", mem);
+//        Member mem = new Member();
+//        mem.setMemberId(2001);
+////                mem=null;
+//        request.getSession().setAttribute("member", mem);
         try {
             DBTable db = new DBTable();
 //          Found CartId So that i can output based on the session 
@@ -133,9 +133,9 @@ public class cartListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Member mem = new Member();
-        mem.setMemberId(2001);
-        request.getSession().setAttribute("member", mem);
+//        Member mem = new Member();
+//        mem.setMemberId(2001);
+//        request.getSession().setAttribute("member", mem);
         //get action from form name
         try {
             DBTable db = new DBTable();

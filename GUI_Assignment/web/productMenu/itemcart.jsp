@@ -96,7 +96,6 @@
                             </div>
                         </div>
                         <%if (product.get(i).getProductActive() == '0') {%>
-                        <!--WALAO WHY THIS PRODUCT ACTIVE IS CHAR GEH IT TAKE MY RESEARCH FOR FEW HOURS TO FOUND OUT WHY IT NOT WORKING AT ALL-->
                         <!--//ProductActive == false -->
                         <div class="row mt-5 py-3 item-cart-line">
                             <div style="color:red; font-size:20px;">The Product is Currently Unavailable for Now. Sorry For the Inconvenience</div>

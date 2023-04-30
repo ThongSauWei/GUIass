@@ -83,10 +83,10 @@ public class addToCartPerMore extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Member mem = new Member();
-//        mem=null;
-        mem.setMemberId(2001);
-        request.getSession().setAttribute("member", mem); 
+//        Member mem = new Member();
+////        mem=null;
+//        mem.setMemberId(2001);
+//        request.getSession().setAttribute("member", mem); 
         try {
             DBTable db = new DBTable();
             int ahrefProductId = Integer.parseInt(request.getParameter("hrefId"));
