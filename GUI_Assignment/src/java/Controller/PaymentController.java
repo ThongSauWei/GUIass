@@ -49,27 +49,6 @@ public class PaymentController {
         return dbTable.AddressBook.Add(new AddressBookMapper(), new AddressBook(name, phone, no, street, city, state, postcode));
     }
 
-//    public boolean addOrder(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address, Product product, int ordersQuantity) throws SQLException {
-//        // Create a new Order object with the given data
-//        Orders order = new Orders(ordersDate, ordersPaymentType, ordersTtlPrice, ordersTax, ordersDeliveryFee, ordersExpressShipping, member, address);
-//
-//        // Calculate the subtotal price for the order based on the product price and quantity
-//        double ordersSubprice = product.getProductPrice() * ordersQuantity;
-//
-//        // Create a new Orderlist object with the Order and Product data, along with the calculated subtotal price
-//        Orderlist orderlist = new Orderlist(order, product, ordersQuantity, ordersSubprice);
-//
-//        // Save the Order and Orderlist to the database using the corresponding mappers
-//        boolean orderAdded = dbTable.Orders.Add(new OrdersMapper(), order);
-//        boolean orderlistAdded = dbTable.Orderlist.Add(new OrderlistMapper(), orderlist);
-//
-//        // Return true if both the Order and Orderlist were successfully added to the database
-//        return orderAdded && orderlistAdded;
-//    }
-//    public boolean addOrder(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) throws SQLException{
-//        return dbTable.Orders.Add(new OrdersMapper(), new Orders(ordersDate, ordersPaymentType, ordersTtlPrice, ordersTax, 
-//                ordersDeliveryFee, ordersExpressShipping, member, address));
-//    }
     public boolean addOrder(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) throws SQLException, Exception {
         // Create a new Orders object with the given parameters
         Orders newOrder = new Orders(ordersDate, ordersPaymentType, ordersTtlPrice, ordersTax, ordersDeliveryFee, ordersExpressShipping, member, address);
@@ -81,27 +60,6 @@ public class PaymentController {
         return ordersTable.Add(new OrdersMapper(), newOrder);
     }
 
-//        double deliveryFee = Double.parseDouble(ordersDeliveryFee);
-//        double ttl = Double.parseDouble(ordersTtlPrice);
-//        double tax = Double.parseDouble(ordersTax);
-//        double shipping = Double.parseDouble(ordersExpressShipping);
-//        return dbTable.Orders.Add(new OrdersMapper(), new Orders(ordersDate, ordersPaymentType, ttl, tax, deliveryFee, shipping, member, address));
-//    public boolean addOrder(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) throws SQLException{
-//    String insertOrderSql = "INSERT INTO Orders (OrdersDate, OrdersPaymentType, OrdersTtlPrice, OrdersTax, OrdersDeliveryFee, OrdersExpressShipping, MemberId, AddressId) " +
-//                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-//    try (PreparedStatement pstmt = connection.prepareStatement(insertOrderSql)) {
-//        pstmt.setDate(1, ordersDate);
-//        pstmt.setString(2, ordersPaymentType);
-//        pstmt.setDouble(3, ordersTtlPrice);
-//        pstmt.setDouble(4, ordersTax);
-//        pstmt.setDouble(5, ordersDeliveryFee);
-//        pstmt.setDouble(6, ordersExpressShipping);
-//        pstmt.setInt(7, member.getMemberId());
-//        pstmt.setInt(8, address.getAddressId());
-//        int rowsInserted = pstmt.executeUpdate();
-//        return rowsInserted > 0;
-//    }
-//}
     public boolean addMemberAddress(int addressId, int memberId) throws SQLException, Exception {
         AddressBook address = new AddressBook(addressId);
         Member member = new Member(memberId);
@@ -131,13 +89,6 @@ public class PaymentController {
         return dbTable.RateReview.Add(new RateReviewMapper(), rate);
     }
 
-//    public boolean addNew(String name, String phone, String no, String street, String city, String state, String postcode, int memberId) throws SQLException, Exception {
-    //        AddressBook address = new AddressBook(name, phone, no, street, city, state, postcode);
-    //        Member member = new Member(memberId);
-    //        MemberAddress memberAddress = new MemberAddress(address, member);
-    //        dbTable.AddressBook.Add(new AddressBookMapper(), new AddressBook(name, phone, no, street, city, state, postcode));
-    //        return dbTable.MemberAddress.Add(new MemberAddressMapper(), memberAddress);
-    //    }
     public boolean addNew(String name, String phone, String no, String street, String city, String state, String postcode, int memberId) throws SQLException, Exception {
         AddressBook address = new AddressBook(name, phone, no, street, city, state, postcode);
         Member member = new Member(memberId);
@@ -159,11 +110,6 @@ public class PaymentController {
         Member member = new Member(memberId);
         MemberAddress memberAddress = new MemberAddress(address, member);
 
-        // Add address to the address book table and get the generated address ID
-//        int addressId = dbTable.AddressBook.AddAndGetId(new AddressBookMapper(), address);
-        // Set the address ID for the member address relationship
-//        memberAddress.getAddress().setId(addressId);
-        // Add member and address relationship to the member address table
         boolean memberAddressAdded = dbTable.MemberAddress.Add(new MemberAddressMapper(), memberAddress);
 
         return memberAddressAdded;
@@ -296,20 +242,6 @@ public class PaymentController {
         throw new SQLException("Product not found in productList");
     }
 
-//    public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product) {
-//        double grandTotal = 0.0;
-//
-//        for (Cartlist c : cart) {
-//            for (Product p : product) {
-//                if (c.getProduct().getProductId() == p.getProductId()) {
-//                    double total = c.getCartQuantity() * p.getProductPrice();
-//                    grandTotal += total;
-//                }
-//            }
-//        }
-//
-//        return grandTotal;
-//    }
     public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product) throws SQLException {
         double grandTotal = 0.0;
 
@@ -342,9 +274,6 @@ public class PaymentController {
         return shippingCharge;
     }
 
-//    public static double calculateFinalTotal(double grandTotal, double tax, double shippingCharge, double deliveryFee) {
-//        return grandTotal + tax + shippingCharge + deliveryFee;
-//    }
     public static double calculateFinalTotal(double grandTotal, double tax, double shippingCharge, double deliveryFee) {
         double finalTotal = grandTotal + tax + shippingCharge + deliveryFee;
 //        DecimalFormat df = new DecimalFormat("#.00");
@@ -355,15 +284,6 @@ public class PaymentController {
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(number);
     }
-//    public static double calculateDeliveryFee(double grandTotal) {
-//        double delivery = 0.0;
-//
-//        if (grandTotal < 200) {
-//            delivery = 25.0;
-//        }
-//
-//        return delivery;
-//    }
 
     public static double calculateDeliveryFee(double grandTotal) {
         double delivery = 0.0;
@@ -373,11 +293,6 @@ public class PaymentController {
         }
 
         return delivery;
-//        if (delivery == 0.0) {
-//            return "Free";
-//        } else {S
-//            return String.format("%.2f", delivery);
-//        }
     }
 
 }

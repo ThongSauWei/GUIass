@@ -5,6 +5,7 @@
 package Servlet;
 
 import Controller.PaymentController;
+
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
 import Model.*;
@@ -261,7 +262,11 @@ public class CheckOutReviewServlet extends HttpServlet {
                     for (PaymentModel cartItem : cartItems) {
                         int productId = cartItem.getProduct().getProductId();
                         int ordersQuantity = cartItem.getCartQuantity();
-                        double subPrice = (cartItem.getProduct().getProductPrice() * cartItem.getCartQuantity());
+
+                        PaymentController payController = new PaymentController();
+                        double discountedPrice = payController.getDiscount(productList, productId);
+
+                        double subPrice = (discountedPrice * cartItem.getCartQuantity());
                         boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
                         if (checkO) {
