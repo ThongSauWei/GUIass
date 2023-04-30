@@ -283,7 +283,6 @@ public class PaymentServlet extends HttpServlet {
 
                         request.setAttribute("memberAddress", mAddress);
                         request.setAttribute("addressBook", addressBook);
-
                     }
                 } catch (SQLException ex) {
                     request.getSession().setAttribute("UnexceptableError", ex.getMessage());
