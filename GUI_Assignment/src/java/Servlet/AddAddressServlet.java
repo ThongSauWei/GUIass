@@ -14,7 +14,7 @@ import DataAccess.Mapper.MemberMapper;
 import Model.AddressBook;
 import Model.Member;
 import Model.MemberAddress;
-import Model.PageModel.ExampleModel;
+import Model.PageModel.PaymentModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -135,11 +135,11 @@ public class AddAddressServlet extends HttpServlet {
                 ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
 
                 // Combine member addresses and address book entries
-                ArrayList<ExampleModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
+                ArrayList<PaymentModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
 
                 boolean addressExists = false;
 
-                for (ExampleModel addressItem : addressItems) {
+                for (PaymentModel addressItem : addressItems) {
                     AddressBook address = addressItem.getAddressBook();
                     if (newAddressName.equalsIgnoreCase(address.getAddressName())
                             && newAddressPhone.equalsIgnoreCase(address.getAddressPhone())

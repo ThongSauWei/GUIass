@@ -4,7 +4,7 @@ import Controller.PaymentController;
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
 import Model.*;
-import Model.PageModel.ExampleModel;
+import Model.PageModel.PaymentModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -173,7 +173,7 @@ public class PaymentServlet extends HttpServlet {
                 ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
 
                 // Combine member addresses and address book entries
-                ArrayList<ExampleModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
+                ArrayList<PaymentModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
 
                 String shippingAddress = request.getParameter("shippingAddress");
 

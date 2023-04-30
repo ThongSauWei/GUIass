@@ -8,7 +8,7 @@ import Controller.PaymentController;
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
 import Model.*;
-import Model.PageModel.ExampleModel;
+import Model.PageModel.PaymentModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -256,9 +256,9 @@ public class CheckOutReviewServlet extends HttpServlet {
                     ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) cartAndProductLists.get("cartList");
                     ArrayList<Product> productList = (ArrayList<Product>) cartAndProductLists.get("productList");
 
-                    ArrayList<ExampleModel> cartItems = PaymentController.getCartItem(cartList, productList);
+                    ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
 
-                    for (ExampleModel cartItem : cartItems) {
+                    for (PaymentModel cartItem : cartItems) {
                         int productId = cartItem.getProduct().getProductId();
                         int ordersQuantity = cartItem.getCartQuantity();
                         double subPrice = (cartItem.getProduct().getProductPrice() * cartItem.getCartQuantity());

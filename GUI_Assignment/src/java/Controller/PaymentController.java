@@ -10,7 +10,7 @@ import DataAccess.DbSet;
 import DataAccess.Mapper.*;
 import Model.AddressBook;
 import Model.Cartlist;
-import Model.PageModel.ExampleModel;
+import Model.PageModel.PaymentModel;
 import Model.Product;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -230,13 +230,13 @@ public class PaymentController {
         return result;
     }
 
-    public static ArrayList<ExampleModel> getAddressItems(ArrayList<MemberAddress> memberAddresses, ArrayList<AddressBook> addressBooks) {
-        ArrayList<ExampleModel> addressItems = new ArrayList<ExampleModel>();
+    public static ArrayList<PaymentModel> getAddressItems(ArrayList<MemberAddress> memberAddresses, ArrayList<AddressBook> addressBooks) {
+        ArrayList<PaymentModel> addressItems = new ArrayList<PaymentModel>();
 
         for (MemberAddress m : memberAddresses) {
             for (AddressBook a : addressBooks) {
                 if (m.getAddress().getAddressId() == a.getAddressId()) {
-                    ExampleModel addressItem = new ExampleModel(a);
+                    PaymentModel addressItem = new PaymentModel(a);
                     addressItems.add(addressItem);
                 }
             }
@@ -245,12 +245,12 @@ public class PaymentController {
         return addressItems;
     }
 
-    public static ArrayList<ExampleModel> getCartItem(ArrayList<Cartlist> cart, ArrayList<Product> product) {
-        ArrayList<ExampleModel> cartItems = new ArrayList<ExampleModel>();
+    public static ArrayList<PaymentModel> getCartItem(ArrayList<Cartlist> cart, ArrayList<Product> product) {
+        ArrayList<PaymentModel> cartItems = new ArrayList<PaymentModel>();
         for (Cartlist c : cart) {
             for (Product p : product) {
                 if (c.getProduct().getProductId() == p.getProductId()) {
-                    ExampleModel cartItem = new ExampleModel(p, c.getCartQuantity());
+                    PaymentModel cartItem = new PaymentModel(p, c.getCartQuantity());
 //                    double total = c.getCartQuantity() * p.getProductPrice();
                     cartItems.add(cartItem);
                 }

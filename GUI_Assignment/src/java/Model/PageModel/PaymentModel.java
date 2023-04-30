@@ -10,19 +10,18 @@ import Model.*;
  *
  * @author Acer
  */
-public class ExampleModel {
+public class PaymentModel {
 
     private Product product;
     private AddressBook addressBook;
     private int cartQuantity;
 
-    public ExampleModel(AddressBook addressBook) {
+    public PaymentModel(AddressBook addressBook) {
         this.addressBook = addressBook;
     }
 
     
-    
-    public ExampleModel(Product product, int cartQuantity) {
+    public PaymentModel(Product product, int cartQuantity) {
         this.product = product;
         this.cartQuantity = cartQuantity;
     }
