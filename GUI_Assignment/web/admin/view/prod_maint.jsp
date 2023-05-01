@@ -64,10 +64,10 @@
                             <th scope="row">Price</th>
                             <td><span id="price_error" class="error-message"></span><input onkeypress="return isPriceKey(event)" onchange="formatPrice(this)" onblur="isValidPrice()" type="text" id="price" name="price" class="error-border form-control" value="<%=isNew ? "" : product.getProductPrice()%>"></td>
                         </tr>
-                        <tr>
+                        <%if(isAdmin){%><tr>
                             <th scope="row">Active</th>
-                            <td><input <%= isAdmin ? "" : "hidden"%>value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>></td>
-                        </tr>
+                            <td><%}%><input <%= isAdmin ? "" : "hidden"%> value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>><%if(isAdmin){%></td>
+                        </tr><%}%>
                         <tr>
                             <th scope="row">Image</th>
                             <td>
