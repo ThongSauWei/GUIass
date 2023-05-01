@@ -97,11 +97,11 @@ public class HistoryDetailServlet extends HttpServlet {
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception Occurs");
                 request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
             }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            response.sendRedirect("/GUI_Assignment/login/login.jsp");
         } else {
             //turn to error page , reason - premission denied
-            request.getSession().setAttribute("UnexceptableError", "You Have No Permission To Access This Page");
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Permission Denied");
-            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
         }
     }
 
