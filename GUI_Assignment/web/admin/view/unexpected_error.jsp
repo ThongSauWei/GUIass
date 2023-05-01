@@ -23,7 +23,7 @@
                 <p><%=session.getAttribute("UnexceptableError")%></p>
             </div>
             <div class="my-5 text-center">
-                <a href="home.jsp" class="btn btn-primary">Go to Home Page</a>
+                <a href="/GUI_Assignment/admin/view/home.jsp" class="btn btn-primary">Go to Home Page</a>
             </div>
         </div>
     </body>
