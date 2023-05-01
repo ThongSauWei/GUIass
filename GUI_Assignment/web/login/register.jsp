@@ -20,7 +20,7 @@
             
         </header>
         
-        <div class="container">
+        <div class="container" style="max-width:100% !important;">
             <%
                 String message = (String) request.getSession().getAttribute("message");
                 if (message != null) {
