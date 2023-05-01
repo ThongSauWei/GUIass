@@ -2,7 +2,7 @@
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
     <context-param>
         <param-name>CompanyName</param-name>
-        <param-value>&#169; LEGO</param-value>
+        <param-value>© LEGO</param-value>
     </context-param>
     <context-param>
         <param-name>AdminEmail</param-name>
@@ -11,7 +11,31 @@
     <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>Servlet.InitServlet</servlet-class>
-        <load-on-startup></load-on-startup>
+        <!--        <load-on-startup></load-on-startup>-->
+    </servlet>
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>Servlet.logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffRegister</servlet-name>
+        <servlet-class>Servlet.StaffRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>staffLogin</servlet-name>
+        <servlet-class>Servlet.staffLogin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>staffLogout</servlet-name>
+        <servlet-class>Servlet.staffLogout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>salesRecord</servlet-name>
+        <servlet-class>Servlet.salesRecord</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>salesRecordMain</servlet-name>
+        <servlet-class>Servlet.salesRecordMain</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitServlet</servlet-name>
@@ -137,7 +161,26 @@
         <servlet-name>viewProductServlet</servlet-name>
         <url-pattern>/viewProductServlet</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffRegister</servlet-name>
+        <url-pattern>/StaffRegister</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>staffLogin</servlet-name>
+        <url-pattern>/staffLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>staffLogout</servlet-name>
+        <url-pattern>/staffLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>salesRecord</servlet-name>
+        <url-pattern>/salesRecord</url-pattern>
+    </servlet-mapping>
     <!--image servlet-->
     <servlet>
         <servlet-name>RetrieveImageServlet</servlet-name>
@@ -227,6 +270,10 @@
     <servlet-mapping>
         <servlet-name>OrderHistoryServlet</servlet-name>
         <url-pattern>/OrderHistoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>salesRecordMain</servlet-name>
+        <url-pattern>/salesRecordMain</url-pattern>
     </servlet-mapping>
     <!--Order History Detail Servlet-->
     <servlet>
