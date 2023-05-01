@@ -171,6 +171,15 @@
         <servlet-name>DiscountUpdateServlet</servlet-name>
         <url-pattern>/DiscountUpdateServlet</url-pattern>
     </servlet-mapping>
+    <!--Order History Servlet-->
+    <servlet>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <servlet-class>Servlet.OrderHistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <url-pattern>/OrderHistoryServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
