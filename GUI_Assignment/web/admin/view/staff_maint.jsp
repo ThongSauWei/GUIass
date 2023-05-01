@@ -49,19 +49,19 @@
                         </tr>
                         <tr>
                             <th scope="row">Phone Num</th>
-                            <td><span id="phone_num_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="phoneNumValid()" type="text" id="phone_num" name="phoneNum" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPhNo()%>" maxlength="11"></td>
+                            <td><span id="phone_num_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="phoneNumValid()" type="text" id="phone_num" name="phoneNum" class="error-border form-control" value="<%=isNew ? "" : product.getStaffPhNo()%>" maxlength="10"></td>
                         </tr>
                         <tr>
                             <th scope="row">Email</th>
                             <td><span id="email_error" class="error-message"></span><input onblur="emailValid()" type="text" id="email" name="email" class="error-border form-control" value="<%=isNew ? "" : product.getStaffEmail()%>"></td>
                         </tr>
-                        <tr>
-                            <th scope="row">Birthday</th>
-                            <td><span id="birthday_error" class="error-message"></span><input onblur="isValidDate(this)" type="date" id="birthday" name="birthday" class="error-border form-control" value="<%=isNew ? "" : product.getEditFormatBirthdate()%>"></td>
-                        </tr>
+                        <!-- <tr> -->
+                            <!-- <th scope="row">Birthday</th> -->
+                            <!--<td>--><span hidden id="birthday_error" class="error-message"></span><input hidden onblur="isValidDate(this)" type="date" id="birthday" name="birthday" class="error-border form-control" value="<%=isNew ? "" : product.getEditFormatBirthdate()%>"><!--</td>-->
+                        <!-- </tr> -->
                         <tr>
                             <th scope="row">IC</th>
-                            <td><span id="ic_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="icValid()" type="text" id="ic" name="ic" class="error-border form-control" value="<%=isNew ? "" : product.getStaffIc()%>" maxlength="12"></td>
+                            <td><span id="ic_error" class="error-message"></span><input onkeypress="return isNumberKey(event)" onblur="icValid(this)" type="text" id="ic" name="ic" class="error-border form-control" value="<%=isNew ? "" : product.getStaffIc()%>" maxlength="12"></td>
                         </tr>
                         <tr>
                             <th scope="row">Password</th>
