@@ -36,11 +36,14 @@
                             <a class="nav-link" href="/GUI_Assignment/index.jsp" id="home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="menu">Menu</a>
+                            <a class="nav-link" href="/GUI_Assignment/productMenuServlet" id="menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/GUI_Assignment/DiscountCreateServlet" id="menu">Create</a>
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" id="history">Order History</a>
+                                <a class="nav-link" href="/GUI_Assignment/OrderHistoryServlet" id="history">Order History</a>
                             </li>
                         <%}%>
                     </ul>
@@ -73,7 +76,7 @@
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item d-flex">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/GUI_Assignment/cartListServlet">
                                     <i class="bi bi-cart" style="font-size: 25px"></i>
                                     <span class="badge bg-danger rounded-pill"><%=cart.getUserCartlistQty(member.getMemberId())%></span>
                                 </a>

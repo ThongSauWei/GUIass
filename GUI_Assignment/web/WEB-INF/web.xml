@@ -58,6 +58,10 @@
         <servlet-class>Servlet.ProdList</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>OrderList</servlet-name>
+        <servlet-class>Servlet.OrderList</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ReportResult</servlet-name>
         <servlet-class>Servlet.ReportResult</servlet-class>
     </servlet>
@@ -80,6 +84,10 @@
     <servlet-mapping>
         <servlet-name>ProdList</servlet-name>
         <url-pattern>/ProdList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderList</servlet-name>
+        <url-pattern>/OrderList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReportResult</servlet-name>
@@ -147,6 +155,69 @@
     <servlet-mapping>
         <servlet-name>salesRecord</servlet-name>
         <url-pattern>/salesRecord</url-pattern>
+    </servlet-mapping>
+    <!--Create Discount Servlet-->
+    <servlet>
+        <servlet-name>DiscountCreateServlet</servlet-name>
+        <servlet-class>Servlet.DiscountCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountCreateServlet</servlet-name>
+        <url-pattern>/DiscountCreateServlet</url-pattern>
+    </servlet-mapping>
+    <!--Display Discont Servlet-->
+    <servlet>
+        <servlet-name>DiscountDisplayServlet</servlet-name>
+        <servlet-class>Servlet.DiscountDisplayServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountDisplayServlet</servlet-name>
+        <url-pattern>/DiscountDisplayServlet</url-pattern>
+    </servlet-mapping>
+    <!--Discount Delete Servlet-->
+    <servlet>
+        <servlet-name>DiscountDeleteServlet</servlet-name>
+        <servlet-class>Servlet.DiscountDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountDeleteServlet</servlet-name>
+        <url-pattern>/DiscountDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <!--Create Discount Post Form Servlet-->
+    <servlet>
+        <servlet-name>DiscountFormServlet</servlet-name>
+        <servlet-class>Servlet.DiscountFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountFormServlet</servlet-name>
+        <url-pattern>/DiscountFormServlet</url-pattern>
+    </servlet-mapping>
+    <!--Update Discount Post Form Servlet-->
+    <servlet>
+        <servlet-name>DiscountUpdateFormServlet</servlet-name>
+        <servlet-class>Servlet.DiscountUpdateFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountUpdateFormServlet</servlet-name>
+        <url-pattern>/DiscountUpdateFormServlet</url-pattern>
+    </servlet-mapping>
+    <!--Discount Update Servlet-->
+    <servlet>
+        <servlet-name>DiscountUpdateServlet</servlet-name>
+        <servlet-class>Servlet.DiscountUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountUpdateServlet</servlet-name>
+        <url-pattern>/DiscountUpdateServlet</url-pattern>
+    </servlet-mapping>
+    <!--Order History Servlet-->
+    <servlet>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <servlet-class>Servlet.OrderHistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <url-pattern>/OrderHistoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
