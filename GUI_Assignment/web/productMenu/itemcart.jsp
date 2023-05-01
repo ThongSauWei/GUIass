@@ -201,6 +201,7 @@
                                 </div>
                                 </div>
                                 </body>
+                                <%@include file="/Home/view/Footer.jsp"%>
                                 <script>
                                     function openWindow(id) {
                                         var target = document.getElementById(id);

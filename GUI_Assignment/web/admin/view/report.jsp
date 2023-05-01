@@ -231,5 +231,6 @@
         <a id="home-btn" href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
         <button id="back-btn" onclick="back()" class="btn btn-primary ms-3 rounded-pill " style="display:none;">&lt;</button>
         <script src="../js/report.js" type="text/javascript"></script>
+        <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>

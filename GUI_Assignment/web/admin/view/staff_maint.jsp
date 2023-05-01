@@ -102,4 +102,5 @@
     <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_staff.js" type="text/javascript"></script>
+    <%@include file="/Home/view/Footer.jsp"%>
 </html>

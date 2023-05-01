@@ -26,5 +26,6 @@
                 <a href="/GUI_Assignment/admin/view/home.jsp" class="btn btn-primary">Go to Home Page</a>
             </div>
         </div>
+        <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>

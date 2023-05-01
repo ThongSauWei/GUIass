@@ -104,6 +104,7 @@
             </form>
         </div>
     </body>
+    <%@include file="/Home/view/Footer.jsp"%>
     <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>

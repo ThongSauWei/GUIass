@@ -123,7 +123,7 @@
                 </form>
             </div>
         </div>
-        <%@include file="../../Home/view/Footer.jsp" %>
+        <%@include file="/Home/view/Footer.jsp" %>
         <script>
             $(function(){
                 $(".discountForm").change(function(){

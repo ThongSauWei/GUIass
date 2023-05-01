@@ -187,6 +187,7 @@
     </div>
 </body>
 </html>
+<%@include file="/Home/view/Footer.jsp"%>
 <script>
     var increase = document.getElementById("increment-product");
     var decrease = document.getElementById("decrement-product");
