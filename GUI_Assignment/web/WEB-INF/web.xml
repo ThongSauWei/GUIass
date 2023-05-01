@@ -45,6 +45,30 @@
         <servlet-name>ReportResult</servlet-name>
         <servlet-class>Servlet.ReportResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>addToCartPerMore</servlet-name>
+        <servlet-class>Servlet.addToCartPerMore</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addToCartPerOne</servlet-name>
+        <servlet-class>Servlet.addToCartPerOne</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cartListServlet</servlet-name>
+        <servlet-class>Servlet.cartListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productMenuServlet</servlet-name>
+        <servlet-class>Servlet.productMenuServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateCartListQuantityServlet</servlet-name>
+        <servlet-class>Servlet.updateCartListQuantityServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewProductServlet</servlet-name>
+        <servlet-class>Servlet.viewProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StaffMaint</servlet-name>
         <url-pattern>/StaffMaint</url-pattern>
@@ -89,7 +113,31 @@
         <servlet-name>login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-        
+    <servlet-mapping>
+        <servlet-name>addToCartPerMore</servlet-name>
+        <url-pattern>/addToCartPerMore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addToCartPerOne</servlet-name>
+        <url-pattern>/addToCartPerOne</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cartListServlet</servlet-name>
+        <url-pattern>/cartListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productMenuServlet</servlet-name>
+        <url-pattern>/productMenuServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateCartListQuantityServlet</servlet-name>
+        <url-pattern>/updateCartListQuantityServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewProductServlet</servlet-name>
+        <url-pattern>/viewProductServlet</url-pattern>
+    </servlet-mapping>
+    
     <!--image servlet-->
     <servlet>
         <servlet-name>RetrieveImageServlet</servlet-name>
