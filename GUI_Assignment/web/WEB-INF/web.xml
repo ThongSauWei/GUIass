@@ -33,6 +33,10 @@
         <servlet-name>salesRecord</servlet-name>
         <servlet-class>Servlet.salesRecord</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>salesRecordMain</servlet-name>
+        <servlet-class>Servlet.salesRecordMain</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InitServlet</servlet-name>
         <url-pattern>/InitServlet</url-pattern>
@@ -156,6 +160,7 @@
         <servlet-name>salesRecord</servlet-name>
         <url-pattern>/salesRecord</url-pattern>
     </servlet-mapping>
+<<<<<<< Updated upstream
     <!--Create Discount Servlet-->
     <servlet>
         <servlet-name>DiscountCreateServlet</servlet-name>
@@ -218,6 +223,11 @@
     <servlet-mapping>
         <servlet-name>OrderHistoryServlet</servlet-name>
         <url-pattern>/OrderHistoryServlet</url-pattern>
+=======
+    <servlet-mapping>
+        <servlet-name>salesRecordMain</servlet-name>
+        <url-pattern>/salesRecordMain</url-pattern>
+>>>>>>> Stashed changes
     </servlet-mapping>
     <session-config>
         <session-timeout>
