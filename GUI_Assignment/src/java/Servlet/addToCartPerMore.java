@@ -42,7 +42,7 @@ public class addToCartPerMore extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -83,10 +83,6 @@ public class addToCartPerMore extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//        Member mem = new Member();
-////        mem=null;
-//        mem.setMemberId(2001);
-//        request.getSession().setAttribute("member", mem); 
         try {
             DBTable db = new DBTable();
             int ahrefProductId = Integer.parseInt(request.getParameter("hrefId"));
@@ -103,12 +99,12 @@ public class addToCartPerMore extends HttpServlet {
             Member member = (Member) session.getAttribute("member");
             int memberId = member.getMemberId();
 
-//        getMemberId
+            //getMemberId
             String sqlstmt = "SELECT * FROM CART Where MEMBER_ID=?";
             ArrayList<Object> list = new ArrayList();
             list.add(memberId);
             List<Cart> cart;
-//        getCartId
+            //getCartId
             cart = db.Cart.getData(new CartMapper(), list, sqlstmt);
             for (int i = 0; i < cart.size(); i++) {
                 Cart cartSearch = cart.get(i);

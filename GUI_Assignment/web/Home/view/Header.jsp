@@ -8,9 +8,9 @@
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Model.Member" %>
 <%
-    //Member mem = new Member(2000, "XIN JIE", "1234");
-    //session.setAttribute("member", mem);
-    session.setAttribute("staffLogin", "123");
+    Member mem = new Member(2000, "XIN JIE", "1234");
+    session.setAttribute("member", mem);
+    //session.setAttribute("staffLogin", "123");
 %>
 <jsp:useBean id="cart" class="Controller.HeaderController" scope="application"></jsp:useBean>
 <jsp:useBean id="member" class="Model.Member" scope="session"></jsp:useBean>

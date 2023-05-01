@@ -55,7 +55,7 @@
                 <div class="title-box">
                     <h4>VIEW MORE PRODUCT &nbsp; <i class="bi bi-arrow-right-square"></i></h4>
                 </div>
-                <a class="hover-box" href="/GUI_Assignment/productMenu/menu-list.jsp">
+                <a class="hover-box" href="/GUI_Assignment/productMenuServlet">
                     <h4>VIEW MORE</h4>
                 </a>
             </div>
