@@ -100,18 +100,18 @@ public class OrderHistoryServlet extends HttpServlet {
                 //turn error page
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
-                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
             } catch (Exception ex) {
                 //turn error page
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception Occurs");
                 request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
             }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            response.sendRedirect("/GUI_Assignment/index.jsp");
         } else {
             //turn to error page , reason - premission denied
-            request.getSession().setAttribute("UnexceptableError", "You Have No Permission To Access This Page");
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Permission Denied");
-            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
         }
     }
 

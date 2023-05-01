@@ -8,8 +8,9 @@
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Model.Member" %>
 <%
-    Member mem = new Member(2000, "XIN JIE", "1234");
-    session.setAttribute("member", mem);
+    //Member mem = new Member(2000, "XIN JIE", "1234");
+    //session.setAttribute("member", mem);
+    //session.setAttribute("staffLogin", "admin");
 %>
 <jsp:useBean id="cart" class="Controller.HeaderController" scope="application"></jsp:useBean>
 <jsp:useBean id="member" class="Model.Member" scope="session"></jsp:useBean>
@@ -41,9 +42,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/GUI_Assignment/productMenuServlet" id="menu">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/GUI_Assignment/DiscountCreateServlet" id="menu">Create</a>
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item">

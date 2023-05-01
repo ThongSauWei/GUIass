@@ -6,6 +6,7 @@ package Controller;
 import Model.*;
 import DataAccess.*;
 import DataAccess.Mapper.MemberMapper;
+import DataAccess.Mapper.OrdersMapper;
 import java.sql.SQLException;
 import java.util.*;
 import javax.servlet.http.*;
@@ -14,7 +15,7 @@ public class OrderHistoryController {
 
     DBTable db = new DBTable();
 
-    protected ArrayList<Member> filterList(HttpServletRequest request) throws SQLException {
+    protected ArrayList<Orders> filterList(HttpServletRequest request) throws SQLException {
 
         String memberID = request.getParameter("memberID") == null ? "" : request.getParameter("memberID");
         String city = request.getParameter("city") == null ? "" : request.getParameter("city");
@@ -51,6 +52,6 @@ public class OrderHistoryController {
             sqlQuery += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + state + "%' ";
         }
 
-        return db.Member.getData(new MemberMapper(), condition, sqlQuery);
+        return db.Orders.getData(new OrdersMapper(), condition, sqlQuery);
     }
 }

@@ -180,6 +180,15 @@
         <servlet-name>OrderHistoryServlet</servlet-name>
         <url-pattern>/OrderHistoryServlet</url-pattern>
     </servlet-mapping>
+    <!--Order History Detail Servlet-->
+    <servlet>
+        <servlet-name>HistoryDetailServlet</servlet-name>
+        <servlet-class>Servlet.HistoryDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryDetailServlet</servlet-name>
+        <url-pattern>/HistoryDetailServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

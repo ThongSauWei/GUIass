@@ -25,59 +25,64 @@ public class DiscountDisplayServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            //get product list for dropdown
-            ArrayList<Product> plist = getActiveProductList();
+        if (CheckPermission.permissionStaff(request) || CheckPermission.permissionAdmin(request)) {
+            try {
+                //get product list for dropdown
+                ArrayList<Product> plist = getActiveProductList();
 
-            //get discount list for display (need product name)
-            ArrayList<Discount> dlist = filterList(request);
-            String status = request.getParameter("status") == null ? "" : request.getParameter("status").trim();
+                //get discount list for display (need product name)
+                ArrayList<Discount> dlist = filterList(request);
+                String status = request.getParameter("status") == null ? "" : request.getParameter("status").trim();
 
-            ArrayList<DiscountDisplayModel> ddmList = new ArrayList<>();
-            Date currDate = new Date();
-            for (Discount d : dlist) {
-                DiscountDisplayModel ddm = new DiscountDisplayModel();
-                ddm.setDiscount(d);
+                ArrayList<DiscountDisplayModel> ddmList = new ArrayList<>();
+                Date currDate = new Date();
+                for (Discount d : dlist) {
+                    DiscountDisplayModel ddm = new DiscountDisplayModel();
+                    ddm.setDiscount(d);
 
-                //find status
-                if (d.getDiscountEndDate().before(currDate)) {
-                    //if end date smaller than now then will be inactive
-                    ddm.setStatus(STATUS_INVALID);
-                } else if (currDate.before(d.getDiscountStartDate())) {
-                    //if start date bigger than now set coming soon
-                    ddm.setStatus(STATUS_COMING_SOON);
-                } else {
-                    //start date >= now <= end date
-                    ddm.setStatus(STATUS_VALID);
+                    //find status
+                    if (d.getDiscountEndDate().before(currDate)) {
+                        //if end date smaller than now then will be inactive
+                        ddm.setStatus(STATUS_INVALID);
+                    } else if (currDate.before(d.getDiscountStartDate())) {
+                        //if start date bigger than now set coming soon
+                        ddm.setStatus(STATUS_COMING_SOON);
+                    } else {
+                        //start date >= now <= end date
+                        ddm.setStatus(STATUS_VALID);
+                    }
+
+                    Product p = checkProductActive(d.getProduct().getProductId());
+                    if (p.getProductActive() != '1') {
+                        ddm.setStatus(STATUS_INVALID);
+                    }
+
+                    ddm.setProduct(p);
+
+                    if (status.equals(ddm.getStatus()) || status.isEmpty()) {
+                        ddmList.add(ddm);
+                    }
+
                 }
 
-                Product p = checkProductActive(d.getProduct().getProductId());
-                if (p.getProductActive() != '1') {
-                    ddm.setStatus(STATUS_INVALID);
-                }
+                request.setAttribute("plist", plist);
+                request.setAttribute("ddmList", ddmList);
+                request.getRequestDispatcher("Discount/view/Display.jsp").forward(request, response);
 
-                ddm.setProduct(p);
-
-                if (status.equals(ddm.getStatus()) || status.isEmpty()) {
-                    ddmList.add(ddm);
-                }
-
+            } catch (SQLException ex) {
+                //turn error page
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+            } catch (ParseException ex) {
+                //turn error page
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
-
-            request.setAttribute("plist", plist);
-            request.setAttribute("ddmList", ddmList);
-            request.getRequestDispatcher("Discount/view/Display.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        } catch (ParseException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Error Occurs When Change Format Of Date");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
         }
     }
 
