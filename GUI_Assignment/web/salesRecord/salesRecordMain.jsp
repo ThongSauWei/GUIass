@@ -23,20 +23,6 @@
                         <div class="col col-2">Product Name</div>
                         <div class="col col-4">View</div>
                     </li>
-
-                    <%
-                        for (SalesRecord record : salesRecordList) {
-                    %>
-                    <li class="table-row">
-                        <div class="col col-1" data-label="productID"><%= record.getProductId()%></div>
-                        <div class="col col-2" data-label="productName"><%= record.getProductName()%></div>
-                        <div class="col col-4" data-label=base oi"View">
-                            <a href="/GUI_Assignment/salesRecord/salesRecord.jsp?recordId=<%= record.getId()%>" target=""><button class="view-button">View</button></a>
-                        </div>
-                    </li>
-                    <%
-                        }
-                    %>
                 </ul>
             </div>
         </form>
