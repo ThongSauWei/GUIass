@@ -103,7 +103,7 @@ public class HomeServlet extends HttpServlet {
             }
         } else {
             //turn to error page , reason - premission denied
-            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

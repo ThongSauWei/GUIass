@@ -84,10 +84,10 @@ public class MemMaint extends HttpServlet {
                 response.sendRedirect("/GUI_Assignment/admin/view/mem_list.jsp?search=" + search);
             }
         } else if (CheckPermission.permissionNoLogin(request)) {
-            response.sendRedirect("/GUI_Assignment/login/staffLogin.jsp");
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
         } else {
             //turn to error page , reason - premission denied
-            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

@@ -45,7 +45,7 @@ public class CheckPermission {
      * @return
      */
     public static boolean permissionStaff(HttpServletRequest request) {
-        return ((String) request.getSession().getAttribute("staffLogin")) != null && !((String) request.getSession().getAttribute("staffLogin")).isEmpty();
+        return ((String) request.getSession().getAttribute("staffLogin")) != null;
     }
 
     /**
