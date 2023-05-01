@@ -64,7 +64,7 @@ public class CheckPermission {
      * @return
      */
     public static boolean permissionAdmin(HttpServletRequest request) {
-        return ((String) request.getSession().getAttribute("staffLogin")) != null && ((String) request.getSession().getAttribute("staffLogin")).equals("admin");
+        return ((String) request.getSession().getAttribute("staffLogin")) == null ? false : ((String) request.getSession().getAttribute("staffLogin")).equals("admin");
     }
 
     /**
@@ -82,7 +82,7 @@ public class CheckPermission {
      * @return
      */
     public static boolean permissionNoLogin(HttpServletRequest request) {
-        return ((Member) request.getSession().getAttribute("member")).getMemberName() == null && ((String) request.getSession().getAttribute("staffLogin")) == null;
+        return (((Member) request.getSession().getAttribute("member")) == null || ((Member) request.getSession().getAttribute("member")).getMemberName() == null) && ((String) request.getSession().getAttribute("staffLogin")) == null;
     }
 
 }

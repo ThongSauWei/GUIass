@@ -35,13 +35,18 @@ public class DiscountDisplayServlet extends HttpServlet {
                 String status = request.getParameter("status") == null ? "" : request.getParameter("status").trim();
 
                 ArrayList<DiscountDisplayModel> ddmList = new ArrayList<>();
-                Date currDate = new Date();
+                Date date = new Date();
+                Date currDate = new Date(date.getYear(), date.getMonth(), date.getDate());
+                currDate.setHours(0);
+                currDate.setMinutes(0);
+                currDate.setSeconds(0);
+
                 for (Discount d : dlist) {
                     DiscountDisplayModel ddm = new DiscountDisplayModel();
                     ddm.setDiscount(d);
 
                     //find status
-                    if (d.getDiscountEndDate().before(currDate)) {
+                    if (d.getDiscountEndDate().before(currDate) && !d.getDiscountEndDate().equals(currDate)) {
                         //if end date smaller than now then will be inactive
                         ddm.setStatus(STATUS_INVALID);
                     } else if (currDate.before(d.getDiscountStartDate())) {
@@ -81,10 +86,10 @@ public class DiscountDisplayServlet extends HttpServlet {
                 request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
         } else if (CheckPermission.permissionNoLogin(request)) {
-            response.sendRedirect("/GUI_Assignment/login/staffLogin.jsp");
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
         } else {
             //turn to error page , reason - premission denied
-            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 
