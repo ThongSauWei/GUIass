@@ -8,6 +8,7 @@ import java.util.*;
 
 public class OrderHistoryModel {
 
+    private AddressBook address;
     private Orders orders;
     private ArrayList<ProductOrders> polist;
 
@@ -19,12 +20,20 @@ public class OrderHistoryModel {
         polist.add(po);
     }
 
+    public AddressBook getAddress() {
+        return address;
+    }
+
     public Orders getOrders() {
         return orders;
     }
 
     public ArrayList<ProductOrders> getPolist() {
         return polist;
+    }
+
+    public void setAddress(AddressBook address) {
+        this.address = address;
     }
 
     public void setOrders(Orders orders) {

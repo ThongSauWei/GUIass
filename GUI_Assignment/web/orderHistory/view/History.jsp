@@ -69,7 +69,7 @@
                                                         </div>
                                                     </td>
                                                     <td style="width: 150px;" class="text-end">
-                                                        <a href="/GUI_Assignment/orderHistory/view/HistoryDetail" class="btn btn-warning">VIEW MORE</a>
+                                                        <a href="/GUI_Assignment/HistoryDetailServlet?orderID=<%=ohm.getOrders().getOrdersId()%>" class="btn btn-warning">VIEW MORE</a>
                                                     </td>
                                                 </tr>
                                                 <tr class="table-active">
