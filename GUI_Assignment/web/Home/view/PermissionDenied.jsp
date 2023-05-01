@@ -10,6 +10,9 @@
     <head>
         <link rel="stylesheet" href="/GUI_Assignment/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
         <br><br><br>

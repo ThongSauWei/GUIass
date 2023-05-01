@@ -21,7 +21,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%= reportName%></title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 
 

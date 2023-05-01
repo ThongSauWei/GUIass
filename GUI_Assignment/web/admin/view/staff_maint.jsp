@@ -9,7 +9,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Staff Maintaint Page</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>

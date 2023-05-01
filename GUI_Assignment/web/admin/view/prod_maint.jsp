@@ -8,8 +8,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Product Maintaint Page</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <style>
             .form_wid{
                 max-width: 850px;

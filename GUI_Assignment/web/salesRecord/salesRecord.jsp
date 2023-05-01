@@ -12,7 +12,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Sales Record</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
         <h1>Sales Record</h1>

@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Report</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <style>
             .container {

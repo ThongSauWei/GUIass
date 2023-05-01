@@ -12,7 +12,9 @@
         <link href="/GUI_Assignment/login/staffLogin.css" rel="stylesheet" />
         <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Staff Login</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
 
     <body>
