@@ -4,6 +4,8 @@
     Author     : erika
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="Model.Product"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -14,7 +16,6 @@
         <title>Sales Record Main Page</title>
     </head>
     <body>
-        <form action="/GUI_Assignment/salesRecordMain" method="GET">
             <div class="container">
                 <h2>Sales Record Main Page</h2>
                 <ul class="responsive-table">
@@ -23,8 +24,26 @@
                         <div class="col col-2">Product Name</div>
                         <div class="col col-4">View</div>
                     </li>
+                    <% 
+                        List<Product> salesRecord = (List<Product>) request.getAttribute("SalesRecord");
+                        if (salesRecord == null || salesRecord.isEmpty()) {
+                    %>
+                        <li class="table-row">
+                            <div class="col col-12">No Record Found</div>
+                        </li>
+                    <% } else {
+                        for (Product product : salesRecord) {
+                    %>
+                    <li class="table-row">
+                        <div class="col col-1" data-label="productID"><%= product.getProductId()%></div>
+                        <div class="col col-2" data-label="productName"><%= product.getProductName()%></div>
+                        <div class="col col-4" data-label="View">
+                            <a href="/GUI_Assignment/salesRecord/salesRecord.jsp?recordId=<%= product.getProductId()%>" target=""><button class="view-button">View</button></a>
+                        </div>
+                    </li>
+                    <% } } %>
                 </ul>
+
             </div>
-        </form>
     </body>
 </html>

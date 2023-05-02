@@ -20,15 +20,15 @@
                     </div>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'mem_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Member</button>
-                    </div>
-                    <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
-                        <button onclick="window.location.href = 'order_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Order</button>
-                    </div>
+                    </div>        
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'report.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Report</button>
                     </div>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = '/GUI_Assignment/DiscountDisplayServlet'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Discount</button>
+                    </div>
+                    <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
+                        <button onclick="window.location.href = '/GUI_Assignment/salesRecordMain'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Sales Record</button>
                     </div>
                     <div class="col-md-4 col-lg-4 mb-4 d-flex justify-content-center" style="margin:auto;">
                         <button onclick="window.location.href = '/GUI_Assignment/logout'" class="btn btn-danger btn-lg rounded-lg w-100 h-100">Logout</button>

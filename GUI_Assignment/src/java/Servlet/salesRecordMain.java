@@ -64,17 +64,25 @@ public class salesRecordMain extends HttpServlet {
             throws ServletException, IOException {
         try {
             DBTable data = new DBTable();
-            String sql = "SELECT PRODUCT_ID, PRODUCT_NAME FROM Product WHERE PRODUCT_ACTIVE = ?";
+            String sql = "SELECT * FROM Product WHERE PRODUCT_ACTIVE = ?";
             ArrayList<Object> list = new ArrayList();
-            list.add(new Integer(1));
+            list.add('1');
             List<Product> salesRecordList = data.Product.getData(new ProductMapper(), list, sql);
-            request.setAttribute("SalesRecord", salesRecordList);
-            request.getRequestDispatcher("salesRecordMain.jsp").forward(request, response);
+
+            // check null or empty
+            if (salesRecordList == null || salesRecordList.size() == 0) {
+                request.setAttribute("SalesRecord", "No Record Found");
+            } else {
+                request.setAttribute("SalesRecord", salesRecordList);
+            }
+            
+            request.getRequestDispatcher("salesRecord/salesRecordMain.jsp").forward(request, response);
 
         } catch (SQLException ex) {
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
-
     }
 
     /**
