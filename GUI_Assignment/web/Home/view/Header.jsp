@@ -16,11 +16,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--add link for bootstrap, icon and -->
-        <link rel="stylesheet" href="/GUI_Assignment/css/bootstrap.css">
+        <link rel="stylesheet" href="/TestAss/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
         <!--change title and favicon-->
         <title>${companyName}</title>
-        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
+        <link rel="icon" href="/TestAss/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <body>
         <%--header--%>
@@ -33,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/GUI_Assignment/index.jsp" id="home">Home</a>
+                            <a class="nav-link" href="/TestAss/index.jsp" id="home">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/GUI_Assignment/productMenuServlet" id="menu">Menu</a>
@@ -45,7 +45,7 @@
                         <%}%>
                     </ul>
                     <!--search bar-->
-                    <form class="d-flex" action="/GUI_Assignment/SearchServlet" method="get">
+                    <form class="d-flex" action="/TestAss/SearchServlet" method="get">
                         <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Product">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
