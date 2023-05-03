@@ -89,7 +89,7 @@
         </style>
 
         <body>
-            
+
 
             <!-- checkout -->
             <main class="container">
@@ -117,7 +117,8 @@
 
                         <% for (MemberAddress m : memberA) {
                                 for (AddressBook b : addressB) {
-                                    if (m.getAddress().getAddressId() == b.getAddressId()) {%>
+                                    if (m != null & b != null) {
+                                        if (m.getAddress().getAddressId() == b.getAddressId()) {%>
                         <!-- shipping address -->
                         <div class="row">
                             <div class="col-xl-6 pb-5">
@@ -149,6 +150,7 @@
                         </div>
 
                         <% }
+                                    }
                                 }
                             }%>
 
@@ -286,6 +288,7 @@
                         <div id="displayCart" class="rounded">
 
                             <% for (PaymentModel cartItem : cartItems) {%>
+                            <% if (cartItem != null) {%>
                             <div class="row item">
                                 <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 25px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
                                 <div class="col-8" style="margin-left: 10px;">
@@ -298,11 +301,11 @@
 
                                     <% double originalPrice = cartItem.getProduct().getProductPrice();
                                         double discountedPrice = originalPrice;
-                                        if(discount1 != null && discount1.size() > 0){
-                                        for (Discount d : discount1) {
-                                            discountedPrice = discount.getPrice(originalPrice,
-                                                    d.getDiscountPercentage());
-                                        }
+                                        if (discount1 != null && discount1.size() > 0) {
+                                            for (Discount d : discount1) {
+                                                discountedPrice = discount.getPrice(originalPrice,
+                                                        d.getDiscountPercentage());
+                                            }
                                         }
                                         if (discountedPrice < originalPrice) {%>
 
@@ -318,7 +321,8 @@
                                 </div>
                             </div>
                             <% }%>
-                            
+                            <% }%>
+
                             <div class="amount" style="border-top: 1px solid hsl(0, 0%, 90%);">
 
                                 <div class="tax" style="margin-top: 10px;">

@@ -62,25 +62,25 @@
 
 
         <body>
-            
-            <%@include file="/Home/view/Header.jsp"%>
 
-            <div class="yy" style="margin-top: 100px;">
-                <div class="content">
-                    <div class="card-container">
+        <%@include file="/Home/view/Header.jsp"%>
+
+        <div class="yy" style="margin-top: 100px;">
+            <div class="content">
+                <div class="card-container">
 
 
-                        <div class="aa">
-                            <div class="shoe-image-wrapper">
-                                <div class="shoe-img" style="width: 20px;height: 20px;">
-                                    <img src="Payment/batman.png" alt="Nike shoe" class="shoe" />
-                                </div>
+                    <div class="aa">
+                        <div class="shoe-image-wrapper">
+                            <div class="shoe-img" style="width: 20px;height: 20px;">
+                                <img src="Payment/batman.png" alt="Nike shoe" class="shoe" />
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div id="checkOut">
+            <div id="checkOut">
 
                 <%-- Display error message if there is one --%>
                 <c:if test="${not empty errorMessage}">
@@ -144,6 +144,7 @@
                                         </thead>
                                         <tbody>
                                             <% for (PaymentModel cartItem : cartItems) {%>
+                                            <% if (cartItem != null) {%>
                                             <% int i = 0;%>
 
 
@@ -153,8 +154,10 @@
 
                                                 <% double originalPrice = cartItem.getProduct().getProductPrice();
                                                     double discountedPrice = originalPrice;
-                                                    for (Discount d : discount1) {
-                                                        discountedPrice = discount.getPrice(originalPrice, d.getDiscountPercentage());
+                                                    if (discount1 != null && discount1.size() > 0) {
+                                                        for (Discount d : discount1) {
+                                                            discountedPrice = discount.getPrice(originalPrice, d.getDiscountPercentage());
+                                                        }
                                                     }
                                                     if (discountedPrice < originalPrice) {%>
 
@@ -169,6 +172,7 @@
                                                 <td>RM <%= ttlPrice%></td>
                                             </tr>
                                             <% }%>
+                                            <% }%>
 
                                         </tbody>
                                         <tr style="color: rgba(242, 150, 147);">
@@ -176,14 +180,24 @@
                                             <td></td>
                                             <td></td>
                                             <td>Subtotal</td>
+                                            <%
+                                                Double grandTotal = (Double) session.getAttribute("grandTotal");
+                                            %>
+                                            <% if (grandTotal != null) {%>
                                             <td>RM <%= session.getAttribute("grandTotal")%></td>
+                                            <% }%>
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td>Tax</td>
+                                            <%
+                                                Double tax = (Double) session.getAttribute("tax");
+                                            %>
+                                            <% if (tax != null) {%>
                                             <td>RM <%= session.getAttribute("tax")%></td>
+                                            <% }%>
                                         </tr>
 
                                         <% if (shippingMethod.equals("expressShipping")) {%>
@@ -192,7 +206,12 @@
                                             <td></td>
                                             <td></td>
                                             <td>Shipping Charge</td>
+                                            <%
+                                                Double shippingC = (Double) session.getAttribute("shippingCharge");
+                                            %>
+                                            <% if (tax != null) {%>
                                             <td>RM <%= session.getAttribute("shippingCharge")%></td>
+                                            <% }%>
                                         </tr>
                                         <% } %>
 
@@ -226,13 +245,20 @@
                                             <td></td>
                                             <td></td>
                                             <td>Final Total</td>
+                                            <%
+                                                Double finalT = (Double) session.getAttribute("finalTotal");
+                                            %>
+                                            <% if (finalT != null) {%>
                                             <td>RM <%= session.getAttribute("finalTotal")%></td>
+                                            <% }%>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="panel-footer">
                                     <div class="row">
+                                        <% if (totalProduct1 != 0) {%>
                                         <div class="col col-sm-6 col-xs-6">total product - <b><%= totalProduct1%></b></div>
+                                        <% }%>
                                     </div>
                                 </div>
                             </div>

@@ -86,7 +86,10 @@ public class RateReviewServlet extends HttpServlet {
         ArrayList<Product> product;
         try {
             product = new DBTable().Product.getData(new ProductMapper(), params, sql);
-            request.setAttribute("product", product);
+
+            if (product != null) {
+                request.setAttribute("product", product);
+            }
 
             request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
         } catch (SQLException ex) {
@@ -114,9 +117,9 @@ public class RateReviewServlet extends HttpServlet {
         String rate = request.getParameter("rating");
 
         String errorMessage = null;
-        if (reviewText == null || reviewText.trim().isEmpty()) {
+        if (reviewText == null) {
             errorMessage = "Please write review.";
-        } else if (rate == null || rate.trim().isEmpty()) {
+        } else if (rate == null) {
             errorMessage = "Please give us a rating.";
         }
 
@@ -139,8 +142,10 @@ public class RateReviewServlet extends HttpServlet {
             ArrayList<Product> product;
             try {
                 product = new DBTable().Product.getData(new ProductMapper(), params, sql);
-                request.setAttribute("product", product);
 
+                if (product != null) {
+                    request.setAttribute("product", product);
+                }
             } catch (SQLException ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
@@ -152,6 +157,10 @@ public class RateReviewServlet extends HttpServlet {
         } else {
 //            int memberId = 2000;
             Member member = (Member) session.getAttribute("member");
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            }
             int memberId = member.getMemberId();
             Date rateDate = new Date();
             try {
@@ -166,9 +175,12 @@ public class RateReviewServlet extends HttpServlet {
                     String orderId = request.getParameter("orderId");
                     int oId = Integer.parseInt(orderId);
 
-                    p.addRateReview(reviewText, rating, rateDate, pId, memberId, oId);
+                    boolean success = p.addRateReview(reviewText, rating, rateDate, pId, memberId, oId);
 
-                    response.sendRedirect("index.jsp");
+                    if(success != false){
+                        response.sendRedirect("index.jsp");
+                    }
+                    
                 }
             } catch (SQLException ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
@@ -178,7 +190,7 @@ public class RateReviewServlet extends HttpServlet {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-            }
+            } 
         }
 
     }

@@ -30,14 +30,25 @@
     <body>
 
         <%@include file="/Home/view/Header.jsp"%>
-        
+
         <div class=content>
             <div class="wrapper-1">
                 <img class="product__image" src="blackpink.png">
                 <div class="wrapper-2">
                     <h1>Thank you !</h1>
+
+                    <%
+                        if (session.getAttribute("orderId") != null) {
+                            int orderId = (int) session.getAttribute("orderId");
+                    %>
+
                     <p>Thank you for your order, <strong>Order id - <span
-                                style="color: rgb(164, 94, 94);">${sessionScope.orderId}</span></strong></p>
+                                style="color: rgb(164, 94, 94);">${orderId}</span></strong></p>
+                            <%
+                                }
+                            %>
+
+
                     <p>~ Have a Nice Day ~ </p>
                     <button class="btn" onclick="location.href = 'index.jsp'">Back Home</button>
                     <button class="btn" style="margin-left: 10px;" onclick="location.href = '/TestAss/HistoryServlet'">View History</button>

@@ -101,23 +101,23 @@ public class AddAddressServlet extends HttpServlet {
         String errorMessage = null;
 
         // Validation checks
-        if (newAddressName == null || newAddressName.trim().isEmpty()) {
+        if (newAddressName == null) {
             errorMessage = "Please enter a valid address name.";
         } else if (!newAddressName.matches("^[a-zA-Z ]+$")) {
             errorMessage = "Address name can only contain letters and spaces.";
-        } else if (newAddressPhone == null || newAddressPhone.trim().isEmpty()) {
+        } else if (newAddressPhone == null) {
             errorMessage = "Please enter a valid phone number.";
         } else if (!newAddressPhone.matches("\\d{10}")) {
             errorMessage = "Phone number must be a 10-digit number.";
-        } else if (newAddressNo == null || newAddressNo.trim().isEmpty()) {
+        } else if (newAddressNo == null) {
             errorMessage = "Please enter a valid address number.";
-        } else if (newAddressStreet == null || newAddressStreet.trim().isEmpty()) {
+        } else if (newAddressStreet == null) {
             errorMessage = "Please enter a valid address street.";
-        } else if (newAddressCity == null || newAddressCity.trim().isEmpty()) {
+        } else if (newAddressCity == null) {
             errorMessage = "Please enter a valid address city.";
-        } else if (newAddressState == null || newAddressState.trim().isEmpty()) {
+        } else if (newAddressState == null) {
             errorMessage = "Please enter a valid address state.";
-        } else if (newAddressPostcode == null || newAddressPostcode.trim().isEmpty()) {
+        } else if (newAddressPostcode == null) {
             errorMessage = "Please enter a valid postcode.";
         } else if (!newAddressPostcode.matches("\\d{5}")) {
             errorMessage = "Postcode must be a 5-digit number.";
@@ -153,6 +153,11 @@ public class AddAddressServlet extends HttpServlet {
                     }
                 }
 
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("PaymentServlet");
+                    return;
+                }
+
                 if (addressExists) {
                     errorMessage = "This address already exists";
                 }
@@ -175,7 +180,14 @@ public class AddAddressServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
             int memberId = member.getMemberId();
-            retrieveMemberAddressesAndBooks(memberId, request);
+            
+            try {
+                retrieveMemberAddressesAndBooks(memberId, request);
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
 
             try {
                 returnPaymentDetails(request, session, memberId);
@@ -188,8 +200,17 @@ public class AddAddressServlet extends HttpServlet {
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("Payment_2.jsp").forward(request, response);
         } else {
-            int memberid = 2000;
-            retrieveMemberAddressesAndBooks(memberid, request);
+//            int memberid = 2000;
+            HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
+            int memberId = member.getMemberId();
+            try {
+                retrieveMemberAddressesAndBooks(memberId, request);
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
 
             PaymentController p = new PaymentController();
             try {
@@ -208,7 +229,13 @@ public class AddAddressServlet extends HttpServlet {
                         + "address_phone = ? AND address_no = ? AND address_street = ? AND address_city = ? AND"
                         + " address_state = ? AND address_postcode = ?").get(0);
 
-                p.addMemberAddress(a.getAddressId(), memberid);
+                boolean success = p.addMemberAddress(a.getAddressId(), memberId);
+
+                if (!success) {
+                    errorMessage = "Address added unsucessful !";
+                    request.setAttribute("errorMessage", errorMessage);
+                    request.getRequestDispatcher("Payment_2.jsp").forward(request, response);
+                }
 
             } catch (Exception ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());

@@ -34,16 +34,18 @@ public class PaymentServlet extends HttpServlet {
 
             int totalProducts = 0;
             for (Cartlist cartItem : cartList) {
-                totalProducts += cartItem.getCartQuantity();
-                ArrayList<Object> pcondition = new ArrayList<>();
-                pcondition.add(cartItem.getProduct().getProductId());
+                if (cartItem != null) {
+                    totalProducts += cartItem.getCartQuantity();
+                    ArrayList<Object> pcondition = new ArrayList<>();
+                    pcondition.add(cartItem.getProduct().getProductId());
 
-                DBTable db = new DBTable();
-                // Check if product has discount
-                List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+                    DBTable db = new DBTable();
+                    // Check if product has discount
+                    List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
 
-                if (!discountList.isEmpty()) {
-                    request.setAttribute("dlist", discountList);
+                    if (discountList.size() > 0) {
+                        request.setAttribute("dlist", discountList);
+                    }
                 }
             }
 
@@ -62,12 +64,14 @@ public class PaymentServlet extends HttpServlet {
             // calculate delivery fee
             double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
 
-            // calculate final total
-            // set attributes for displaying in JSP
-            session.setAttribute("totalProducts", totalProducts);
-            session.setAttribute("grandTotal", grandTotal);
-            session.setAttribute("tax", tax);
-            session.setAttribute("deliveryFee", deliveryFee);
+            if (grandTotal != 0.0 && tax != 0.0 && deliveryFee != 0.0) {
+                // calculate final total
+                // set attributes for displaying in JSP
+                session.setAttribute("totalProducts", totalProducts);
+                session.setAttribute("grandTotal", grandTotal);
+                session.setAttribute("tax", tax);
+                session.setAttribute("deliveryFee", deliveryFee);
+            }
         }
     }
 
@@ -84,19 +88,17 @@ public class PaymentServlet extends HttpServlet {
 
             Member member = new DBTable().Member.getData(new MemberMapper(), condition, "SELECT * FROM MEMBER WHERE member_id = ?").get(0);
 
-            if (mAddress == null) {
-                //no data found
-            } else {
+            if (mAddress != null) {
                 ArrayList<MemberAddress> mlist = db.MemberAddress.getData(new MemberAddressMapper(), memberId);
 
                 ArrayList<AddressBook> alist = new ArrayList<>();
 
                 for (MemberAddress memberlist : mlist) {
-                    AddressBook a = db.AddressBook.getData(new AddressBookMapper(), memberlist.getAddress().getAddressId()).get(0);
-                    if (a != null) {
-                        alist.add(a);
-                    } else {
-                        //no data found
+                    if (memberlist != null) {
+                        AddressBook a = db.AddressBook.getData(new AddressBookMapper(), memberlist.getAddress().getAddressId()).get(0);
+                        if (a != null) {
+                            alist.add(a);
+                        }
                     }
                 }
                 request.setAttribute("mlist", mlist);
@@ -126,6 +128,11 @@ public class PaymentServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
+        if (session == null || session.getAttribute("member") == null) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
         int memberId = member.getMemberId();
 
         try {
@@ -149,6 +156,10 @@ public class PaymentServlet extends HttpServlet {
         String errorMessage = null;
 
         Member member = (Member) session.getAttribute("member");
+        if (session == null || session.getAttribute("member") == null) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
         int memberId = member.getMemberId();
         try {
 
@@ -163,7 +174,7 @@ public class PaymentServlet extends HttpServlet {
 
                 String shippingAddress = request.getParameter("shippingAddress");
 
-                if (shippingAddress == null || shippingAddress.trim().isEmpty()) {
+                if (shippingAddress == null) {
                     errorMessage = "Please select a shipping address.";
                 } else {
                     session.setAttribute("sId", shippingAddress);
@@ -187,16 +198,15 @@ public class PaymentServlet extends HttpServlet {
         session.setAttribute("paymentMethod", paymentMethod);
         session.setAttribute("shippingMethod", shippingMethod);
 
-        if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
+        if (paymentMethod == null) {
             errorMessage = "Please select a payment method.";
-        } else if (shippingMethod == null || shippingMethod.trim().isEmpty()) {
+        } else if (shippingMethod == null) {
             errorMessage = "Please select a shipping method.";
         }
 
         // If there is an error, set an attribute and redirect to p.jsp
         if (errorMessage != null) {
             //get back the value(Payment.jsp)
-
             try {
                 retrieveMemberAddressesAndBooks(memberId, request);
                 returnPaymentDetails(request, session, memberId);

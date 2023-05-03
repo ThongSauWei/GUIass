@@ -47,6 +47,10 @@ public class PaymentMethodServlet extends HttpServlet {
             //int memberid = (int)session.getAttribute("memberid");
 //            int memberid = 2000;
             Member member = (Member) session.getAttribute("member");
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            }
             int memberId = member.getMemberId();
             if (memberId != 0) {
                 //return cartlist and productlist data(if they same - memberid)
@@ -78,16 +82,18 @@ public class PaymentMethodServlet extends HttpServlet {
                 ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
 
                 for (Cartlist cartItem : cartList) {
-                    totalProducts += cartItem.getCartQuantity();
-                    ArrayList<Object> pcondition = new ArrayList<>();
-                    pcondition.add(cartItem.getProduct().getProductId());
+                    if (cartItem != null) {
+                        totalProducts += cartItem.getCartQuantity();
+                        ArrayList<Object> pcondition = new ArrayList<>();
+                        pcondition.add(cartItem.getProduct().getProductId());
 
-                    DBTable db = new DBTable();
-                    // Check if product has discount
-                    List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+                        DBTable db = new DBTable();
+                        // Check if product has discount
+                        List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
 
-                    if (!discountList.isEmpty()) {
-                        request.setAttribute("dlist", discountList);
+                        if (discountList != null && discountList.size() > 0) {
+                            request.setAttribute("dlist", discountList);
+                        }
                     }
                 }
 
@@ -106,12 +112,14 @@ public class PaymentMethodServlet extends HttpServlet {
                 // calculate final total
                 double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
 
-                // set attributes for displaying in JSP
-                session.setAttribute("grandTotal", grandTotal);
-                session.setAttribute("tax", tax);
-                session.setAttribute("shippingCharge", shippingCharge);
-                session.setAttribute("deliveryFee", deliveryFee);
-                session.setAttribute("finalTotal", finalTotal);
+                if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
+                    // set attributes for displaying in JSP
+                    session.setAttribute("grandTotal", grandTotal);
+                    session.setAttribute("tax", tax);
+                    session.setAttribute("shippingCharge", shippingCharge);
+                    session.setAttribute("deliveryFee", deliveryFee);
+                    session.setAttribute("finalTotal", finalTotal);
+                }
             }
         } catch (SQLException ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
@@ -149,15 +157,15 @@ public class PaymentMethodServlet extends HttpServlet {
             String typeCard = request.getParameter("typeCard");
             String cardName = request.getParameter("cardName");
 
-            if (cardNumber == null || cardNumber.trim().isEmpty()) {
+            if (cardNumber == null) {
                 errorMessage = "Please enter a valid card number.";
             } else if (!cardNumber.matches("\\d{16}")) {
                 errorMessage = "Card number should be a 16-digit number.";
-            } else if (expirationDate == null || expirationDate.trim().isEmpty()) {
+            } else if (expirationDate == null) {
                 errorMessage = "Please enter a valid expiration date.";
-            } else if (typeCard == null || typeCard.trim().isEmpty()) {
+            } else if (typeCard == null) {
                 errorMessage = "Please enter a typeCard.";
-            } else if (cvv == null || cvv.trim().isEmpty()) {
+            } else if (cvv == null) {
                 errorMessage = "Please enter a valid CVV.";
             }
 
@@ -173,11 +181,11 @@ public class PaymentMethodServlet extends HttpServlet {
             String lastName = request.getParameter("lastName");
             String email = request.getParameter("email");
 
-            if (firstName == null || firstName.trim().isEmpty()) {
+            if (firstName == null) {
                 errorMessage = "Please enter a valid first name.";
-            } else if (lastName == null || lastName.trim().isEmpty()) {
+            } else if (lastName == null) {
                 errorMessage = "Please enter a valid last name.";
-            } else if (email == null || email.trim().isEmpty()) {
+            } else if (email == null) {
                 errorMessage = "Please enter a valid email.";
             } else if (!email.contains("@")) {
                 errorMessage = "Please enter a valid email address that contains '@'.";
@@ -198,7 +206,13 @@ public class PaymentMethodServlet extends HttpServlet {
             try {
 //                int memberid = 2000;
                 Member member = (Member) session.getAttribute("member");
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+
                 int memberId = member.getMemberId();
+
                 if (memberId != 0) {
                     //return cartlist and productlist data(if they same - memberid)
                     Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
@@ -209,7 +223,9 @@ public class PaymentMethodServlet extends HttpServlet {
 
                     int totalProducts = 0;
                     for (Cartlist cartItem : cartList) {
-                        totalProducts += cartItem.getCartQuantity();
+                        if (cartItem != null) {
+                            totalProducts += cartItem.getCartQuantity();
+                        }
                     }
 
                     request.setAttribute("totalProducts", totalProducts);
@@ -229,16 +245,18 @@ public class PaymentMethodServlet extends HttpServlet {
                     ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
 
                     for (Cartlist cartItem : cartList) {
-                        totalProducts += cartItem.getCartQuantity();
-                        ArrayList<Object> pcondition = new ArrayList<>();
-                        pcondition.add(cartItem.getProduct().getProductId());
+                        if (cartItem != null) {
+                            totalProducts += cartItem.getCartQuantity();
+                            ArrayList<Object> pcondition = new ArrayList<>();
+                            pcondition.add(cartItem.getProduct().getProductId());
 
-                        DBTable db = new DBTable();
-                        // Check if product has discount
-                        List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+                            DBTable db = new DBTable();
+                            // Check if product has discount
+                            List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
 
-                        if (!discountList.isEmpty()) {
-                            request.setAttribute("dlist", discountList);
+                            if (discountList.size() > 0) {
+                                request.setAttribute("dlist", discountList);
+                            }
                         }
                     }
 
@@ -257,11 +275,13 @@ public class PaymentMethodServlet extends HttpServlet {
                     // calculate final total
                     double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
 
-                    session.setAttribute("grandTotal", grandTotal);
-                    session.setAttribute("tax", tax);
-                    session.setAttribute("shippingCharge", shippingCharge);
-                    session.setAttribute("deliveryFee", deliveryFee);
-                    session.setAttribute("finalTotal", finalTotal);
+                    if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
+                        session.setAttribute("grandTotal", grandTotal);
+                        session.setAttribute("tax", tax);
+                        session.setAttribute("shippingCharge", shippingCharge);
+                        session.setAttribute("deliveryFee", deliveryFee);
+                        session.setAttribute("finalTotal", finalTotal);
+                    }
                 }
             } catch (SQLException ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());

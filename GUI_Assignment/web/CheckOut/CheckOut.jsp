@@ -58,17 +58,17 @@
         </head>
 
         <body>
-            <%@include file="/Home/view/Header.jsp"%>
-            
-            <div class="card" style="margin-top: 30px;">
-                <div class="row">
-                    <div class="col-md-8 cart">
-                        <div class="title">
-                            <div class="row">
-                                <div class="col">
-                                    <h4><b>Check Out Review</b></h4>
-                                </div>
-                                <div class="col align-self-center text-right text-muted"><%= totalProduct1%> items</div>
+        <%@include file="/Home/view/Header.jsp"%>
+
+        <div class="card" style="margin-top: 30px;">
+            <div class="row">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col">
+                                <h4><b>Check Out Review</b></h4>
+                            </div>
+                            <div class="col align-self-center text-right text-muted"><%= totalProduct1%> items</div>
                         </div>
                     </div>
 
@@ -88,6 +88,7 @@
                     </div>
 
                     <% for (PaymentModel cartItem : cartItems) {%>
+                    <% if (cartItem != null) {%>
                     <div class="row border-bottom">
                         <div class="row main align-items-center">
                             <div class="col-3"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>" width="100" height="100"></div>
@@ -111,6 +112,7 @@
                             <% } %>
                         </div>
                     </div>
+                    <% }%>
                     <% }%>
 
 

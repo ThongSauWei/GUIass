@@ -33,7 +33,7 @@
     </head>
 
     <body>
-        
+
         <%@include file="/Home/view/Header.jsp"%>
 
         <div id="container" style="box-shadow: 8px 10px 20px rgba(242, 150, 147);">
@@ -50,7 +50,9 @@
 
                 <!--  Product Name -->
                 <% for (Product p : productList) {%>
+                <% if (p != null) {%>
                 <h1 style="color: rgba(242, 150, 147);"><%= p.getProductName()%></h1>
+                <% }%>
                 <% }%>
 
                 <form action="RateReviewServlet" method="post">
@@ -58,9 +60,7 @@
                     <input type="hidden" name="productId" value="${requestScope.productID}">
 
                     <input type="hidden" name="orderId" value="${requestScope.orderID}">
-
-
-
+                    
                     <div class="stars">
                         <input class="star star-5" id="star-5" type="radio" name="rating" value="5" />
                         <label class="star star-5" for="star-5"></label>
@@ -94,10 +94,10 @@
 
                 </form>
 
-
             </div>
             <div class="product-image">
                 <% for (Product p : productList) {%>
+                <% if (p != null) {%>
 
                 <img src="RetrieveImageServlet?imageID=<%= p.getProductId()%>">
 
@@ -109,6 +109,7 @@
                         <li><strong>Price: </strong>RM <%= p.getProductPrice()%></li>
                     </ul>
                 </div>
+                <% }%>
                 <% }%>
             </div>
         </div>

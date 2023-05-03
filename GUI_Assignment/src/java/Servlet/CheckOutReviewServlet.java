@@ -80,6 +80,12 @@ public class CheckOutReviewServlet extends HttpServlet {
 //            int memberid = 2000;
             Member member = (Member) session.getAttribute("member");
             int memberId = member.getMemberId();
+
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            }
+
             if (memberId != 0) {
                 //return cartlist and productlist data(if they same - memberid)
                 Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
@@ -116,7 +122,7 @@ public class CheckOutReviewServlet extends HttpServlet {
                     // Check if product has discount
                     List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
 
-                    if (!discountList.isEmpty()) {
+                    if (discountList.size() > 0) {
                         request.setAttribute("dlist", discountList);
                     }
                 }
@@ -130,7 +136,7 @@ public class CheckOutReviewServlet extends HttpServlet {
                 // Check if product has discount
                 List<AddressBook> shipAddress = db.AddressBook.getData(new AddressBookMapper(), scondition, "SELECT * FROM ADDRESSBOOK WHERE address_id = ?");
 
-                if (!shipAddress.isEmpty()) {
+                if (shipAddress.size() > 0) {
                     request.setAttribute("slist", shipAddress);
                 }
 
@@ -191,6 +197,12 @@ public class CheckOutReviewServlet extends HttpServlet {
 //            int memberId = 2000;
             Member member = (Member) session.getAttribute("member");
             int memberId = member.getMemberId();
+
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            }
+
             if (memberId != 0) {
                 Date currentDate = new Date(); // Get the current date
 
@@ -248,31 +260,34 @@ public class CheckOutReviewServlet extends HttpServlet {
 
                     Orders o = new DBTable().Orders.getData(new OrdersMapper(), params, sql).get(0);
 
-                    //order id
-                    int orderId = o.getOrdersId();
-                    session.setAttribute("orderId", orderId);
+                    if (o != null) {
+                        //order id
+                        int orderId = o.getOrdersId();
+                        session.setAttribute("orderId", orderId);
 
-                    //get product detail
-                    Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
-                    ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) cartAndProductLists.get("cartList");
-                    ArrayList<Product> productList = (ArrayList<Product>) cartAndProductLists.get("productList");
+                        //get product detail
+                        Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
+                        ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) cartAndProductLists.get("cartList");
+                        ArrayList<Product> productList = (ArrayList<Product>) cartAndProductLists.get("productList");
 
-                    ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
+                        ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
 
-                    for (PaymentModel cartItem : cartItems) {
-                        int productId = cartItem.getProduct().getProductId();
-                        int ordersQuantity = cartItem.getCartQuantity();
+                        for (PaymentModel cartItem : cartItems) {
+                            int productId = cartItem.getProduct().getProductId();
+                            int ordersQuantity = cartItem.getCartQuantity();
 
-                        PaymentController payController = new PaymentController();
-                        double discountedPrice = payController.getDiscount(productList, productId);
+                            PaymentController payController = new PaymentController();
+                            double discountedPrice = payController.getDiscount(productList, productId);
 
-                        double subPrice = (discountedPrice * cartItem.getCartQuantity());
-                        boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+                            double subPrice = (discountedPrice * cartItem.getCartQuantity());
+                            boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
-                        if (checkO) {
-                            response.sendRedirect("CheckOut/ThankYou.jsp");
+                            if (checkO) {
+                                response.sendRedirect("CheckOut/ThankYou.jsp");
+                            }
                         }
                     }
+
                 }
 
             }
