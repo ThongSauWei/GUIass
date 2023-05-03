@@ -29,7 +29,7 @@
 
     <body>
 
-        <%@include file="/Home/view/Header.jsp"%>
+        <%@include file="../Home/view/Header.jsp"%>
 
         <div class=content>
             <div class="wrapper-1">
@@ -39,7 +39,7 @@
 
                     <%
                         if (session.getAttribute("orderId") != null) {
-                            int orderId = (int) session.getAttribute("orderId");
+                            int orderId = (Integer)session.getAttribute("orderId");
                     %>
 
                     <p>Thank you for your order, <strong>Order id - <span

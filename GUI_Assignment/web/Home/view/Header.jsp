@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Model.Member" %>
-<jsp:useBean id="carts" class="Controller.HeaderController" scope="application"></jsp:useBean>
+<jsp:useBean id="header" class="Controller.HeaderController" scope="application"></jsp:useBean>
 <jsp:useBean id="member" class="Model.Member" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +75,7 @@
                             <li class="nav-item d-flex">
                                 <a class="nav-link" href="/GUI_Assignment/cartListServlet">
                                     <i class="bi bi-cart" style="font-size: 25px"></i>
-                                    <span class="badge bg-danger rounded-pill"><%=carts.getUserCartlistQty(member.getMemberId())%></span>
+                                    <span class="badge bg-danger rounded-pill"><%=header.getUserCartlistQty(member.getMemberId())%></span>
                                 </a>
                             </li>
                         <%}%>

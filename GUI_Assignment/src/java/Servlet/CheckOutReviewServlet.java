@@ -35,6 +35,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "CheckOutReviewServlet", urlPatterns = {"/CheckOutReviewServlet"})
 public class CheckOutReviewServlet extends HttpServlet {
 
+    private DBTable db;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -171,7 +173,7 @@ public class CheckOutReviewServlet extends HttpServlet {
             response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
         } catch (Exception ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception");
             response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
         }
 
@@ -283,7 +285,22 @@ public class CheckOutReviewServlet extends HttpServlet {
                             boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
                             if (checkO) {
-                                response.sendRedirect("CheckOut/ThankYou.jsp");
+                                //clear cart
+                                String sqlQuery = "SELECT * "
+                                        + "FROM CART "
+                                        + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
+                                        + "WHERE CART.MEMBER_ID = ?";
+                                ArrayList<Object> condition = new ArrayList<>();
+                                condition.add(new Integer(memberId));
+
+                                ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
+                                if (clList != null && clList.size() > 0) {
+                                    for (Cartlist cl : clList) {
+                                        db.Cartlist.Delete(new CartlistMapper(), cl);
+                                    }
+                                }
+
+                                request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
                             }
                         }
                     }
@@ -308,4 +325,7 @@ public class CheckOutReviewServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public void init() throws ServletException {
+        this.db = new DBTable();
+    }
 }

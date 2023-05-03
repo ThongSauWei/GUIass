@@ -41,7 +41,7 @@
 
     <!DOCTYPE html>
     <html lang="en">
-
+        
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,15 +51,15 @@
 
 
             <link rel="stylesheet" href="css/bootstrap.css">
-            <link rel="stylesheet" href="css/CheckOut.css">
+            <link rel="stylesheet" href="/GUI_Assignment/css/CheckOut.css">
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+           
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         </head>
 
         <body>
+        
         <%@include file="/Home/view/Header.jsp"%>
-
         <div class="card" style="margin-top: 30px;">
             <div class="row">
                 <div class="col-md-8 cart">
@@ -100,9 +100,11 @@
                             </div>
                             <% double originalPrice = cartItem.getProduct().getProductPrice();
                                 double discountedPrice = originalPrice;
-                                for (Discount d : discount1) {
-                                    discountedPrice = discount.getPrice(originalPrice,
-                                            d.getDiscountPercentage());
+                                if(discount1 != null && discount1.size() > 0){
+                                    for (Discount d : discount1) {
+                                        discountedPrice = discount.getPrice(originalPrice,
+                                                d.getDiscountPercentage());
+                                    }
                                 }
                                 if (discountedPrice < originalPrice) {%>
                             <% double price = PaymentController.getDiscount(product, cartItem.getProduct().getProductId());%>

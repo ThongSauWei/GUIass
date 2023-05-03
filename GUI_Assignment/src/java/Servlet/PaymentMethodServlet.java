@@ -44,8 +44,6 @@ public class PaymentMethodServlet extends HttpServlet {
 
         try {
 
-            //int memberid = (int)session.getAttribute("memberid");
-//            int memberid = 2000;
             Member member = (Member) session.getAttribute("member");
             if (session == null || session.getAttribute("member") == null) {
                 response.sendRedirect("index.jsp");
