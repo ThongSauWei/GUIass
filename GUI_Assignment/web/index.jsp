@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/TestAss/Home/css/HomeStyle.css"/>
+        <link rel="stylesheet" href="/GUI_Assignment/Home/css/HomeStyle.css"/>
     </head>
     <body>
         <%--discount/ topsale/ check rating/ view more--%>
