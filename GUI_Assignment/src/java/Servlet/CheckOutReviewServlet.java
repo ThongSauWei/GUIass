@@ -145,8 +145,8 @@ public class CheckOutReviewServlet extends HttpServlet {
                 // get shipping method from session
                 String shippingMethod = (String) session.getAttribute("shippingMethod");
 
-                // calculate grand total (including any discounts)
-                double grandTotal = PaymentController.calculateGrandTotal(cart, product);
+                // calculate grand total
+                double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
 
                 // calculate tax
                 double tax = PaymentController.calculateTax(grandTotal);

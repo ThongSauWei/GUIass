@@ -242,33 +242,42 @@ public class PaymentController {
         throw new SQLException("Product not found in productList");
     }
 
-    public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product) throws SQLException {
+    public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product, DBTable db) throws SQLException {
         double grandTotal = 0.0;
 
         for (Cartlist c : cart) {
             for (Product p : product) {
                 if (c.getProduct().getProductId() == p.getProductId()) {
                     double originalPrice = p.getProductPrice();
-                    double discountedPrice = getDiscount(product, p.getProductId()); // get the discounted price - return price(not or have also return price~)
 
-                    double total = c.getCartQuantity() * discountedPrice;
-                    grandTotal += total;
+                    Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
+
+                    if (discount != null) {
+                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                        grandTotal += c.getCartQuantity() * discountedPrice;
+                    } else {
+                        grandTotal += c.getCartQuantity() * originalPrice;
+                    }
                 }
             }
         }
 
-        return grandTotal;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return Double.parseDouble(df.format(grandTotal));
     }
 
     public static double calculateTax(double grandTotal) {
-        return grandTotal * 0.06;
+//        return grandTotal * 0.06;
+        double tax = grandTotal * 0.06;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return Double.parseDouble(df.format(tax));
     }
 
     public static double calculateShippingCharge(String shippingMethod) {
-        double shippingCharge = 0.0;
+        double shippingCharge = 0.00;
 
         if (shippingMethod != null && shippingMethod.equals("expressShipping")) {
-            shippingCharge = 25.0;
+            shippingCharge = 25.00;
         }
 
         return shippingCharge;
@@ -276,7 +285,7 @@ public class PaymentController {
 
     public static double calculateFinalTotal(double grandTotal, double tax, double shippingCharge, double deliveryFee) {
         double finalTotal = grandTotal + tax + shippingCharge + deliveryFee;
-//        DecimalFormat df = new DecimalFormat("#.00");
+        finalTotal = Math.round(finalTotal * 100.0) / 100.0; // round to 2 decimal places
         return finalTotal;
     }
 
@@ -286,10 +295,10 @@ public class PaymentController {
     }
 
     public static double calculateDeliveryFee(double grandTotal) {
-        double delivery = 0.0;
+        double delivery = 0.00;
 
         if (grandTotal < 200) {
-            delivery = 25.0;
+            delivery = 25.00;
         }
 
         return delivery;

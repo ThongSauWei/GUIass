@@ -95,8 +95,9 @@ public class PaymentMethodServlet extends HttpServlet {
                     }
                 }
 
+                DBTable db = new DBTable();
                 // calculate grand total
-                double grandTotal = PaymentController.calculateGrandTotal(cart, product);
+                double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
 
                 // calculate tax
                 double tax = PaymentController.calculateTax(grandTotal);
@@ -258,8 +259,9 @@ public class PaymentMethodServlet extends HttpServlet {
                         }
                     }
 
+                    DBTable db = new DBTable();
                     // calculate grand total
-                    double grandTotal = PaymentController.calculateGrandTotal(cart, product);
+                    double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
 
                     // calculate tax
                     double tax = PaymentController.calculateTax(grandTotal);
