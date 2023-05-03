@@ -89,7 +89,7 @@
                                                     <h3><%=i%></h3>
                                                 </th>
                                                 <td class="align-middle">
-                                                    <img src="/TestAss/RetrieveImageServlet?imageID=<%=hs.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
+                                                    <img src="/GUI_Assignment/RetrieveImageServlet?imageID=<%=hs.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div>
@@ -109,7 +109,7 @@
                                                         <i class="bi bi-star-fill"></i> &nbsp; <%=hs.getRating() == -1 ? "NO RATING" : hs.getRating()%> <br>
                                                         <p>Already sold out &nbsp; <span class="badge rounded-pill bg-primary"><%=hs.getProductSold()%></span></p>
                                                         <div class="text-end w-100">
-                                                            <a class="btn btn-warning" href="/TestAss/viewProductServlet?id=<%=hs.getProduct().getProductId()%>&avgRating=<%=hs.getRating() == -1 ? 0.0 : hs.getRating()%>"> BUY </a>
+                                                            <a class="btn btn-warning" href="/GUI_Assignment/viewProductServlet?id=<%=hs.getProduct().getProductId()%>&avgRating=<%=hs.getRating() == -1 ? 0.0 : hs.getRating()%>"> BUY </a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -161,7 +161,7 @@
                                                     <small><%=Converter.convertDateToSimpleFormat(dp.getDiscount().getDiscountEndDate())%></small>
                                                 </th>
                                                 <td class="align-middle">
-                                                    <img src="/TestAss/RetrieveImageServlet?imageID=<%=dp.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
+                                                    <img src="/GUI_Assignment/RetrieveImageServlet?imageID=<%=dp.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div>
@@ -173,7 +173,7 @@
                                                             <%if(dp.getDiscount().getDiscountStartDate().compareTo(currDate) > 0){%>
                                                                 <button class="btn btn-info disabled">COMING SOON</button>
                                                             <%}else{%>
-                                                                <a class="btn btn-warning" href="/TestAss/viewProductServlet?id=<%=dp.getProduct().getProductId()%>&avgRating=<%=dp.getRating() == -1 ? 0.0 : dp.getRating()%>"> BUY </a>
+                                                                <a class="btn btn-warning" href="/GUI_Assignment/viewProductServlet?id=<%=dp.getProduct().getProductId()%>&avgRating=<%=dp.getRating() == -1 ? 0.0 : dp.getRating()%>"> BUY </a>
                                                             <%}%>
                                                         </div>
                                                     </div>
@@ -225,7 +225,7 @@
                                                 <tr class="table-active">
                                                     <th scope="row" class="align-middle"><%=i%></th>
                                                     <td class="align-middle">
-                                                        <img src="/TestAss/RetrieveImageServlet?imageID=<%=pnr.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
+                                                        <img src="/GUI_Assignment/RetrieveImageServlet?imageID=<%=pnr.getProduct().getImageTable().getImageId()%>" alt="Image not found" width="120px" height="120px"/>
                                                     </td>
                                                     <td class="text-start">
                                                         <div class="align-middle">
@@ -237,7 +237,7 @@
                                                             Orders Date : <%=Converter.convertDateToSimpleFormat(pnr.getOrdersDate())%>
                                                         </div>
                                                         <div class="text-end w-100 mt-2 mb-2">
-                                                            <a class="btn btn-warning" href="/TestAss/RateReviewServlet?productId=<%=pnr.getProduct().getProductId()%>&orderId=<%=pnr.getOrdersId()%>"> RATE NOW </a>
+                                                            <a class="btn btn-warning" href="/GUI_Assignment/RateReviewServlet?productId=<%=pnr.getProduct().getProductId()%>&orderId=<%=pnr.getOrdersId()%>"> RATE NOW </a>
                                                         </div>
                                                     </td>
                                                 </tr>
