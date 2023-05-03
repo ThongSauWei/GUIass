@@ -49,10 +49,7 @@
                         <button type="submit">Login</button>
                     </div>
                     <div>
-                        <div class="reg">
-                            <p>Don't have an account?</p>
-                            <a href="StaffLogin.jsp">Register as staff</a>
-                        </div>
+                        
                 </form>
             </div>
             <footer>

@@ -194,8 +194,8 @@
                                 </div>
                                 <div class="cart-item-purchasenow-container">
                                     <div class="cart-item-purchase m-3">
-                                        <button type="button" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</button>
-                                        <button type="button" class=" p-3 btn btn-danger"><i class="bi bi-coin"></i> Purchase Now</button>
+                                        <a href="/GUI_Assignment/index.jsp" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</a>
+                                        <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger" ><i class="bi bi-coin"></i> Purchase Now</a>
                                     </div>
                                 </div>
                                 </div>

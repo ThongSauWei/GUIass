@@ -42,6 +42,9 @@
         </div>
         <div class="myrow">
             <%if(member != null && member.getMemberName() != null){%>
+            <%
+                if (homeModel.getProductHaventRate() != null && homeModel.getProductHaventRate().size() > 0) {
+            %>
                 <div class="box">
                     <div class="title-box">
                         <h4>ORDERS HAVEN'T RATE</h4>
@@ -50,6 +53,7 @@
                         <h4>Click Me !!</h4>
                     </div>
                 </div>
+            <%}%>
             <%}%>
             <div class="box">
                 <div class="title-box">

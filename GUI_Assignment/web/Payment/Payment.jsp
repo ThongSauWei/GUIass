@@ -8,6 +8,8 @@
 <%@page import="Controller.PaymentController"%>
 <%@page import="Model.*"%>
 <%@page import="java.util.ArrayList"%>
+<!-- header -->
+<%@include file="../Home/view/Header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page language="java" %>
@@ -87,8 +89,7 @@
         </style>
 
         <body>
-            <!-- header -->
-            <%@include file="/Home/view/Header.jsp"%>
+            
 
             <!-- checkout -->
             <main class="container">
