@@ -38,7 +38,7 @@
                         <div class="col col-1" data-label="productID"><%= product.getProductId()%></div>
                         <div class="col col-2" data-label="productName"><%= product.getProductName()%></div>
                         <div class="col col-4" data-label="View">
-                            <a href="/GUI_Assignment/salesRecord/salesRecord.jsp?recordId=<%= product.getProductId()%>" target=""><button class="view-button">View</button></a>
+                            <a href="/GUI_Assignment/salesRecord?productId=<%=product.getProductId()%>" target=""><button class="view-button">View</button></a>
                         </div>
                     </li>
                     <% } } %>
