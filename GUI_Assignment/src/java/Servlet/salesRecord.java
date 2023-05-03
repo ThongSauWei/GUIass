@@ -6,7 +6,15 @@ package Servlet;
 
 import Controller.OrderListingController;
 import DataAccess.DBTable;
+import DataAccess.Mapper.AddressBookMapper;
+import DataAccess.Mapper.MemberMapper;
+import DataAccess.Mapper.OrderlistMapper;
 import DataAccess.Mapper.ProductMapper;
+import Model.AddressBook;
+import Model.Member;
+import Model.Orderlist;
+import Model.Orders;
+import Model.PageModel.ViewSaleRecordModel;
 import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,13 +37,14 @@ import javax.servlet.http.HttpSession;
  * @author erika
  */
 public class salesRecord extends HttpServlet {
-    
+
     private DBTable data;
-    
+
     @Override
     public void init() throws ServletException {
         this.data = new DBTable();
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -63,9 +72,60 @@ public class salesRecord extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("productId");
+        int pId = Integer.parseInt(productId);
+
+        ViewSaleRecordModel saleRecord = new ViewSaleRecordModel();
+        ArrayList<ViewSaleRecordModel.MemberDetail> mdList = new ArrayList<>();
+
+        String sql = "SELECT * FROM PRODUCT WHERE product_id = ? ";
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(pId);
+
+        try {
+            ArrayList<Product> product = new DBTable().Product.getData(new ProductMapper(), params, sql);
+            if (product.size() > 0) {
+
+                sql = "SELECT * FROM ORDERLIST WHERE product_id = ?";
+                params.add(pId);
+
+                ArrayList<Orderlist> orderlist = new DBTable().Orderlist.getData(new OrderlistMapper(), params, sql);
+                for (Orderlist o : orderlist) {
+                    ViewSaleRecordModel.MemberDetail md = saleRecord.new MemberDetail();
+                    sql = "SELECT * FROM MEMBER WHERE member_id = ?";
+                    params.add(o.getOrder());
+
+                    ArrayList<Member> member = new DBTable().Member.getData(new MemberMapper(), params, sql);
+                    if (member.size() > 0) {
+                        md.setMember(member.get(0));
+                    }
+
+
+                    ArrayList<AddressBook> addressBook = new DBTable().AddressBook.getData(new AddressBookMapper(), params, sql);
+                    if (addressBook.size() > 0) {
+                        md.setAddress(addressBook.get(0));
+                    }
+
+                    mdList.add(md);
+                }
+                saleRecord.setMdList(mdList);
+                request.setAttribute("saleRecord", saleRecord);
+                request.getRequestDispatcher("/GUI_Assignment/salesRecord/salesRecord.jsp").forward(request, response);
+            } else {
+                request.getSession().setAttribute("UnexceptableError", "Product not found");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "The requested product does not exist in the database");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
+        } catch (SQLException ex) {
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+        } catch (NumberFormatException ex) {
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid product ID");
+            request.getRequestDispatcher("/GUI_Assignment/Home/view/ErrorPage.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -86,8 +146,7 @@ public class salesRecord extends HttpServlet {
         String city = request.getParameter("city") == null ? "" : request.getParameter("city");
         String postcode = request.getParameter("city") == null ? "" : request.getParameter("postcode");
         String state = request.getParameter("state") == null ? "" : request.getParameter("state");
-        
-        
+
         String sql = "SELECT DISTINCT MEMBER., ORDERS.\n"
                 + "FROM PRODUCT\n"
                 + "INNER JOIN ORDERLIST ON PRODUCT.PRODUCT_ID = ORDERLIST.PRODUCT_ID\n"
@@ -99,24 +158,24 @@ public class salesRecord extends HttpServlet {
                 + "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%X%' \n"
                 + "AND ADDRESSBOOK.ADDRESS_POSTCODE LIKE '%x%'\n"
                 + "AND ADDRESSBOOK.ADDRESS_STATE LIKE '%x%'";
-        
+
         ArrayList<Object> condition = new ArrayList<>();
         condition.add(new Integer(memberID));
-        
-        if(!memberID.isEmpty()){
+
+        if (!memberID.isEmpty()) {
             sql += "AND MEMBER.MEMBER_ID = ?\n";
             condition.add(new Integer(Integer.parseInt(memberID)));
         }
-        if(!city.isEmpty()){
+        if (!city.isEmpty()) {
             sql += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + city + "%' \n";
         }
-        if(!postcode.isEmpty()){
+        if (!postcode.isEmpty()) {
             sql += "AND ADDRESSBOOK.ADDRESS_POSTCODE LIKE '%" + postcode + "%' \n";
         }
-        if(!state.isEmpty()){
+        if (!state.isEmpty()) {
             sql += "AND ADDRESSBOOK.ADDRESS_STATE LIKE '%" + state + "%' \n";
         }
-        
+
         return data.Product.getData(new ProductMapper(), condition, sql);
     }
 

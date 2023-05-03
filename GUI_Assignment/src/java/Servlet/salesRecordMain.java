@@ -75,12 +75,12 @@ public class salesRecordMain extends HttpServlet {
             } else {
                 request.setAttribute("SalesRecord", salesRecordList);
             }
-            
+
             request.getRequestDispatcher("salesRecord/salesRecordMain.jsp").forward(request, response);
 
         } catch (SQLException ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }

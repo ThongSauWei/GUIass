@@ -7,7 +7,11 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Controller.OrderListingController" %>
+<%@page import="java.util.*, Model.*, Model.PageModel.*, Utility.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    ArrayList<ViewSaleRecordModel> salesList = (ArrayList<ViewSaleRecordModel>) request.getAttribute("salesList");
+%>
 <!DOCTYPE html>
 <html class="en">
 
@@ -64,28 +68,7 @@
                         <div class="col col-3" data-label="quantity">1</div>
                         <div class="col col-4" data-label="subprice">20</div>
                         <div class="col col-5" data-label="MemAddress">Member Address</div>
-                    </li>
-                    <li class="table-row">
-                        <div class="col col-1" data-label="productID">42235</div>
-                        <div class="col col-2" data-label="productName">John Doe</div>
-                        <div class="col col-3" data-label="quantity">2</div>
-                        <div class="col col-4" data-label="subprice">20</div>
-                        <div class="col col-5" data-label="MemAddress">Member Address</div>
-                    </li>
-                    <li class="table-row">
-                        <div class="col col-1" data-label="productID">42235</div>
-                        <div class="col col-2" data-label="productName">John Doe</div>
-                        <div class="col col-3" data-label="quantity">3</div>
-                        <div class="col col-4" data-label="subprice">20</div>
-                        <div class="col col-5" data-label="MemAddress">Member Address</div>
-                    </li>
-                    <li class="table-row">
-                        <div class="col col-1" data-label="productID">42235</div>
-                        <div class="col col-2" data-label="productName">John Doe</div>
-                        <div class="col col-3" data-label="quantity">1</div>
-                        <div class="col col-4" data-label="subprice">20</div>
-                        <div class="col col-5" data-label="MemAddress">Member Address</div>
-                    </li>
+                    </li>  
                 </ul>
             </div>
         </form>
