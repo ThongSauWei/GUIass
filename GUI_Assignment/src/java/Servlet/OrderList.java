@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Utility.*;
 
 /**
  *
@@ -31,10 +32,12 @@ public class OrderList extends HttpServlet {
         List<HashMap<String, Object>> orders = OrderListingController.getOrdersForList(search);
 
         if (orders == null) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", "orders is null");
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             return;
         } else if (orders.isEmpty()) {
-            out.println("<td colspan=5>No Record.</td>");
+            out.println("<td colspan=7>No Record.</td>");
         }
         for (HashMap<String, Object> order : orders) {
             out.println("<tr>");
@@ -53,10 +56,19 @@ public class OrderList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+        if (CheckPermission.permissionStaff(request)) {
+            try {
+                processRequest(request, response);
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

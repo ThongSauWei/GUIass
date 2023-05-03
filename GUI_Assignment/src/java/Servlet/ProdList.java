@@ -14,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import Utility.*;
 
 /**
  *
@@ -25,11 +27,34 @@ public class ProdList extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+            String search = request.getParameter("search") == null ? null : request.getParameter("search");
+
+            HttpSession session = request.getSession();
+
+            if (search == null) {
+                search = session.getAttribute("search") != null ? (String) session.getAttribute("search") : "";
+            } else {
+                session.setAttribute("search", search);
+            }
+
             int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));
+
+            if (request.getParameter("status") == null) {
+                Integer history = (Integer) session.getAttribute("status");
+                if (history != null) {
+                    if (status != history) {
+                        status = history;
+                    }
+                }
+            } else {
+                session.setAttribute("status", status);
+            }
+
             ArrayList<Product> products = new prodController().getProds(search, status);
             if (products == null) {
-                response.sendRedirect("unexpected_error.jsp");
+                request.getSession().setAttribute("UnexceptableError", "products is null");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             } else if (products.isEmpty()) {
                 out.print("<td colspan=6>No Record.</td>");
             }
@@ -44,13 +69,22 @@ public class ProdList extends HttpServlet {
                 out.print("</tr>");
             }
         } catch (SQLException ex) {
-            response.sendRedirect("/GUI_Assignment/admin/view/unexpected_error.jsp");
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (CheckPermission.permissionStaff(request)) {
+            processRequest(request, response);
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
+        }
     }
 }

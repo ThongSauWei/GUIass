@@ -63,5 +63,6 @@
                 </tbody>
             </table>
         </div>
+        <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>

@@ -10,10 +10,12 @@
 
     <head>
         <meta charset="utf-8" />
-        <link href="/TestAss/login/login.css" rel="stylesheet" />
-        <link href="/TestAss/css/bootstrap.css" rel="stylesheet" />
+        <link href="/GUI_Assignment/login/login.css" rel="stylesheet" />
+        <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
 
     <body>
@@ -30,42 +32,41 @@
             %>
         </header>
 
-        <div class="container">
+        <div class="container" style="max-width:100% !important;" >
             <div class="login_box">
-                <form action="/TestAss/login" method="POST">
+                <form action="/GUI_Assignment/login" method="POST">
                     <h1>Login</h1>
                     <div class="input_box">
                         <input type="text" name="username" required="">
                         <label for="">User Name</label>
-                        <ion-icon class="icon " name="mail-outline"></ion-icon>
+                        <ion-icon class="icon " name="person-outline"></ion-icon>
                     </div>
                     <div class="input_box">
                         <input type="password" name="password" required="">
                         <label for="">Password</label>
                         <ion-icon class="icon" name="lock-closed-outline"></ion-icon>
                     </div>
-                    <div class="rem">
-                        <input id="chack" type="checkbox">
-                        <label for="chack">remember me</label>
-                        <a href="#">Forget Password</a>
-                    </div>
                     <div class="login">
                         <button>Log in</button>
                     </div>
                     <div>
                         <div class="reg">
-                            <p>don't have an account?</p>
+                            <p>Don't have an account?</p>
                             <a href="register.jsp">Registration</a>
+                        </div>
+                        <div class="reg" style="margin-top: 0px !important;">
+                            <p>Login as Staff?</p>
+                            <a href="satffLogin.jsp">Staff Login</a>
                         </div>
                 </form>
             </div>
         </div>
 
         <footer>
-
+           <%@include file="/Home/view/Footer.jsp"%> 
         </footer>
     </body>
-    
+    <%@include file="/Home/view/Footer.jsp"%>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </html>

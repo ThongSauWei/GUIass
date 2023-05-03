@@ -44,7 +44,7 @@
             <%if(member != null && member.getMemberName() != null){%>
                 <div class="box">
                     <div class="title-box">
-                        <h4>ORDERS HAVENT RATE</h4>
+                        <h4>ORDERS HAVEN'T RATE</h4>
                     </div>
                     <div class="hover-box" data-bs-toggle="modal" data-bs-target="#CHECK-RATING">
                         <h4>Click Me !!</h4>
@@ -55,7 +55,7 @@
                 <div class="title-box">
                     <h4>VIEW MORE PRODUCT &nbsp; <i class="bi bi-arrow-right-square"></i></h4>
                 </div>
-                <a class="hover-box" href="/TestAss/productMenu/menu-list.jsp">
+                <a class="hover-box" href="/GUI_Assignment/productMenuServlet">
                     <h4>VIEW MORE</h4>
                 </a>
             </div>

@@ -12,12 +12,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .container{
-    width: 100%;
+    max-width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("bp_lego.png");
+    background-image: url("bg2.jpg");
     background-size: cover;
 }
 

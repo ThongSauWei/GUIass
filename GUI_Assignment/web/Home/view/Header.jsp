@@ -36,11 +36,11 @@
                             <a class="nav-link" href="/TestAss/index.jsp" id="home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" id="menu">Menu</a>
+                            <a class="nav-link" href="/GUI_Assignment/productMenuServlet" id="menu">Menu</a>
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" id="history">Order History</a>
+                                <a class="nav-link" href="/GUI_Assignment/OrderHistoryServlet" id="history">Order History</a>
                             </li>
                         <%}%>
                     </ul>
@@ -61,18 +61,19 @@
                             <div class="dropdown-menu">
                                 <!-- check user login and display corresponding content -->
                                 <%if(member != null && member.getMemberName() != null){%>
-                                    <a class="dropdown-item" href="/TestAss/logout">Logout</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/logout">Logout</a>
                                 <%}%>
                                 <%if(member == null || member.getMemberName() == null){%>
                                     <!-- no login -->
-                                    <a class="dropdown-item" href="/TestAss/login/login.jsp">Login</a>
-                                    <a class="dropdown-item" href="/TestAss/login/register.jsp">Register</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/login.jsp">Login</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/register.jsp">Register</a>
+                                    <a class="dropdown-item" href="/GUI_Assignment/login/staffLogin.jsp">Staff Login</a>
                                 <%}%>
                             </div>
                         </li>
                         <%if(member != null && member.getMemberName() != null){%>
                             <li class="nav-item d-flex">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/GUI_Assignment/cartListServlet">
                                     <i class="bi bi-cart" style="font-size: 25px"></i>
                                     <span class="badge bg-danger rounded-pill"><%=cart.getUserCartlistQty(member.getMemberId())%></span>
                                 </a>

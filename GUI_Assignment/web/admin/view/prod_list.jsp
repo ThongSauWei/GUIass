@@ -1,15 +1,24 @@
-<%String search = request.getParameter("search") == null ? "" : request.getParameter("search");
-    int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));%>
+<%
+    String search = request.getParameter("search") == null ? session.getAttribute("search") != null ? (String) session.getAttribute("search") : "" : request.getParameter("search");
+    int status = request.getParameter("status") == null ? 1 : Integer.parseInt(request.getParameter("status"));
+    if (status == 1) {
+        Integer history = (Integer) session.getAttribute("status");
+        if (history != null) {
+            status = history;
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Product Listing</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
-
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <script src="../js/list_page_util.js" type="text/javascript"></script>
 
         <style>
@@ -79,5 +88,6 @@
                     </table>
                 </div>
             </div>
+            <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>

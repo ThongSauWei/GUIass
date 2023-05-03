@@ -10,70 +10,52 @@ import DataAccess.*;
 import DataAccess.Mapper.ProductMapper;
 import java.io.*;
 import java.util.*;
-import Utility.*;
-import java.text.ParseException;
 import java.sql.SQLException;
+import Utility.*;
 
 public class DiscountCreateServlet extends HttpServlet {
 
-    DBTable db = new DBTable();
+    private DBTable db = new DBTable();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            //get data
-            int productID = Integer.parseInt(request.getParameter("pdfDiscount"));
-            Date startDate = Converter.convertStringToUtilDate(request.getParameter("star"));
-            //check validate
-            String sqlQuery = "SELECT * FROM Product WHERE PRODUCT_ID = ? AND PRODUCT_ACTIVE = ?";
-            ArrayList<Object> condition = new ArrayList<>();
-            condition.add(new Integer(productID));
-        } catch (ParseException ex) {
-            //catch
+        if (CheckPermission.permissionStaff(request) || CheckPermission.permissionAdmin(request)) {
+            //clear success message
+            request.getSession().removeAttribute("DiscountSuccess");
+            try {
+                //get dropdown list
+                String plistQuery = "SELECT * FROM PRODUCT WHERE PRODUCT_ACTIVE = ?";
+                ArrayList<Object> condition = new ArrayList<>();
+                condition.add(new Character('1'));
+
+                ArrayList<Product> plist = db.Product.getData(new ProductMapper(), condition, plistQuery);
+
+                request.setAttribute("plist", plist);
+                request.getRequestDispatcher("Discount/view/Create.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                //turn error page
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            response.sendRedirect("/GUI_Assignment/login/staffLogin.jsp");
+        } else {
+            //turn to error page , reason - premission denied
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //post for form
+        processRequest(request, response);
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            //get dropdown list
-            String plistQuery = "SELECT * FROM PRODUCT WHERE PRODUCT_ACTIVE = ?";
-            ArrayList<Object> condition = new ArrayList<>();
-            condition.add(new Integer(1));
-
-            ArrayList<Product> plist = db.Product.getData(new ProductMapper(), condition, plistQuery);
-
-            //get unavaliable list
-            String ulistQuery = "SELECT * "
-                    + "FROM DISCOUNT "
-                    + "INNER JOIN PRODUCT ON DISCOUNT.PRODUCT_ID = PRODUCT.PRODUCT_ID "
-                    + "WHERE DISCOUNT.DISCOUNT_START_DATE <= ? AND DISCOUNT.DISCOUNT_END_DATE >= ?";
-            condition.clear();
-            Date currDate = new Date();
-            condition.add(currDate);
-            condition.add(currDate);
-
-            ArrayList<Product> invalidList = db.Product.getData(new ProductMapper(), condition, ulistQuery);
-
-            //error map
-            HashMap<String, String> errorMap = new HashMap<>();
-            errorMap.put("productIdError", "Product Have Already Be Discount, 1 Product Only Can Be Discount In 1 Times");
-
-            request.setAttribute("errorList", errorMap);
-            request.setAttribute("plist", plist);
-            request.setAttribute("invalidList", invalidList);
-            request.getRequestDispatcher("Discount/view/Create.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     @Override
