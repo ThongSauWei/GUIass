@@ -298,9 +298,11 @@
 
                                     <% double originalPrice = cartItem.getProduct().getProductPrice();
                                         double discountedPrice = originalPrice;
+                                        if(discount1 != null && discount1.size() > 0){
                                         for (Discount d : discount1) {
                                             discountedPrice = discount.getPrice(originalPrice,
                                                     d.getDiscountPercentage());
+                                        }
                                         }
                                         if (discountedPrice < originalPrice) {%>
 
