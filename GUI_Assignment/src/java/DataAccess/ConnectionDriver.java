@@ -7,9 +7,9 @@ import java.sql.*;
  */
 public class ConnectionDriver {
 
-    private static final String DATABASE = "jdbc:derby://localhost:1527/PracticalUse";
-    private static final String USER = "XINJIE";
-    private static final String PASSWORD = "1234";
+    private static final String DATABASE = "jdbc:derby://localhost:1527/GUI_Assignment";
+    private static final String USER = "G1";
+    private static final String PASSWORD = "G1";
 
     public static Connection connect() throws SQLException {
         Connection conn;
