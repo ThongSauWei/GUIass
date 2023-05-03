@@ -24,17 +24,13 @@ h2 {
     margin-top: 40px;
 }
 
-h2 small {
-    font-size: 0.5em;
-}
-
 button {
     background-color: #f29693;
     border: none;
     box-shadow: 1px 2px 6px rgba(0,0,0,0.7);
     margin-right: 90px;
     word-spacing: 1px;
-    padding: 0.65em 1.65em;
+    padding: 0.45em 1.65em;
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;

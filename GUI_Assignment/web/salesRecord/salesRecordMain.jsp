@@ -15,9 +15,11 @@
         <link href="/GUI_Assignment/salesRecord/salesRecordMain.css" rel="stylesheet" />
         <title>Sales Record Main Page</title>
     </head>
+    <br><br>
     <body>
             <div class="container">
                 <h2>Sales Record Main Page</h2>
+                <br>
                 <ul class="responsive-table">
                     <li class="table-header">
                         <div class="col col-1">Product ID</div>

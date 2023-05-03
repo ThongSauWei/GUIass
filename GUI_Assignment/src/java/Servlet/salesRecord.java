@@ -48,10 +48,15 @@ public class salesRecord extends HttpServlet {
 
         //open a model to handle data
         ViewSaleRecordModel saleRecord = new ViewSaleRecordModel();
+        int itemSold = 0;
+        double ttlPrice = 0;
+        
 
         try {
             if (productId != null && !productId.isEmpty()) {
                 int pId = Integer.parseInt(productId);
+                Product p = data.Product.getData(new ProductMapper(), pId).get(0);
+                saleRecord.setProduct(p);
 
                 //get filter list
                 ArrayList<Orders> olist = filterList(request);
@@ -77,6 +82,8 @@ public class salesRecord extends HttpServlet {
                         Orderlist ol = data.Orderlist.getData(new OrderlistMapper(), params, sqlQuery1).get(0);
 
                         md.setOrderlist(ol);
+                        itemSold += ol.getOrdersQuantity();
+                        ttlPrice += ol.getOrdersSubprice();
 
                         //get address
                         AddressBook ab = data.AddressBook.getData(new AddressBookMapper(), o.getAddress().getAddressId()).get(0);
@@ -85,9 +92,12 @@ public class salesRecord extends HttpServlet {
 
                         saleRecord.addMdList(md);
                     }
+                    
+                    saleRecord.setItemSold(itemSold);
+                    saleRecord.setTtlPrice(ttlPrice);
 
-                    request.setAttribute("saleRecord", saleRecord);
-                    request.getRequestDispatcher("/GUI_Assignment/salesRecord/salesRecord.jsp").forward(request, response);
+                    request.setAttribute("salesRecord", saleRecord);
+                    request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
                 }
 
             } else {
@@ -102,6 +112,10 @@ public class salesRecord extends HttpServlet {
         } catch (NumberFormatException ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
             request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid product ID");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+        }catch (Exception ex){
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted exception");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
@@ -140,7 +154,7 @@ public class salesRecord extends HttpServlet {
         String city = request.getParameter("city") == null ? "" : request.getParameter("city");
         String postcode = request.getParameter("postcode") == null ? "" : request.getParameter("postcode");
         String state = request.getParameter("state") == null ? "" : request.getParameter("state");
-        String productID = request.getParameter("productID") == null ? "" : request.getParameter("productID");
+        String productId = request.getParameter("productId") == null ? "" : request.getParameter("productId");
 
         String sqlQuery = "SELECT DISTINCT MEMBER.*, ORDERS.* "
                 + "FROM PRODUCT "
@@ -151,9 +165,9 @@ public class salesRecord extends HttpServlet {
                 + "WHERE PRODUCT.PRODUCT_ID = ? AND PRODUCT.PRODUCT_ACTIVE = ? ";
 
         ArrayList<Object> condition = new ArrayList<>();
-        condition.add(Integer.parseInt(productID));
+        condition.add(Integer.parseInt(productId));
         condition.add(new Character('1'));
-
+        
         if (!memberID.isEmpty()) {
             sqlQuery += "AND MEMBER.MEMBER_ID = ? ";
             condition.add(Integer.parseInt(memberID));
