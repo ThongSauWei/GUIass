@@ -114,6 +114,7 @@
                         <h2 class="section-heading">Shipping Address</h2>
                         <div class="line-1"></div>
 
+                        <%if(memberA != null && memberA.size() > 0){%>
                         <% for (MemberAddress m : memberA) {
                                 for (AddressBook b : addressB) {
                                     if (m != null & b != null) {
@@ -151,7 +152,7 @@
                         <% }
                                     }
                                 }
-                            }%>
+                            }}%>
 
                         <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
                                 data-bs-target="#addAddress" style="margin-left: 3px;">

@@ -33,8 +33,9 @@ public class PaymentServlet extends HttpServlet {
             request.setAttribute("plist", productList);
 
             int totalProducts = 0;
-            for (Cartlist cartItem : cartList) {
-                if (cartItem != null) {
+            if (cartList != null && cartList.size() > 0) {
+                for (Cartlist cartItem : cartList) {
+
                     totalProducts += cartItem.getCartQuantity();
                     ArrayList<Object> pcondition = new ArrayList<>();
                     pcondition.add(cartItem.getProduct().getProductId());
@@ -46,6 +47,7 @@ public class PaymentServlet extends HttpServlet {
                     if (discountList.size() > 0) {
                         request.setAttribute("dlist", discountList);
                     }
+
                 }
             }
 
@@ -84,12 +86,12 @@ public class PaymentServlet extends HttpServlet {
             //get Cart id
             ArrayList<Object> condition = new ArrayList<>();
             condition.add(new Integer(memberId));
-            MemberAddress mAddress = new DBTable().MemberAddress.getData(new MemberAddressMapper(), condition,
-                    "SELECT * FROM MEMBER_ADDRESS WHERE member_id = ?").get(0);
+            ArrayList<MemberAddress> mAddress = new DBTable().MemberAddress.getData(new MemberAddressMapper(), condition,
+                    "SELECT * FROM MEMBER_ADDRESS WHERE member_id = ?");
 
-            Member member = new DBTable().Member.getData(new MemberMapper(), condition, "SELECT * FROM MEMBER WHERE member_id = ?").get(0);
+            Member member = new DBTable().Member.getData(new MemberMapper(), memberId).get(0);
 
-            if (mAddress != null) {
+            if (mAddress != null && mAddress.size() > 0) {
                 ArrayList<MemberAddress> mlist = db.MemberAddress.getData(new MemberAddressMapper(), memberId);
 
                 ArrayList<AddressBook> alist = new ArrayList<>();
