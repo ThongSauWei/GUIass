@@ -42,7 +42,7 @@
 
     <!DOCTYPE html>
     <html lang="en">
-        
+
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,12 +54,12 @@
             <link rel="stylesheet" href="css/bootstrap.css">
             <link rel="stylesheet" href="/GUI_Assignment/css/CheckOut.css">
 
-           
+
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         </head>
 
         <body>
-        
+
         <%@include file="/Home/view/Header.jsp"%>
         <div class="card" style="margin-top: 30px;">
             <div class="row">
@@ -99,7 +99,7 @@
                             </div>
                             <% double originalPrice = cartItem.getProduct().getProductPrice();
                                 double discountedPrice = originalPrice;
-                                if(discount1 != null && discount1.size() > 0){
+                                if (discount1 != null && discount1.size() > 0) {
                                     for (Discount d : discount1) {
                                         discountedPrice = discount.getPrice(originalPrice,
                                                 d.getDiscountPercentage());
@@ -234,7 +234,14 @@
 
                     <div class="row" style="padding: 1vh 0;">
                         <div class="col">TOTAL PRICE</div>
+
+                        <%
+                            Double finalT = (Double) session.getAttribute("finalTotal");
+                        %>
+                        <% if (finalT != null) {%>
                         <div class="col text-right">RM <%= session.getAttribute("finalTotal")%></div>
+                        <% }%>
+
                     </div>
 
                     <form method="post" action="CheckOutReviewServlet">
