@@ -46,7 +46,7 @@
                     </ul>
                     <!--search bar-->
                     <form class="d-flex" action="/GUI_Assignment/SearchServlet" method="get">
-                        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Product">
+                        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Product" value="<%=request.getParameter("search") ==  null ? "" : request.getParameter("search")%>">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
                     &nbsp;&nbsp;&nbsp;&nbsp;
