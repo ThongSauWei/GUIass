@@ -163,7 +163,7 @@ public class CheckOutReviewServlet extends HttpServlet {
                 // calculate final total
                 double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
 
-                if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && finalTotal != 0.0) {
+                if (grandTotal != 0.0 && tax != 0.0 && finalTotal != 0.0) {
                     // set attributes for displaying in JSP
                     session.setAttribute("grandTotal", subTotal);
                     session.setAttribute("tax", tax);
