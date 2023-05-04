@@ -279,7 +279,7 @@ public class PaymentMethodServlet extends HttpServlet {
                     // calculate final total
                     double finalTotal = PaymentController.calculateFinalTotal(grandT, tax, shippingCharge, deliveryFee);
 
-                    if (grandT != 0.0 && tax != 0.0 && shippingCharge != 0.0 && finalTotal != 0.0) {
+                    if (grandT != 0.0 && tax != 0.0 && finalTotal != 0.0) {
                         session.setAttribute("grandTotal", subTotal);
                         session.setAttribute("tax", tax);
                         session.setAttribute("shippingCharge", shippingCharge);
