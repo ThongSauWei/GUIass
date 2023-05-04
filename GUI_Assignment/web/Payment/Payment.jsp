@@ -27,7 +27,7 @@
     ArrayList<AddressBook> aBook = (ArrayList<AddressBook>) request.getAttribute("addressBook");
 
     ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cart, product);
-    double deliveryFee = (Double) session.getAttribute("deliveryFee");
+    double deliveryFee = (Double) session.getAttribute("deliveryFee") == null ? 0.00 : (Double) session.getAttribute("deliveryFee");
 
     int totalProducts = (Integer) session.getAttribute("totalProducts");
 %>
@@ -286,9 +286,9 @@
                     <div class="product-card">
 
                         <div id="displayCart" class="rounded">
-
+                            <% if (cartItems != null && cartItems.size() > 0) {%>
                             <% for (PaymentModel cartItem : cartItems) {%>
-                            <% if (cartItem != null) {%>
+                            
                             <div class="row item">
                                 <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 15px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
                                 <div class="col-8" style="margin-left: 10px;">
