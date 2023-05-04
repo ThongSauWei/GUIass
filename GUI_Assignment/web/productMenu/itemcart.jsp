@@ -191,8 +191,8 @@
                     <div class="cart-item-total mt-3">
                         <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Sub Total :</span> RM <%=subTotal%></h3>
 
-                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=subTotal > 200 ? 0.00 :shippingTax%></h3>
-                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal > 200 ? subTotal : (subTotal + shippingTax)%></h3>
+                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=subTotal >= 200 ? "0.00" :shippingTax%></h3>
+                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal >= 200 ? subTotal : (subTotal + shippingTax)%></h3>
                                 </div>
                                 </div>
                                 <div class="cart-item-purchasenow-container">
