@@ -98,6 +98,8 @@ public class salesRecord extends HttpServlet {
 
                     request.setAttribute("salesRecord", saleRecord);
                     request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
                 }
 
             } else {

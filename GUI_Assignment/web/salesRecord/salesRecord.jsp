@@ -4,20 +4,13 @@
     Author     : erika
 --%>
 
-<%@page import="Servlet.salesRecord"%>
-<%@page import="Model.PageModel.ViewSaleRecordModel.MemberDetail"%>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.List" %>
-<%@ page import="Controller.OrderListingController" %>
-<%@page import="java.util.*, Model.*, Model.PageModel.*, Utility.*" %>
+<%@page import="java.util.*, Model.*, Model.PageModel.ViewSaleRecordModel, Utility.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     ViewSaleRecordModel salesRecord = (ViewSaleRecordModel) request.getAttribute("salesRecord");
 
 %>
 <!DOCTYPE html>
-
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="/GUI_Assignment/salesRecord/salesRecord.css" rel="stylesheet" />
@@ -74,23 +67,31 @@
                 <div class="col col-5">Member Address</div>
             </li>
             <% if (salesRecord != null) {%>
-            <%ArrayList<MemberDetail> mdList = salesRecord.getMdList();%>
-            <%if (mdList != null && mdList.size() > 0) {%>
-            <% for (MemberDetail md : mdList) {%>
+                <%ArrayList<ViewSaleRecordModel.MemberDetail> mdList = salesRecord.getMdList();%>
+                <%if (mdList != null && mdList.size() > 0) {%>
+                    <% for (ViewSaleRecordModel.MemberDetail md : mdList) {%>
+                        <li class="table-row">
+                            <div class="col col-1" data-label="productName"><%=salesRecord.getProduct().getProductName()%></div>
+                            <div class="col col-2" data-label="MemberID"><%=md.getMember().getMemberId()%></div>
+                            <div class="col col-3" data-label="quantity"><%=salesRecord.getItemSold()%></div>
+                            <div class="col col-4" data-label="subprice"><%=salesRecord.getTtlPrice()%></div>
+                            <div class="col col-5" data-label="MemAddress"><%=md == null ? "" : md.getAddress().getAddressNo()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressStreet()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressPostcode()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressState()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressCity()%></div>
+                        </li>
+                    <% }%>
+                <% }else{%>
+                    <li class="table-row">
+                        <div class="col col-12">No Record Found</div>
+                    </li>
+                <%}%>
+            <% } else {%>
             <li class="table-row">
-                <div class="col col-1" data-label="productName"><%=salesRecord.getProduct().getProductName()%></div>
-                <div class="col col-2" data-label="MemberID"><%=md.getMember().getMemberId()%></div>
-                <div class="col col-3" data-label="quantity"><%=salesRecord.getItemSold()%></div>
-                <div class="col col-4" data-label="subprice"><%=salesRecord.getTtlPrice()%></div>
-                <div class="col col-5" data-label="MemAddress"><%=md == null ? "" : md.getAddress().getAddressNo()%> 
-                    <%=md == null ? "" : md.getAddress().getAddressStreet()%> 
-                    <%=md == null ? "" : md.getAddress().getAddressPostcode()%> 
-                    <%=md == null ? "" : md.getAddress().getAddressState()%> 
-                    <%=md == null ? "" : md.getAddress().getAddressCity()%></div>
+                <div class="col col-12">No Record Found</div>
             </li>
-            <% }%>
-            <% }%>
-            <% }%>
+            <%}%>
         </ul>
     </div>
 </form>
