@@ -4,6 +4,7 @@
     Author     : Thong Sau Wei
 --%>
 
+<%@page import="Controller.DiscountController"%>
 <%@page import="Model.*"%>
 <%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
@@ -76,12 +77,10 @@
                         <div class="row main align-items-center">
                             <div class="col-3">Product Image</div>
                             <div class="col-5">
-                                <!-- <div class="row text-muted">Shirt</div> -->
                                 <div class="row">Name</div>
                             </div>
                             <div class="col">
                                 <div class="col">Qty</div>
-                                <!-- <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> -->
                             </div>
                             <div class="col">Price</div>
                         </div>
@@ -107,8 +106,7 @@
                                     }
                                 }
                                 if (discountedPrice < originalPrice) {%>
-                            <% double price = PaymentController.getDiscount(product, cartItem.getProduct().getProductId());%>
-                            <div class="col"><del>RM <%= cartItem.getProduct().getProductPrice()%></del><br> RM <%= price%></div>
+                            <div class="col"><del>RM <%= cartItem.getProduct().getProductPrice()%></del><br> RM <%= discountedPrice%></div>
                                 <% } else {%>
                             <div class="col">RM <%= cartItem.getProduct().getProductPrice()%></div>
                             <% } %>
@@ -116,7 +114,6 @@
                     </div>
                     <% }%>
                     <% }%>
-
 
 
                 </div>
@@ -139,8 +136,6 @@
                             }
                         %>
                     </div>
-
-
 
                     <form>
                         <%
@@ -241,8 +236,6 @@
                         <div class="col">TOTAL PRICE</div>
                         <div class="col text-right">RM <%= session.getAttribute("finalTotal")%></div>
                     </div>
-
-
 
                     <form method="post" action="CheckOutReviewServlet">
                         <button class="submit" id="btn">COMFIRM PAYMENT</button>

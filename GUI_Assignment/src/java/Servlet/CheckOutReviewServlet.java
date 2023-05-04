@@ -4,6 +4,7 @@
  */
 package Servlet;
 
+import Controller.DiscountController;
 import Controller.PaymentController;
 
 import DataAccess.DBTable;
@@ -275,32 +276,65 @@ public class CheckOutReviewServlet extends HttpServlet {
                         ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
 
                         for (PaymentModel cartItem : cartItems) {
-                            int productId = cartItem.getProduct().getProductId();
-                            int ordersQuantity = cartItem.getCartQuantity();
+                            if (cartItem != null) {
+                                int productId = cartItem.getProduct().getProductId();
+                                double originalPrice = cartItem.getProduct().getProductPrice();
+                                int ordersQuantity = cartItem.getCartQuantity();
 
-                            PaymentController payController = new PaymentController();
-                            double discountedPrice = payController.getDiscount(productList, productId);
+                                PaymentController payController = new PaymentController();
+//                            double discountedPrice = payController.getDiscount(productList, productId);
 
-                            double subPrice = (discountedPrice * cartItem.getCartQuantity());
-                            boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+                                Discount discount = DiscountController.getDiscount(db, productId);
 
-                            if (checkO) {
-                                //clear cart
-                                String sqlQuery = "SELECT * "
-                                        + "FROM CART "
-                                        + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
-                                        + "WHERE CART.MEMBER_ID = ?";
-                                ArrayList<Object> condition = new ArrayList<>();
-                                condition.add(new Integer(memberId));
+                                if (discount != null) {
+                                    double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                                    double subPrice = (discountedPrice * cartItem.getCartQuantity());
+                                    boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
-                                ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
-                                if (clList != null && clList.size() > 0) {
-                                    for (Cartlist cl : clList) {
-                                        db.Cartlist.Delete(new CartlistMapper(), cl);
+                                    if (checkO) {
+                                        //clear cart
+                                        String sqlQuery = "SELECT * "
+                                                + "FROM CART "
+                                                + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
+                                                + "WHERE CART.MEMBER_ID = ?";
+                                        ArrayList<Object> condition = new ArrayList<>();
+                                        condition.add(new Integer(memberId));
+
+                                        ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
+                                        if (clList != null && clList.size() > 0) {
+                                            for (Cartlist cl : clList) {
+                                                db.Cartlist.Delete(new CartlistMapper(), cl);
+                                            }
+                                        }
+
+                                        request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
+                                    }
+                                } else {
+                                    double subPrice = (originalPrice * cartItem.getCartQuantity());
+                                    boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+
+                                    if (checkO) {
+                                        //clear cart
+                                        String sqlQuery = "SELECT * "
+                                                + "FROM CART "
+                                                + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
+                                                + "WHERE CART.MEMBER_ID = ?";
+                                        ArrayList<Object> condition = new ArrayList<>();
+                                        condition.add(new Integer(memberId));
+
+                                        ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
+                                        if (clList != null && clList.size() > 0) {
+                                            for (Cartlist cl : clList) {
+                                                db.Cartlist.Delete(new CartlistMapper(), cl);
+                                            }
+                                        }
+
+                                        request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
                                     }
                                 }
 
-                                request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
+//                            double subPrice = (discountedPrice * cartItem.getCartQuantity());
+//                            boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
                             }
                         }
                     }

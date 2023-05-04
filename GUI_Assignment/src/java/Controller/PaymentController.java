@@ -206,41 +206,41 @@ public class PaymentController {
         return cartItems;
     }
 
-    public static double getDiscount(List<Product> productList, int productId) throws SQLException {
-        DBTable db = new DBTable();
-
-        ArrayList<Object> condition = new ArrayList<>();
-        condition.add(productId);
-
-        // Check if product has discount
-        List<Discount> discountList = db.Discount.getData(new DiscountMapper(), condition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
-
-        if (!discountList.isEmpty()) {
-            // Get product price from productList
-            for (Product product : productList) {
-                if (product.getProductId() == productId) {
-                    double originalPrice = product.getProductPrice();
-
-                    // Apply discount
-                    Discount discount = discountList.get(0);
-                    double discountAmount = discount.getDiscountPercentage();
-                    double discountedPrice = (originalPrice * discountAmount) / 100;
-
-                    return discountedPrice;
-                }
-            }
-        }
-
-        // If product has no discount, return original price
-        for (Product product : productList) {
-            if (product.getProductId() == productId) {
-                return product.getProductPrice();
-            }
-        }
-
-        // If product not found, throw exception
-        throw new SQLException("Product not found in productList");
-    }
+//    public static double getDiscount(List<Product> productList, int productId) throws SQLException {
+//        DBTable db = new DBTable();
+//
+//        ArrayList<Object> condition = new ArrayList<>();
+//        condition.add(productId);
+//
+//        // Check if product has discount
+//        List<Discount> discountList = db.Discount.getData(new DiscountMapper(), condition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+//
+//        if (!discountList.isEmpty()) {
+//            // Get product price from productList
+//            for (Product product : productList) {
+//                if (product.getProductId() == productId) {
+//                    double originalPrice = product.getProductPrice();
+//
+//                    // Apply discount
+//                    Discount discount = discountList.get(0);
+//                    double discountAmount = discount.getDiscountPercentage();
+//                    double discountedPrice = (originalPrice * discountAmount) / 100;
+//
+//                    return discountedPrice;
+//                }
+//            }
+//        }
+//
+//        // If product has no discount, return original price
+//        for (Product product : productList) {
+//            if (product.getProductId() == productId) {
+//                return product.getProductPrice();
+//            }
+//        }
+//
+//        // If product not found, throw exception
+//        throw new SQLException("Product not found in productList");
+//    }
 
     public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product, DBTable db) throws SQLException {
         double grandTotal = 0.0;

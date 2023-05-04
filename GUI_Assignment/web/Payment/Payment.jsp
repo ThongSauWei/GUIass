@@ -90,13 +90,12 @@
 
         <body>
 
-
-            <!-- checkout -->
+            <!-- payment -->
             <main class="container">
 
                 <h1 class="heading">
                     <img src="Payment/legocart.png" alt="money" width="55px" height="50px">
-                    Check Out Review
+                    Payment
                 </h1>
 
 
@@ -308,8 +307,6 @@
                                             }
                                         }
                                         if (discountedPrice < originalPrice) {%>
-
-
                                     <div class="row">
                                         <div class="col-6"><del style="margin-left: -10px;">RM <%= originalPrice%></del></div>
                                         <div class="col-6">RM <%= discountedPrice%></div>

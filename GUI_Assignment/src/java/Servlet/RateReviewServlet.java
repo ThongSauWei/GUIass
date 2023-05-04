@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -89,6 +90,17 @@ public class RateReviewServlet extends HttpServlet {
 
             if (product != null) {
                 request.setAttribute("product", product);
+            }
+
+            ArrayList<Object> pcondition = new ArrayList<>();
+            pcondition.add(pId);
+
+            DBTable db = new DBTable();
+            // Check if product has discount
+            List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+
+            if (discountList.size() > 0) {
+                request.setAttribute("dlist", discountList);
             }
 
             request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
@@ -177,10 +189,10 @@ public class RateReviewServlet extends HttpServlet {
 
                     boolean success = p.addRateReview(reviewText, rating, rateDate, pId, memberId, oId);
 
-                    if(success != false){
+                    if (success != false) {
                         response.sendRedirect("index.jsp");
                     }
-                    
+
                 }
             } catch (SQLException ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
@@ -190,7 +202,7 @@ public class RateReviewServlet extends HttpServlet {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-            } 
+            }
         }
 
     }

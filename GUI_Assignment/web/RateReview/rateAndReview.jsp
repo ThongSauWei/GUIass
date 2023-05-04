@@ -10,7 +10,9 @@
 <%
     ArrayList<Product> productList = (ArrayList<Product>) request.getAttribute("product");
     ArrayList<Orderlist> orderlist = (ArrayList<Orderlist>) request.getAttribute("orderlist");
+    ArrayList<Discount> discount1 = (ArrayList<Discount>) request.getAttribute("dlist");
 %>
+<jsp:useBean id="discount" class="Controller.DiscountController" scope="application"></jsp:useBean>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -60,7 +62,7 @@
                     <input type="hidden" name="productId" value="${requestScope.productID}">
 
                     <input type="hidden" name="orderId" value="${requestScope.orderID}">
-                    
+
                     <div class="stars">
                         <input class="star star-5" id="star-5" type="radio" name="rating" value="5" />
                         <label class="star star-5" for="star-5"></label>
@@ -106,7 +108,20 @@
                     <ul style="margin-left: 20px;">
                         <li><strong>Name : </strong><%= p.getProductName()%></li>
                         <li><strong>Description : </strong><%= p.getProductDesc()%></li>
+
+                        <% double originalPrice = p.getProductPrice();
+                            double discountedPrice = originalPrice;
+                            if (discount1 != null && discount1.size() > 0) {
+                                for (Discount d : discount1) {
+                                    discountedPrice = discount.getPrice(originalPrice,
+                                            d.getDiscountPercentage());
+                                }
+                            }
+                            if (discountedPrice < originalPrice) {%>
+                        <li><strong>Price: </strong><del>RM <%= p.getProductPrice()%></del>RM <%= discountedPrice%></li>
+                            <% } else {%>
                         <li><strong>Price: </strong>RM <%= p.getProductPrice()%></li>
+                            <% } %>
                     </ul>
                 </div>
                 <% }%>
