@@ -168,7 +168,7 @@
                                                 <% }%>
 
                                                 <td><%= cartItem.getCartQuantity()%></td>
-                                                <% double ttlPrice = discountedPrice * cartItem.getCartQuantity();%>
+                                                <% double ttlPrice =  Math.round(discountedPrice * cartItem.getCartQuantity() * 100)/100.0;%>
                                                 <td>RM <%= ttlPrice%></td>
                                             </tr>
                                             <% }%>
