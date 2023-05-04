@@ -290,7 +290,7 @@
                             <% for (PaymentModel cartItem : cartItems) {%>
                             <% if (cartItem != null) {%>
                             <div class="row item">
-                                <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 19px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
+                                <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 15px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
                                 <div class="col-8" style="margin-left: 10px;">
                                     <div class="row text-muted">
                                         <%= cartItem.getProduct().getProductName()%>

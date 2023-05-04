@@ -97,23 +97,25 @@ public class PaymentMethodServlet extends HttpServlet {
 
                 DBTable db = new DBTable();
                 // calculate grand total
-                double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
+                double grandT = PaymentController.calculateGrandTotal(cart, product, db);
 
                 // calculate tax
-                double tax = PaymentController.calculateTax(grandTotal);
+                double tax = PaymentController.calculateTax(grandT);
 
                 // calculate shipping charge
                 double shippingCharge = PaymentController.calculateShippingCharge(shippingMethod);
 
                 // calculate delivery fee
-                double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
+                double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
+                
+                double subTotal = grandT + tax + deliveryFee;
 
                 // calculate final total
-                double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
+                double finalTotal = PaymentController.calculateFinalTotal(grandT, tax, shippingCharge, deliveryFee);
 
-                if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
+                if (grandT != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
                     // set attributes for displaying in JSP
-                    session.setAttribute("grandTotal", grandTotal);
+                    session.setAttribute("grandTotal", subTotal);
                     session.setAttribute("tax", tax);
                     session.setAttribute("shippingCharge", shippingCharge);
                     session.setAttribute("deliveryFee", deliveryFee);
@@ -261,22 +263,24 @@ public class PaymentMethodServlet extends HttpServlet {
 
                     DBTable db = new DBTable();
                     // calculate grand total
-                    double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
+                    double grandT = PaymentController.calculateGrandTotal(cart, product, db);
 
                     // calculate tax
-                    double tax = PaymentController.calculateTax(grandTotal);
+                    double tax = PaymentController.calculateTax(grandT);
 
                     // calculate shipping charge
                     double shippingCharge = PaymentController.calculateShippingCharge(shippingMethod);
 
                     // calculate delivery fee
-                    double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
+                    double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
+                    
+                    double subTotal = grandT + tax + deliveryFee;
 
                     // calculate final total
-                    double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
+                    double finalTotal = PaymentController.calculateFinalTotal(grandT, tax, shippingCharge, deliveryFee);
 
-                    if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
-                        session.setAttribute("grandTotal", grandTotal);
+                    if (grandT != 0.0 && tax != 0.0 && shippingCharge != 0.0 && deliveryFee != 0.0 && finalTotal != 0.0) {
+                        session.setAttribute("grandTotal", subTotal);
                         session.setAttribute("tax", tax);
                         session.setAttribute("shippingCharge", shippingCharge);
                         session.setAttribute("deliveryFee", deliveryFee);

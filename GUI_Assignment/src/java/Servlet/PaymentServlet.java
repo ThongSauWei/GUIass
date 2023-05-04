@@ -59,19 +59,20 @@ public class PaymentServlet extends HttpServlet {
 
             DBTable db = new DBTable();
             // calculate grand total
-            double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
+            double grandT = PaymentController.calculateGrandTotal(cart, product, db);
 
             // calculate tax
-            double tax = PaymentController.calculateTax(grandTotal);
+            double tax = PaymentController.calculateTax(grandT);
 
             // calculate delivery fee
-            double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
+            double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
 
-            if (grandTotal != 0.0 && tax != 0.0 && deliveryFee != 0.0) {
+            if (grandT != 0.0 && tax != 0.0 && deliveryFee != 0.0) {
+                double subTotal = grandT + tax + deliveryFee;
                 // calculate final total
                 // set attributes for displaying in JSP
                 session.setAttribute("totalProducts", totalProducts);
-                session.setAttribute("grandTotal", grandTotal);
+                session.setAttribute("grandTotal", subTotal);
                 session.setAttribute("tax", tax);
                 session.setAttribute("deliveryFee", deliveryFee);
             }
