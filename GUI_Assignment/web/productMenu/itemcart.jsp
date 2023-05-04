@@ -173,7 +173,7 @@
                                     <i class="product-content-btn bi bi-plus-square-fill" onclick="openWindow('<%=product.get(i).getProductId()%>')"></i>
                                 </div>
                             </div>
-                            <% double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
+                                    <% double quantityAmountPrice = Math.round(cartList.get(i).getCartQuantity() * product.get(i).getProductPrice()* 100) / 100.0;
                                 subTotal += quantityAmountPrice;
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container">
