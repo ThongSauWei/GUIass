@@ -56,7 +56,7 @@
                         </div>
                         <div class="reg" style="margin-top: 0px !important;">
                             <p>Login as Staff?</p>
-                            <a href="staffLogin.jsp">Staff Login</a>
+                            <a href="/GUI_Assignment/login/staffLogin.jsp">Staff Login</a>
                         </div>
                 </form>
             </div>

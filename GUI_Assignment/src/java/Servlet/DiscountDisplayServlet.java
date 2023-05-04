@@ -21,7 +21,7 @@ public class DiscountDisplayServlet extends HttpServlet {
     private DBTable db;
     private final String STATUS_VALID = "VALID";
     private final String STATUS_INVALID = "INVALID";
-    private final String STATUS_COMING_SOON = "COMMING SOON";
+    private final String STATUS_COMING_SOON = "COMING SOON";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
