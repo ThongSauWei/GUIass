@@ -23,7 +23,7 @@
     <body>
         <%--discount/ topsale/ check rating/ view more--%>
         <div class="myrow">
-            <div class="box">
+            <div class="box box1">
                 <div class="title-box">
                     <h4>HOT SALES</h4>
                 </div>
@@ -31,7 +31,7 @@
                     <h4>Click Me !!</h4>
                 </button>
             </div>
-            <div class="box">
+            <div class="box box2">
                 <div class="title-box">
                     <h4>DISCOUNT</h4>
                 </div>
@@ -45,7 +45,7 @@
             <%
                 if (homeModel.getProductHaventRate() != null && homeModel.getProductHaventRate().size() > 0) {
             %>
-                <div class="box">
+                <div class="box box3">
                     <div class="title-box">
                         <h4>ORDERS HAVEN'T RATE</h4>
                     </div>
@@ -55,7 +55,7 @@
                 </div>
             <%}%>
             <%}%>
-            <div class="box">
+            <div class="box box4">
                 <div class="title-box">
                     <h4>VIEW MORE PRODUCT &nbsp; <i class="bi bi-arrow-right-square"></i></h4>
                 </div>
