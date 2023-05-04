@@ -87,7 +87,7 @@
                     </div>
 
                     <% for (PaymentModel cartItem : cartItems) {%>
-                    <% if (cartItem != null) {%>
+                    <% if (cartItem != null && cartItems.size() > 0) {%>
                     <div class="row border-bottom">
                         <div class="row main align-items-center">
                             <div class="col-3"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>" width="100" height="100"></div>

@@ -67,7 +67,7 @@ public class PaymentServlet extends HttpServlet {
             // calculate delivery fee
             double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
 
-            if (grandT != 0.0 && tax != 0.0 && deliveryFee != 0.0) {
+            if (grandT != 0.0 && tax != 0.0) {
                 double subTotal = grandT + tax + deliveryFee;
                 // calculate final total
                 // set attributes for displaying in JSP

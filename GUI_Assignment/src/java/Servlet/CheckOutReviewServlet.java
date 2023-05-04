@@ -157,18 +157,21 @@ public class CheckOutReviewServlet extends HttpServlet {
 
                 // calculate delivery fee
                 double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
-                
+
                 double subTotal = grandTotal + tax + deliveryFee;
 
                 // calculate final total
                 double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
 
-                // set attributes for displaying in JSP
-                session.setAttribute("grandTotal", subTotal);
-                session.setAttribute("tax", tax);
-                session.setAttribute("shippingCharge", shippingCharge);
-                session.setAttribute("deliveryFee", deliveryFee);
-                session.setAttribute("finalTotal", finalTotal);
+                if (grandTotal != 0.0 && tax != 0.0 && shippingCharge != 0.0 && finalTotal != 0.0) {
+                    // set attributes for displaying in JSP
+                    session.setAttribute("grandTotal", subTotal);
+                    session.setAttribute("tax", tax);
+                    session.setAttribute("shippingCharge", shippingCharge);
+                    session.setAttribute("deliveryFee", deliveryFee);
+                    session.setAttribute("finalTotal", finalTotal);
+                }
+
             }
         } catch (SQLException ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());

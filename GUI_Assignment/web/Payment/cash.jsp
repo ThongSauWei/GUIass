@@ -125,7 +125,7 @@
                                         </thead>
                                         <tbody>
                                             <% for (PaymentModel cartItem : cartItems) {%>
-                                            <% if (cartItem != null) {%>
+                                            <% if (cartItem != null && cartItems.size() > 0) {%>
                                             <% int i = 0;%>
                                             <tr>
                                                 <td><%= i + 1%></td>
