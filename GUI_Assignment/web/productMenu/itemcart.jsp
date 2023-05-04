@@ -46,16 +46,18 @@
                             <h5 class="pink-lego-text">Total (RM)</h5>
                         </div>
                     </div>
-                    <% ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) request.getAttribute("cartList");
+                    <% 
+                        ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) request.getAttribute("cartList");
                         ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("productList");
                         double subTotal = 0;
-                        double shippingTax = 0.00;%>
+                        double shippingTax = 0.00;
+                    %>
                     <% if (product == null || product.size() == 0) {
                             shippingTax = 0.00;
                     %>
                     <h3 class="p-3"><i class="bi bi-basket3-fill"></i> No Product Currently in Your Cart List Yet</h3> 
                     <%} else {
-                        shippingTax = 20.00;
+                        shippingTax = 25.00;
                     %>
 
                     <%
@@ -123,7 +125,8 @@
                                     <i class="product-content-btn bi bi-plus-square-fill" disabled></i>
                                 </div>
                             </div>
-                            <% double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
+                            <% 
+                                double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container product-cartList-false">
                                 <h3 class="pink-lego-text"><%=quantityAmountPrice%></h3>
@@ -188,8 +191,8 @@
                     <div class="cart-item-total mt-3">
                         <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Sub Total :</span> RM <%=subTotal%></h3>
 
-                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=shippingTax%></h3>
-                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal + shippingTax%></h3>
+                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=subTotal > 200 ? 0.00 :shippingTax%></h3>
+                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal > 200 ? subTotal : (subTotal + shippingTax)%></h3>
                                 </div>
                                 </div>
                                 <div class="cart-item-purchasenow-container">
