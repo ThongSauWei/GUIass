@@ -1,5 +1,6 @@
 package Servlet;
 
+import Controller.DiscountController;
 import Controller.PaymentController;
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -79,6 +81,21 @@ public class PaymentMethodServlet extends HttpServlet {
                 ArrayList<Cartlist> cart = (ArrayList<Cartlist>) request.getAttribute("clist");
                 ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
 
+                HashMap<Integer, Double> dlist = new HashMap<>();
+                for (Product p : product) {
+                    DBTable db = new DBTable();
+                    double originalPrice = p.getProductPrice();
+
+                    Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
+
+                    if (discount != null) {
+                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                        dlist.put(p.getProductId(), discountedPrice);
+
+                    }
+                }
+                session.setAttribute("productPrice", dlist);
+
                 for (Cartlist cartItem : cartList) {
                     if (cartItem != null) {
                         totalProducts += cartItem.getCartQuantity();
@@ -107,13 +124,12 @@ public class PaymentMethodServlet extends HttpServlet {
 
                 // calculate delivery fee
                 double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
-                
-                double subTotal = grandT + tax + deliveryFee;
 
                 // calculate final total
                 double finalTotal = PaymentController.calculateFinalTotal(grandT, tax, shippingCharge, deliveryFee);
 
-                if (grandT != 0.0 && tax != 0.0 && shippingCharge != 0.0 && finalTotal != 0.0) {
+                if (grandT != 0.0 && tax != 0.0 && finalTotal != 0.0) {
+                    double subTotal = grandT + tax + deliveryFee;
                     // set attributes for displaying in JSP
                     session.setAttribute("grandTotal", subTotal);
                     session.setAttribute("tax", tax);
@@ -273,7 +289,7 @@ public class PaymentMethodServlet extends HttpServlet {
 
                     // calculate delivery fee
                     double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
-                    
+
                     double subTotal = grandT + tax + deliveryFee;
 
                     // calculate final total

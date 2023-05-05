@@ -46,7 +46,7 @@ public class PaymentController {
     }
 
     public boolean addAddress(String name, String phone, String no, String street, String city, String state, String postcode) throws SQLException, Exception {
-        return dbTable.AddressBook.Add(new AddressBookMapper(), new AddressBook(name, phone, no, street, city, state, postcode));
+        return dbTable.AddressBook.Add(new AddressBookMapper(), new AddressBook(name, phone, no, street, state, city, postcode));
     }
 
     public boolean addOrder(Date ordersDate, String ordersPaymentType, double ordersTtlPrice, double ordersTax, double ordersDeliveryFee, double ordersExpressShipping, Member member, AddressBook address) throws SQLException, Exception {
@@ -241,7 +241,6 @@ public class PaymentController {
 //        // If product not found, throw exception
 //        throw new SQLException("Product not found in productList");
 //    }
-
     public static double calculateGrandTotal(ArrayList<Cartlist> cart, ArrayList<Product> product, DBTable db) throws SQLException {
         double grandTotal = 0.0;
 

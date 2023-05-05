@@ -1,5 +1,6 @@
 package Servlet;
 
+import Controller.DiscountController;
 import Controller.PaymentController;
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
@@ -55,6 +56,20 @@ public class PaymentServlet extends HttpServlet {
             ArrayList<Cartlist> cart = (ArrayList<Cartlist>) request.getAttribute("clist");
             ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
 
+            HashMap<Integer, Double> dlist = new HashMap<>();
+            for (Product p : product) {
+                DBTable db = new DBTable();
+                double originalPrice = p.getProductPrice();
+
+                Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
+
+                if (discount != null) {
+                    double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                    dlist.put(p.getProductId(), discountedPrice);
+
+                }
+            }
+            session.setAttribute("productPrice", dlist);
             session.setAttribute("totalProducts", totalProducts);
 
             DBTable db = new DBTable();

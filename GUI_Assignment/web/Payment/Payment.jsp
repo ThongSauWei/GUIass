@@ -6,7 +6,7 @@
 
 <%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
-<%@page import="Model.*"%>
+<%@page import="Model.*, java.util.*"%>
 <%@page import="java.util.ArrayList"%>
 <!-- header -->
 <%@include file="../Home/view/Header.jsp"%>
@@ -30,6 +30,7 @@
     double deliveryFee = (Double) session.getAttribute("deliveryFee") == null ? 0.00 : (Double) session.getAttribute("deliveryFee");
 
     int totalProducts = (Integer) session.getAttribute("totalProducts");
+    HashMap<Integer, Double> dlist = (HashMap<Integer, Double>) session.getAttribute("productPrice");
 %>
 
 <jsp:useBean id="discount" class="Controller.DiscountController" scope="application"></jsp:useBean>
@@ -114,7 +115,7 @@
                         <h2 class="section-heading">Shipping Address</h2>
                         <div class="line-1"></div>
 
-                        <%if(memberA != null && memberA.size() > 0){%>
+                        <%if (memberA != null && memberA.size() > 0) {%>
                         <% for (MemberAddress m : memberA) {
                                 for (AddressBook b : addressB) {
                                     if (m != null & b != null) {
@@ -150,9 +151,10 @@
                         </div>
 
                         <% }
+                                        }
                                     }
                                 }
-                            }}%>
+                            }%>
 
                         <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
                                 data-bs-target="#addAddress" style="margin-left: 3px;">
@@ -225,7 +227,7 @@
                                     aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="newAddressForm" method="post" action="AddAddressServlet" class="row g-3">
+                            <form id="newAddressForm" method="post" action="/GUI_Assignment/AddAddressServlet" class="row g-3">
                                 <div class="col-md-12">
                                     <label for="newAddressName" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="newAddressName"
@@ -288,7 +290,7 @@
                         <div id="displayCart" class="rounded">
                             <% if (cartItems != null && cartItems.size() > 0) {%>
                             <% for (PaymentModel cartItem : cartItems) {%>
-                            
+
                             <div class="row item">
                                 <div class="col-4 align-self-center" style="width: 90px; height: 70px;margin-bottom: 15px;"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>"></div>
                                 <div class="col-8" style="margin-left: 10px;">
@@ -299,23 +301,34 @@
                                         <%= cartItem.getCartQuantity()%>
                                     </div>
 
-                                    <% double originalPrice = cartItem.getProduct().getProductPrice();
-                                        double discountedPrice = originalPrice;
-                                        if (discount1 != null && discount1.size() > 0) {
-                                            for (Discount d : discount1) {
-                                                discountedPrice = discount.getPrice(originalPrice,
-                                                        d.getDiscountPercentage());
-                                            }
+                                    <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
+
+                                    <!-- possible cause error -->
+                                    
+                                    <% //double price = (Double) session.getAttribute("productPrice");
+                                        if (dlist != null && dlist.size() > 0) {%>
+                                        <%if(dlist.get(cartItem.getProduct().getProductId()) != null){%>
+                                            <div class="row">
+                                                <div class="col-6"><del style="margin-left: -10px;">RM <%= originalPrice%></del></div>
+                                                <div class="col-6">RM <%=dlist.get(cartItem.getProduct().getProductId())%></div>
+                                            </div>
+                                        <%}else{%>
+                                            <div class="row">RM <%=originalPrice%>
+                                            </div>
+                                        <%}%>
+                                    <%
+                                    } else {
+                                    %>
+
+                                    <div class="row">RM <%=originalPrice%>
+                                    </div>
+
+                                    <%
                                         }
-                                        if (discountedPrice < originalPrice) {%>
-                                    <div class="row">
-                                        <div class="col-6"><del style="margin-left: -10px;">RM <%= originalPrice%></del></div>
-                                        <div class="col-6">RM <%= discountedPrice%></div>
-                                    </div>
-                                    <% } else {%>
-                                    <div class="row">RM <%=cartItem.getProduct().getProductPrice()%>
-                                    </div>
-                                    <% } %>
+                                    %>
+
+
+
                                 </div>
                             </div>
                             <% }%>

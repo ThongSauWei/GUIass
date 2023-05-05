@@ -4,6 +4,7 @@
     Author     : Thong Sau Wei
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="Model.*"%>
 <%@page import="Model.PageModel.PaymentModel"%>
 <%@page import="Controller.PaymentController"%>
@@ -36,6 +37,7 @@
     //shipping address
     String sId = (String) session.getAttribute("sId");
     ArrayList<AddressBook> sA = (ArrayList<AddressBook>) request.getAttribute("slist");
+    HashMap<Integer, Double> dlist = (HashMap<Integer, Double>) session.getAttribute("productPrice");
 %>
 
 <jsp:useBean id="discount" class="Controller.DiscountController" scope="application"></jsp:useBean>
@@ -152,23 +154,40 @@
                                                 <td><%= i + 1%></td>
                                                 <td><%= cartItem.getProduct().getProductName()%></td>
 
-                                                <% double originalPrice = cartItem.getProduct().getProductPrice();
-                                                    double discountedPrice = originalPrice;
-                                                    if (discount1 != null && discount1.size() > 0) {
-                                                        for (Discount d : discount1) {
-                                                            discountedPrice = discount.getPrice(originalPrice, d.getDiscountPercentage());
-                                                        }
-                                                    }
-                                                    if (discountedPrice < originalPrice) {%>
+                                                <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
+
+                                                <%
+                                                    double price = originalPrice;
+                                                    if (dlist != null && dlist.size() > 0) {%>
+                                                <%if (dlist.get(cartItem.getProduct().getProductId()) != null) {
+                                                price = dlist.get(cartItem.getProduct().getProductId());
+                                                %>
+
 
                                                 <td><s>RM <%= originalPrice%>  </s>
-                                                    RM <%= discountedPrice%></td>
-                                                    <% } else {%>
-                                                <td>RM <%= discountedPrice%></td>
-                                                <% }%>
+                                                    RM <%=dlist.get(cartItem.getProduct().getProductId())%></td>
+
+
+                                                <%} else {
+                                                    price = originalPrice;%>
+
+                                                <td>RM <%=originalPrice%></td>
+
+                                                <%}%>
+                                                <%
+                                                } else {
+                                                    price = originalPrice;
+                                                %>
+
+                                                <td>RM <%=originalPrice%></td>
+                                                </div>
+
+                                                <%
+                                                    }
+                                                %>
 
                                                 <td><%= cartItem.getCartQuantity()%></td>
-                                                <% double ttlPrice =  Math.round(discountedPrice * cartItem.getCartQuantity() * 100)/100.0;%>
+                                                <% double ttlPrice = Math.round(price * cartItem.getCartQuantity() * 100) / 100.0;%>
                                                 <td>RM <%= ttlPrice%></td>
                                             </tr>
                                             <% }%>
@@ -176,18 +195,6 @@
 
                                         </tbody>
                                         <tr style="color: rgba(242, 150, 147);">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Subtotal</td>
-                                            <%
-                                                Double grandTotal = (Double) session.getAttribute("grandTotal");
-                                            %>
-                                            <% if (grandTotal != null) {%>
-                                            <td>RM <%= session.getAttribute("grandTotal")%></td>
-                                            <% }%>
-                                        </tr>
-                                        <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -199,22 +206,6 @@
                                             <td>RM <%= session.getAttribute("tax")%></td>
                                             <% }%>
                                         </tr>
-
-                                        <% if (shippingMethod.equals("expressShipping")) {%>
-                                        <tr style="color: rgba(242, 150, 147);">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Shipping Charge</td>
-                                            <%
-                                                Double shippingC = (Double) session.getAttribute("shippingCharge");
-                                            %>
-                                            <% if (tax != null) {%>
-                                            <td>RM <%= session.getAttribute("shippingCharge")%></td>
-                                            <% }%>
-                                        </tr>
-                                        <% } %>
-
 
                                         <%
                                             if (deliveryFee == 0.0) {
@@ -239,6 +230,38 @@
                                         <%
                                             }
                                         %>
+
+                                        <tr style="color: rgba(242, 150, 147);">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Subtotal</td>
+                                            <%
+                                                Double grandTotal = (Double) session.getAttribute("grandTotal");
+                                            %>
+                                            <% if (grandTotal != null) {%>
+                                            <td>RM <%= session.getAttribute("grandTotal")%></td>
+                                            <% }%>
+                                        </tr>
+
+
+                                        <% if (shippingMethod.equals("expressShipping")) {%>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Shipping Charge</td>
+                                            <%
+                                                Double shippingC = (Double) session.getAttribute("shippingCharge");
+                                            %>
+                                            <% if (tax != null) {%>
+                                            <td>RM <%= session.getAttribute("shippingCharge")%></td>
+                                            <% }%>
+                                        </tr>
+                                        <% } %>
+
+
+
 
                                         <tr style="color: rgba(242, 150, 147);">
                                             <td></td>

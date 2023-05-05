@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -115,6 +116,21 @@ public class CheckOutReviewServlet extends HttpServlet {
                 //calculate total something
                 ArrayList<Cartlist> cart = (ArrayList<Cartlist>) request.getAttribute("clist");
                 ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
+
+                HashMap<Integer, Double> dlist = new HashMap<>();
+                for (Product p : product) {
+                    DBTable db = new DBTable();
+                    double originalPrice = p.getProductPrice();
+
+                    Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
+
+                    if (discount != null) {
+                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                        dlist.put(p.getProductId(), discountedPrice);
+
+                    }
+                }
+                session.setAttribute("productPrice", dlist);
 
                 for (Cartlist cartItem : cartList) {
                     totalProducts += cartItem.getCartQuantity();

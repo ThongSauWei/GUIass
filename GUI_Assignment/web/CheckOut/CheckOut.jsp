@@ -4,6 +4,7 @@
     Author     : Thong Sau Wei
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="Controller.DiscountController"%>
 <%@page import="Model.*"%>
 <%@page import="Model.PageModel.PaymentModel"%>
@@ -33,6 +34,8 @@
     ArrayList<AddressBook> sA = (ArrayList<AddressBook>) request.getAttribute("slist");
 
     int totalProduct1 = (Integer) request.getAttribute("totalProducts");
+
+    HashMap<Integer, Double> dlist = (HashMap<Integer, Double>) session.getAttribute("productPrice");
 
 %>
 
@@ -97,161 +100,180 @@
                             <div class="col">
                                 <div class="col" style="margin-left: 12px;"><%= cartItem.getCartQuantity()%></div>
                             </div>
-                            <% double originalPrice = cartItem.getProduct().getProductPrice();
-                                double discountedPrice = originalPrice;
-                                if (discount1 != null && discount1.size() > 0) {
-                                    for (Discount d : discount1) {
-                                        discountedPrice = discount.getPrice(originalPrice,
-                                                d.getDiscountPercentage());
-                                    }
-                                }
-                                if (discountedPrice < originalPrice) {%>
-                            <div class="col"><del>RM <%= cartItem.getProduct().getProductPrice()%></del><br> RM <%= discountedPrice%></div>
-                                <% } else {%>
-                            <div class="col">RM <%= cartItem.getProduct().getProductPrice()%></div>
-                            <% } %>
+                            <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
+
+                            <%
+                                double price = originalPrice;
+                                if (dlist != null && dlist.size() > 0) {%>
+                            <%if (dlist.get(cartItem.getProduct().getProductId()) != null) {
+                                    price = dlist.get(cartItem.getProduct().getProductId());
+                            %>
+
+
+                            <div class="col"><del>RM <%= originalPrice%></del><br> RM <%=dlist.get(cartItem.getProduct().getProductId())%></div>
+
+                            <%} else {
+                                price = originalPrice;%>
+
+                            <div class="col">RM <%= originalPrice%></div>
+
+                            <%}%>
+                            <%
+                            } else {
+                                price = originalPrice;
+                            %>
+
+                            <div class="col">RM <%= originalPrice%></div>
                         </div>
+
+                        <%
+                            }
+                        %>
                     </div>
-                    <% }%>
-                    <% }%>
-
-
                 </div>
-                <div class="col-md-4 summary">
-                    <div>
-                        <h5><b>Summary</b></h5>
-                    </div>
-                    <hr>
-                    <div class="row" style="color: gray;">
-                        <div class="col" style="padding-left:0;">Payment Method</div>
-                        <%    if (paymentMethod.equals("creditCard")) {
-                        %>
-                        <div class="col text-right">Credit Card</div>
-                        <%
-                            }
-                            if (paymentMethod.equals("cash")) {
-                        %>
-                        <div class="col text-right">Cash</div>
-                        <%
-                            }
-                        %>
-                    </div>
-
-                    <form>
-                        <%
-                            String adName, adPhone, adNo, adStreet, adCity, adState, adPostcode;
-                            for (AddressBook ad : sA) {
-                                adName = ad.getAddressName();
-                                adPhone = ad.getAddressPhone();
-                                adNo = ad.getAddressNo();
-                                adStreet = ad.getAddressStreet();
-                                adCity = ad.getAddressCity();
-                                adState = ad.getAddressState();
-                                adPostcode = ad.getAddressPostcode();
-
-                        %>
+                <% }%>
+                <% }%>
 
 
-                        <p>SHIPPING ADDRESS</p>
-                        <textarea disabled style="width: 340px;height: 50px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
+            </div>
+            <div class="col-md-4 summary">
+                <div>
+                    <h5><b>Summary</b></h5>
+                </div>
+                <hr>
+                <div class="row" style="color: gray;">
+                    <div class="col" style="padding-left:0;">Payment Method</div>
+                    <%    if (paymentMethod.equals("creditCard")) {
+                    %>
+                    <div class="col text-right">Credit Card</div>
+                    <%
+                        }
+                        if (paymentMethod.equals("cash")) {
+                    %>
+                    <div class="col text-right">Cash</div>
+                    <%
+                        }
+                    %>
+                </div>
+
+                <form>
+                    <%
+                        String adName, adPhone, adNo, adStreet, adCity, adState, adPostcode;
+                        for (AddressBook ad : sA) {
+                            adName = ad.getAddressName();
+                            adPhone = ad.getAddressPhone();
+                            adNo = ad.getAddressNo();
+                            adStreet = ad.getAddressStreet();
+                            adCity = ad.getAddressCity();
+                            adState = ad.getAddressState();
+                            adPostcode = ad.getAddressPostcode();
+
+                    %>
 
 
-                        <%  }%>
+                    <p>SHIPPING ADDRESS</p>
+                    <textarea disabled style="width: 340px;height: 50px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
 
 
-                        <%
-                            if (paymentMethod.equals("creditCard")) {
-                        %>
+                    <%  }%>
 
-                        <p>TYPE OF CARD</p>
-                        <input type="text" placeholder="${typeCard}" disabled>
-
-                        <p>NAME</p>
-                        <input type="text" placeholder="${cardName}" disabled>
-
-                        <p>CARD NUMBER</p>
-                        <input type="text" placeholder="${cardNumber}" disabled>
-
-                        <p>EXPIRATION DATE</p>
-                        <input type="text" placeholder="${expirationDate}" disabled>
-
-                        <p>CVV</p>
-                        <input type="text" placeholder="${cvv}" disabled>
-
-                        <%
-                            }
-                            if (paymentMethod.equals("cash")) {
-                        %>
-
-                        <p>First Name</p>
-                        <input type="text" placeholder="${cashfirstName}" disabled>
-
-                        <p>Last Name</p>
-                        <input type="text" placeholder="${cashlastName}" disabled>
-
-                        <p>Email</p>
-                        <input type="text" placeholder="${cashemail}" disabled>
-
-                        <%
-                            }
-                        %>
-
-                    </form>
-                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
-                        <div class="col">SUBTOTAL</div>
-                        <div class="col text-right">RM <%= session.getAttribute("grandTotal")%></div>
-                    </div>
-
-                    <div class="row" style="padding: 1vh 0;">
-                        <div class="col">TAX</div>
-                        <div class="col text-right">RM <%= session.getAttribute("tax")%></div>
-                    </div>
-
-                    <% if (shippingMethod.equals("expressShipping")) {%>
-                    <div class="row" style="padding: 1vh 0;">
-                        <div class="col">SHIPPING CHARGE</div>
-                        <div class="col text-right">RM <%= session.getAttribute("shippingCharge")%></div>
-                    </div>
-                    <% } %>
 
                     <%
-                        if (dF == 0.0) {
+                        if (paymentMethod.equals("creditCard")) {
                     %>
-                    <div class="row" style="padding: 1vh 0;">
-                        <div class="col">DELIVERY FEE</div>
-                        <div class="col text-right">Free</div>
-                    </div>
+
+                    <p>TYPE OF CARD</p>
+                    <input type="text" placeholder="${typeCard}" disabled>
+
+                    <p>NAME</p>
+                    <input type="text" placeholder="${cardName}" disabled>
+
+                    <p>CARD NUMBER</p>
+                    <input type="text" placeholder="${cardNumber}" disabled>
+
+                    <p>EXPIRATION DATE</p>
+                    <input type="text" placeholder="${expirationDate}" disabled>
+
+                    <p>CVV</p>
+                    <input type="text" placeholder="${cvv}" disabled>
+
                     <%
-                    } else {
+                        }
+                        if (paymentMethod.equals("cash")) {
                     %>
-                    <div class="row" style="padding: 1vh 0;">
-                        <div class="col">DELIVERY FEE</div>
-                        <div class="col text-right">RM <%= dF%></div>
-                    </div>
+
+                    <p>First Name</p>
+                    <input type="text" placeholder="${cashfirstName}" disabled>
+
+                    <p>Last Name</p>
+                    <input type="text" placeholder="${cashlastName}" disabled>
+
+                    <p>Email</p>
+                    <input type="text" placeholder="${cashemail}" disabled>
+
                     <%
                         }
                     %>
 
-                    <div class="row" style="padding: 1vh 0;">
-                        <div class="col">TOTAL PRICE</div>
-
-                        <%
-                            Double finalT = (Double) session.getAttribute("finalTotal");
-                        %>
-                        <% if (finalT != null) {%>
-                        <div class="col text-right">RM <%= session.getAttribute("finalTotal")%></div>
-                        <% }%>
-
-                    </div>
-
-                    <form method="post" action="CheckOutReviewServlet">
-                        <button class="submit" id="btn">COMFIRM PAYMENT</button>
-                    </form>
+                </form>
+                <div class="row" style="padding: 1vh 0;">
+                    <div class="col">TAX</div>
+                    <div class="col text-right">RM <%= session.getAttribute("tax")%></div>
                 </div>
-            </div>
 
+                <%
+                    if (dF == 0.0) {
+                %>
+                <div class="row" style="padding: 1vh 0;">
+                    <div class="col">DELIVERY FEE</div>
+                    <div class="col text-right">Free</div>
+                </div>
+                <%
+                } else {
+                %>
+                <div class="row" style="padding: 1vh 0;">
+                    <div class="col">DELIVERY FEE</div>
+                    <div class="col text-right">RM <%= dF%></div>
+                </div>
+                <%
+                    }
+                %>
+
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+                    <div class="col">SUBTOTAL</div>
+                    <div class="col text-right">RM <%= session.getAttribute("grandTotal")%></div>
+                </div>
+
+
+                <% if (shippingMethod.equals("expressShipping")) {%>
+                <div class="row" style="padding: 1vh 0;">
+                    <div class="col">SHIPPING CHARGE</div>
+                    <div class="col text-right">RM <%= session.getAttribute("shippingCharge")%></div>
+                </div>
+                <% } %>
+
+
+
+                <div class="row" style="padding: 1vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+
+                    <%
+                        Double finalT = (Double) session.getAttribute("finalTotal");
+                    %>
+                    <% if (finalT != null) {%>
+                    <div class="col text-right">RM <%= session.getAttribute("finalTotal")%></div>
+                    <% }%>
+
+                </div>
+
+                <form method="post" action="CheckOutReviewServlet">
+                    <button class="submit" id="btn">COMFIRM PAYMENT</button>
+                </form>
+            </div>
         </div>
-    </body>
+
+    </div>
+</body>
 
 
 </html>

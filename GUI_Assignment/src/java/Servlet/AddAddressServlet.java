@@ -33,7 +33,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Acer
  */
-@WebServlet(name = "addAddress", urlPatterns = {"/addAddress"})
+@WebServlet(name = "AddAddressServlet", urlPatterns = {"/AddAddressServlet"})
 public class AddAddressServlet extends HttpServlet {
 
     /**
@@ -154,7 +154,7 @@ public class AddAddressServlet extends HttpServlet {
                 }
 
                 if (session == null || session.getAttribute("member") == null) {
-                    response.sendRedirect("PaymentServlet");
+                    response.sendRedirect("/GUI_Assignment/PaymentServlet");
                     return;
                 }
 
@@ -180,7 +180,7 @@ public class AddAddressServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
             int memberId = member.getMemberId();
-            
+
             try {
                 retrieveMemberAddressesAndBooks(memberId, request);
             } catch (SQLException ex) {
@@ -198,7 +198,7 @@ public class AddAddressServlet extends HttpServlet {
             }
 
             request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("Payment_2.jsp").forward(request, response);
+            request.getRequestDispatcher("Payment/Payment.jsp").forward(request, response);
         } else {
 //            int memberid = 2000;
             HttpSession session = request.getSession();
@@ -224,27 +224,22 @@ public class AddAddressServlet extends HttpServlet {
                 condition.add(new String(newAddressState));
                 condition.add(new String(newAddressPostcode));
 
-                AddressBook a = new DBTable().AddressBook.getData(new AddressBookMapper(), condition,
+                ArrayList<AddressBook> a = new DBTable().AddressBook.getData(new AddressBookMapper(), condition,
                         "SELECT * FROM ADDRESSBOOK WHERE address_name = ? AND "
                         + "address_phone = ? AND address_no = ? AND address_street = ? AND address_city = ? AND"
-                        + " address_state = ? AND address_postcode = ?").get(0);
+                        + " address_state = ? AND address_postcode = ?");
 
-                boolean success = p.addMemberAddress(a.getAddressId(), memberId);
-
-                if (!success) {
-                    errorMessage = "Address added unsucessful !";
-                    request.setAttribute("errorMessage", errorMessage);
-                    request.getRequestDispatcher("Payment_2.jsp").forward(request, response);
+                if (a != null && a.size() > 0) {
+                    p.addMemberAddress(a.get(0).getAddressId(), memberId);
+                    response.sendRedirect("/GUI_Assignment/PaymentServlet");
                 }
 
             } catch (Exception ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-            response.sendRedirect("PaymentServlet");
         }
-
     }
 
     /**
