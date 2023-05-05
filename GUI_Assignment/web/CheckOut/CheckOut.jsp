@@ -153,7 +153,7 @@
                                 %>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Shipping Address</label>
-                                    <textarea disabled style="width: 340px;height: 50px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
+                                    <textarea disabled style="width: 440px;height: 70px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
                                 </div>
                                 <%  }%>
 
