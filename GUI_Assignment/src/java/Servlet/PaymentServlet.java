@@ -83,7 +83,7 @@ public class PaymentServlet extends HttpServlet {
             double deliveryFee = PaymentController.calculateDeliveryFee(grandT);
 
             if (grandT != 0.0 && tax != 0.0) {
-                double subTotal = grandT + tax + deliveryFee;
+                double subTotal = Math.round((grandT + tax + deliveryFee) * 100) / 100.0;
                 // calculate final total
                 // set attributes for displaying in JSP
                 session.setAttribute("totalProducts", totalProducts);
