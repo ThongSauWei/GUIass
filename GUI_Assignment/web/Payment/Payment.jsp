@@ -205,7 +205,7 @@
                                     <span class="decoration">&rArr;</span>
                                 </button>
 
-                                <a class="btn-glitch-fill" style="float: right;" href="junguo.jsp">
+                                <a class="btn-glitch-fill" style="float: right;" href="/GUI_Assignment/productMenuServlet">
                                     <span class="text">// Continue
                                         Shopping</span><span class="text-decoration">_</span>
                                     <span class="decoration">&rArr;</span></button>
