@@ -58,13 +58,14 @@
                     %>
                     <h3 class="p-3"><i class="bi bi-basket3-fill"></i> No Product Currently in Your Cart List Yet</h3> 
                     <%} else {
+                        //haveproduct
                         shippingTax = 25.00;
                     %>
 
                     <%
                         for (int i = 0; i < product.size(); i++) {
                     %> 
-                    <form action="updateCartListQuantityServlet" method="POST">
+                    <form action="/GUI_Assignment/updateCartListQuantityServlet" method="POST">
                         <!--//item window-->
                         <div class="item-window hidden" id="<%=product.get(i).getProductId()%>">
                             <div class="item-window-container">
@@ -75,7 +76,12 @@
                                         <p class="item-window-productName item-window-text" >Name: <%=product.get(i).getProductName()%></p>
                                         <div class="item-window-productQuantity">
                                             <i class="product-content-btn bi bi-dash-square-fill" id="decrement-product-<%=product.get(i).getProductId()%>"></i>
-                                            <input type="text" id="cart-quantity-window-<%=product.get(i).getProductId()%>" name="quantity" maxlength="4" size="4" value="<%=cartList.get(i).getCartQuantity()%>"><br><br>                        
+                                            <%for (Cartlist cl : cartList) {%>
+                                            <%if (cl.getProduct().getProductId() == product.get(i).getProductId()) {%>
+                                            <input type="text" id="cart-quantity-window-<%=product.get(i).getProductId()%>" name="quantity" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>"><br><br>
+                                            <%}%>
+                                            <%}%>
+                                                                  
                                             <i class="product-content-btn bi bi-plus-square-fill" id="increment-product-<%=product.get(i).getProductId()%>" ></i>
                                         </div>
 
@@ -92,7 +98,7 @@
                     </form>
                     <!--//deleteCross Button-->
 
-                    <form action="cartListServlet" method="POST">
+                    <form action="/GUI_Assignment/cartListServlet" method="POST">
                         <div class="cart-cross-container">
                             <div class="cart-cross">
                                 <button type="submit" class=" cart-cross-icon btn btn-danger"  name="deleteProuctId" value="<%=product.get(i).getProductId()%>" ><i class=" bi bi-bag-x-fill"></i></button>
@@ -108,7 +114,7 @@
                                 <div class="cart-item-lego-item">
                                     <div class="row ">
                                         <div class="col col-lg-6 col-xl-6 col-md-6">
-                                            <img src="RetrieveImageServlet?imageID=<%=product.get(i).getImageTable().getImageId()%>" class="cart-item-lego-img"/>
+                                            <img src="/GUI_Assignment/RetrieveImageServlet?imageID=<%=product.get(i).getImageTable().getImageId()%>" class="cart-item-lego-img"/>
                                         </div>
                                         <div class="col col-lg-6 col-xl-6 col-md-6 cart-item-lego-item-container">
                                             <div class="item-cart-center">
@@ -124,12 +130,20 @@
                             <div class="col col-lg-3 col-xl-3 col-md-3 cart-item-lego-item-container product-cartList-false">
                                 <div class=" d-flex">
                                     <i class="product-content-btn bi bi-dash-square-fill" disabled></i>
-                                    <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cartList.get(i).getCartQuantity()%>" readonly><br><br>                        
+                                    <%double quantityAmountPrice = 0;%>
+                                    <%for(Cartlist cl : cartList){%>
+                                    <%
+                                        if(cl.getProduct().getProductId() == product.get(i).getProductId()){
+                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0; 
+                                    %>
+                                        <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>" readonly><br><br>
+                                    <%}%>
+                                    <%}%>
                                     <i class="product-content-btn bi bi-plus-square-fill" disabled></i>
                                 </div>
                             </div>
                             <%
-                                double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
+                                //double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container product-cartList-false">
                                 <h3 class="pink-lego-text"><%=quantityAmountPrice%></h3>
@@ -172,11 +186,20 @@
                             <div class="col col-lg-3 col-xl-3 col-md-3 cart-item-lego-item-container">
                                 <div class=" d-flex">
                                     <i class="product-content-btn bi bi-dash-square-fill" onclick="openWindow('<%=product.get(i).getProductId()%>')"></i>
-                                    <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cartList.get(i).getCartQuantity()%>" readonly><br><br>                        
+                                    <%double quantityAmountPrice = 0;%>
+                                    <%for (Cartlist cl : cartList) {%>
+                                    <%
+                                        if (cl.getProduct().getProductId() == product.get(i).getProductId()) {
+                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0; 
+                                    %>
+                                    <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>" readonly><br><br>
+                                    <%}%>
+                                    <%}%>
+                                                            
                                     <i class="product-content-btn bi bi-plus-square-fill" onclick="openWindow('<%=product.get(i).getProductId()%>')"></i>
                                 </div>
                             </div>
-                            <% double quantityAmountPrice = Math.round(cartList.get(i).getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0;
+                            <% //double quantityAmountPrice = Math.round(cartList.get(i).getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0;
                                 subTotal += quantityAmountPrice;
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container">

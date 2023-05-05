@@ -43,7 +43,7 @@ public class cartListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -76,7 +76,7 @@ public class cartListServlet extends HttpServlet {
 //        request.getSession().setAttribute("member", mem);
         try {
             DBTable db = new DBTable();
-//          Found CartId So that i can output based on the session 
+//          Found CartId So that i can output based on the session
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
             if (session == null || session.getAttribute("member") == null) {
