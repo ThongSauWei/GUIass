@@ -91,6 +91,8 @@ public class RateReviewServlet extends HttpServlet {
             if (product != null) {
                 request.setAttribute("product", product);
             }
+            
+            
 
             ArrayList<Object> pcondition = new ArrayList<>();
             pcondition.add(pId);

@@ -200,12 +200,20 @@
                         <div class="passPage">
                             <div class="center-center">
                                 <button class="btn-glitch-fill" type="submit">
-                                    <span class="text">// Pay RM <%=session.getAttribute("grandTotal")%></span>
+                                    <%
+                                        // Get the grandTotal value from the session
+                                        double grandTotal = (Double) session.getAttribute("grandTotal");
+
+                                        // Round the grandTotal to 2 decimal places
+                                        double roundedTotal = Math.round(grandTotal * 100.0) / 100.0;
+                                    %>
+
+                                    <span class="text">// Pay RM <%= roundedTotal%></span>
                                     <span class="text-decoration">_</span>
                                     <span class="decoration">&rArr;</span>
                                 </button>
 
-                                <a class="btn-glitch-fill" style="float: right;" href="junguo.jsp">
+                                <a class="btn-glitch-fill" style="float: right;" href="/GUI_Assignment/productMenuServlet">
                                     <span class="text">// Continue
                                         Shopping</span><span class="text-decoration">_</span>
                                     <span class="decoration">&rArr;</span></button>
@@ -304,18 +312,18 @@
                                     <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
 
                                     <!-- possible cause error -->
-                                    
+
                                     <% //double price = (Double) session.getAttribute("productPrice");
                                         if (dlist != null && dlist.size() > 0) {%>
-                                        <%if(dlist.get(cartItem.getProduct().getProductId()) != null){%>
-                                            <div class="row">
-                                                <div class="col-6"><del style="margin-left: -10px;">RM <%= originalPrice%></del></div>
-                                                <div class="col-6">RM <%=dlist.get(cartItem.getProduct().getProductId())%></div>
-                                            </div>
-                                        <%}else{%>
-                                            <div class="row">RM <%=originalPrice%>
-                                            </div>
-                                        <%}%>
+                                    <%if (dlist.get(cartItem.getProduct().getProductId()) != null) {%>
+                                    <div class="row">
+                                        <div class="col-6"><del style="margin-left: -10px;">RM <%= originalPrice%></del></div>
+                                        <div class="col-6">RM <%=dlist.get(cartItem.getProduct().getProductId())%></div>
+                                    </div>
+                                    <%} else {%>
+                                    <div class="row">RM <%=originalPrice%>
+                                    </div>
+                                    <%}%>
                                     <%
                                     } else {
                                     %>
@@ -354,7 +362,11 @@
                                 </div>
 
                                 <div class="total">
-                                    <span>Total</span> <span>RM <span id="total"><%= session.getAttribute("grandTotal")%></span></span>
+                                    
+
+                                    <span>Total</span> <span>RM <span id="total"><%= roundedTotal%></span></span>
+
+
                                 </div>
 
                             </div>
