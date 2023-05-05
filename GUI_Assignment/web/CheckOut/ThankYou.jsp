@@ -17,8 +17,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
 
-        <link rel="stylesheet" href="../css/bootstrap.css">
-        <link rel="stylesheet" href="../css/ThankYou.css">
+        <link rel="stylesheet" href="/GUI_Assignment/css/bootstrap.css">
+        <link rel="stylesheet" href="/GUI_Assignment/css/ThankYou.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet"
@@ -50,8 +50,8 @@
 
 
                     <p>~ Have a Nice Day ~ </p>
-                    <button class="btn" onclick="location.href = 'index.jsp'">Back Home</button>
-                    <button class="btn" style="margin-left: 10px;" onclick="location.href = '/TestAss/HistoryServlet'">View History</button>
+                    <button class="btn" onclick="location.href = '/GUI_Assignment/index.jsp'">Back Home</button>
+                    <button class="btn" style="margin-left: 10px;" onclick="location.href = '/GUI_Assignment/OrderHistoryServlet'">View History</button>
                 </div>
             </div>
         </div>
