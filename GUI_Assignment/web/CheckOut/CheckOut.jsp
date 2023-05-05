@@ -55,7 +55,7 @@
 
 
             <link rel="stylesheet" href="css/bootstrap.css">
-            <link rel="stylesheet" href="/GUI_Assignment/css/CheckOut.css">
+            <!--<link rel="stylesheet" href="/GUI_Assignment/css/CheckOut.css">-->
 
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -64,213 +64,199 @@
         <body>
 
         <%@include file="/Home/view/Header.jsp"%>
-        <div class="card" style="margin-top: 30px;">
-            <div class="row">
-                <div class="col-md-8 cart">
-                    <div class="title">
-                        <div class="row">
-                            <div class="col">
-                                <h4><b>Check Out Review</b></h4>
-                            </div>
-                            <div class="col align-self-center text-right text-muted"><%= totalProduct1%> items</div>
-                        </div>
-                    </div>
+        <section class="pt-5 pb-5">
+            <div class="container" style="width: 70%;">
+                <div class="row w-100">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <h5 class="display-5 mb-2 text-center" style="color:rgba(242, 150, 147);margin-top: -38px;">Check Out Review</h5>
 
-                    <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-3">Product Image</div>
-                            <div class="col-5">
-                                <div class="row">Name</div>
-                            </div>
-                            <div class="col">
-                                <div class="col">Qty</div>
-                            </div>
-                            <div class="col">Price</div>
-                        </div>
-                    </div>
+                        <table id="shoppingCart" class="table table-condensed table-responsive">
+                            <thead>
+                                <tr>
+                                    <th style="width:60%;color:rgba(242, 150, 147);">Product</th>
+                                    <th style="width:20%">Price</th>
+                                    <th style="width:20%;color:rgba(242, 150, 147);">Quantity</th>
+                                    <th style="width:16%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (PaymentModel cartItem : cartItems) {%>
+                                <% if (cartItem != null && cartItems.size() > 0) {%>
+                                <tr>
+                                    <td data-th="Product">
+                                        <div class="row">
+                                            <div class="col-md-3 text-left">
+                                                <img src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>" width="160" height="120" alt=""
+                                                     class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                            </div>
+                                            <div class="col-md-9 text-left mt-sm-2">
+                                                <h5><%= cartItem.getProduct().getProductName()%></h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
 
-                    <% for (PaymentModel cartItem : cartItems) {%>
-                    <% if (cartItem != null && cartItems.size() > 0) {%>
-                    <div class="row border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-3"><img class="img-fluid" src="RetrieveImageServlet?imageID=<%= cartItem.getProduct().getProductId()%>" width="100" height="100"></div>
-                            <div class="col-5">
-                                <div class="row"><%= cartItem.getProduct().getProductName()%></div>
-                            </div>
-                            <div class="col">
-                                <div class="col" style="margin-left: 12px;"><%= cartItem.getCartQuantity()%></div>
-                            </div>
-                            <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
+                                    <%
+                                        double price = originalPrice;
+                                        if (dlist != null && dlist.size() > 0) {%>
+                                    <%if (dlist.get(cartItem.getProduct().getProductId()) != null) {
+                                            price = dlist.get(cartItem.getProduct().getProductId());
+                                    %>
 
-                            <%
-                                double price = originalPrice;
-                                if (dlist != null && dlist.size() > 0) {%>
-                            <%if (dlist.get(cartItem.getProduct().getProductId()) != null) {
-                                    price = dlist.get(cartItem.getProduct().getProductId());
-                            %>
+                                    <td data-th="Price"><del><%= originalPrice%></del>
+                                        RM <%=dlist.get(cartItem.getProduct().getProductId())%></td>
+                                        <%} else {
+                                            price = originalPrice;%>
+                                    <td data-th="Price">RM <%= originalPrice%></td>
+                                    <%}%>
+                                    <%
+                                    } else {
+                                        price = originalPrice;
+                                    %>
+                                    <td data-th="Price">RM <%= originalPrice%></td>
+                                    <%
+                                        }
+                                    %>
 
+                                    <td data-th="Quantity">
+                                        <%= cartItem.getCartQuantity()%>
+                                    </td>
 
-                            <div class="col"><del>RM <%= originalPrice%></del><br> RM <%=dlist.get(cartItem.getProduct().getProductId())%></div>
+                                </tr>
 
-                            <%} else {
-                                price = originalPrice;%>
+                                <% }%>
+                                <% }%>
 
-                            <div class="col">RM <%= originalPrice%></div>
+                            </tbody>
+                        </table>
 
-                            <%}%>
-                            <%
-                            } else {
-                                price = originalPrice;
-                            %>
-
-                            <div class="col">RM <%= originalPrice%></div>
-                        </div>
-
-                        <%
-                            }
-                        %>
                     </div>
                 </div>
-                <% }%>
-                <% }%>
 
+                <div class="row py-5 p-4 bg-dark rounded shadow-sm">
+                    <div class="col-lg-6">
+                        <div class="px-4 py-3 text-uppercase font-weight-bold border-bottom">Payment Details</div>
+                        <div class="p-4">
 
+                            <form>
+                                <%
+                                    String adName, adPhone, adNo, adStreet, adCity, adState, adPostcode;
+                                    for (AddressBook ad : sA) {
+                                        adName = ad.getAddressName();
+                                        adPhone = ad.getAddressPhone();
+                                        adNo = ad.getAddressNo();
+                                        adStreet = ad.getAddressStreet();
+                                        adCity = ad.getAddressCity();
+                                        adState = ad.getAddressState();
+                                        adPostcode = ad.getAddressPostcode();
+
+                                %>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Shipping Address</label>
+                                    <textarea disabled style="width: 440px;height: 70px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
+                                </div>
+                                <%  }%>
+
+                                <%
+                                    if (paymentMethod.equals("creditCard")) {
+                                %>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Type of card</label>
+                                    <input type="text" class="form-control" placeholder="${typeCard}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Name</label>
+                                    <input type="text" class="form-control" placeholder="${cardName}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Card Number</label>
+                                    <input type="text" class="form-control" placeholder="${cardNumber}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Expiration Date</label>
+                                    <input type="text" class="form-control" placeholder="${expirationDate}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" placeholder="${cvv}" disabled>
+                                </div>
+                                <%
+                                    }
+                                    if (paymentMethod.equals("cash")) {
+                                %>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" placeholder="${cashfirstName}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="${cashlastName}" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Email</label>
+                                    <input type="text" class="form-control" placeholder="${cashemail}" disabled>
+                                </div>
+                                <%
+                                    }
+                                %>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="px-4 py-3 text-uppercase font-weight-bold border-bottom">Order summary</div>
+                        <!-- <hr style="margin-top: -10px; margin-left: 15px;"> -->
+                        <div class="p-4">
+                            <!-- <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p> -->
+                            <ul class="list-unstyled mb-4">
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">TAX </strong><strong>RM <%= session.getAttribute("tax")%></strong></li>
+
+                                <%
+                                    if (dF == 0.0) {
+                                %>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">DELIVERY FEE</strong><strong>Free</strong></li>
+                                    <%
+                                    } else {
+                                    %>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">DELIVERY FEE</strong><strong>RM <%= dF%></strong></li>
+                                    <%
+                                        }
+                                    %>
+
+                                <%
+                                    // Get the grandTotal value from the session
+                                    double grandTotal = (Double) session.getAttribute("grandTotal");
+
+                                    // Round the grandTotal to 2 decimal places
+                                    double roundedTotal = Math.round(grandTotal * 100.0) / 100.0;
+                                %>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Subtotal</strong><strong>RM <%= roundedTotal%></strong></li>
+
+                                <% if (shippingMethod.equals("expressShipping")) {%>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping Charge</strong><strong>RM <%= session.getAttribute("shippingCharge")%></strong></li>
+                                    <% } %>
+
+                                <%
+                                    Double finalT = (Double) session.getAttribute("finalTotal");
+                                %>
+                                <% if (finalT != null) {%>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
+                                    <h5 class="font-weight-bold">RM <%= session.getAttribute("finalTotal")%></h5>
+                                    <% }%>
+                                </li>
+
+                                <form method="post" action="CheckOutReviewServlet">
+                                    <button type="submit" class="btn btn-primary" id="btn" style="margin-top: 15px;width: 50%">COMFIRM PAYMENT</button>
+                                </form>
+
+                                <!-- </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a> -->
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 summary">
-                <div>
-                    <h5><b>Summary</b></h5>
-                </div>
-                <hr>
-                <div class="row" style="color: gray;">
-                    <div class="col" style="padding-left:0;">Payment Method</div>
-                    <%    if (paymentMethod.equals("creditCard")) {
-                    %>
-                    <div class="col text-right">Credit Card</div>
-                    <%
-                        }
-                        if (paymentMethod.equals("cash")) {
-                    %>
-                    <div class="col text-right">Cash</div>
-                    <%
-                        }
-                    %>
-                </div>
 
-                <form>
-                    <%
-                        String adName, adPhone, adNo, adStreet, adCity, adState, adPostcode;
-                        for (AddressBook ad : sA) {
-                            adName = ad.getAddressName();
-                            adPhone = ad.getAddressPhone();
-                            adNo = ad.getAddressNo();
-                            adStreet = ad.getAddressStreet();
-                            adCity = ad.getAddressCity();
-                            adState = ad.getAddressState();
-                            adPostcode = ad.getAddressPostcode();
-
-                    %>
-
-
-                    <p>SHIPPING ADDRESS</p>
-                    <textarea disabled style="width: 340px;height: 50px;"><%= adNo%>, <%= adStreet%>, <%= adState%>, <%= adPostcode%>, <%= adCity%></textarea>
-
-
-                    <%  }%>
-
-
-                    <%
-                        if (paymentMethod.equals("creditCard")) {
-                    %>
-
-                    <p>TYPE OF CARD</p>
-                    <input type="text" placeholder="${typeCard}" disabled>
-
-                    <p>NAME</p>
-                    <input type="text" placeholder="${cardName}" disabled>
-
-                    <p>CARD NUMBER</p>
-                    <input type="text" placeholder="${cardNumber}" disabled>
-
-                    <p>EXPIRATION DATE</p>
-                    <input type="text" placeholder="${expirationDate}" disabled>
-
-                    <p>CVV</p>
-                    <input type="text" placeholder="${cvv}" disabled>
-
-                    <%
-                        }
-                        if (paymentMethod.equals("cash")) {
-                    %>
-
-                    <p>First Name</p>
-                    <input type="text" placeholder="${cashfirstName}" disabled>
-
-                    <p>Last Name</p>
-                    <input type="text" placeholder="${cashlastName}" disabled>
-
-                    <p>Email</p>
-                    <input type="text" placeholder="${cashemail}" disabled>
-
-                    <%
-                        }
-                    %>
-
-                </form>
-                <div class="row" style="padding: 1vh 0;">
-                    <div class="col">TAX</div>
-                    <div class="col text-right">RM <%= session.getAttribute("tax")%></div>
-                </div>
-
-                <%
-                    if (dF == 0.0) {
-                %>
-                <div class="row" style="padding: 1vh 0;">
-                    <div class="col">DELIVERY FEE</div>
-                    <div class="col text-right">Free</div>
-                </div>
-                <%
-                } else {
-                %>
-                <div class="row" style="padding: 1vh 0;">
-                    <div class="col">DELIVERY FEE</div>
-                    <div class="col text-right">RM <%= dF%></div>
-                </div>
-                <%
-                    }
-                %>
-
-                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
-                    <div class="col">SUBTOTAL</div>
-                    <div class="col text-right">RM <%= session.getAttribute("grandTotal")%></div>
-                </div>
-
-
-                <% if (shippingMethod.equals("expressShipping")) {%>
-                <div class="row" style="padding: 1vh 0;">
-                    <div class="col">SHIPPING CHARGE</div>
-                    <div class="col text-right">RM <%= session.getAttribute("shippingCharge")%></div>
-                </div>
-                <% } %>
-
-
-
-                <div class="row" style="padding: 1vh 0;">
-                    <div class="col">TOTAL PRICE</div>
-
-                    <%
-                        Double finalT = (Double) session.getAttribute("finalTotal");
-                    %>
-                    <% if (finalT != null) {%>
-                    <div class="col text-right">RM <%= session.getAttribute("finalTotal")%></div>
-                    <% }%>
-
-                </div>
-
-                <form method="post" action="CheckOutReviewServlet">
-                    <button class="submit" id="btn">COMFIRM PAYMENT</button>
-                </form>
-            </div>
-        </div>
+        </section>
 
     </div>
 </body>

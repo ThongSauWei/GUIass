@@ -46,11 +46,12 @@
                             <h5 class="pink-lego-text">Total (RM)</h5>
                         </div>
                     </div>
-                    <% 
+                    <%
                         ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) request.getAttribute("cartList");
                         ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("productList");
                         double subTotal = 0;
                         double shippingTax = 0.00;
+                        boolean disable = false;
                     %>
                     <% if (product == null || product.size() == 0) {
                             shippingTax = 0.00;
@@ -97,7 +98,9 @@
                                 <button type="submit" class=" cart-cross-icon btn btn-danger"  name="deleteProuctId" value="<%=product.get(i).getProductId()%>" ><i class=" bi bi-bag-x-fill"></i></button>
                             </div>
                         </div>
-                        <%if (product.get(i).getProductActive() == '0') {%>
+                        <%if (product.get(i).getProductActive() == '0') {
+                                disable = true;
+                        %>
                         <!--//ProductActive == false -->
                         <div class="row mt-5 py-3 item-cart-line">
                             <div style="color:red; font-size:20px;">The Product is Currently Unavailable for Now. Sorry For the Inconvenience</div>
@@ -125,7 +128,7 @@
                                     <i class="product-content-btn bi bi-plus-square-fill" disabled></i>
                                 </div>
                             </div>
-                            <% 
+                            <%
                                 double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container product-cartList-false">
@@ -173,7 +176,7 @@
                                     <i class="product-content-btn bi bi-plus-square-fill" onclick="openWindow('<%=product.get(i).getProductId()%>')"></i>
                                 </div>
                             </div>
-                                    <% double quantityAmountPrice = Math.round(cartList.get(i).getCartQuantity() * product.get(i).getProductPrice()* 100) / 100.0;
+                            <% double quantityAmountPrice = Math.round(cartList.get(i).getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0;
                                 subTotal += quantityAmountPrice;
                             %>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container">
@@ -190,56 +193,64 @@
                 <div class="cart-item-total-container mt-5">
                     <div class="cart-item-total mt-3">
                         <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Sub Total :</span> RM <%=subTotal%></h3>
+                            <%if (subTotal == 0.00) {%>
+                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM 0.00</h3>
+                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM 0.00</h3>
 
-                            <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=subTotal >= 200 ? "0.00" :shippingTax%></h3>
-                                <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal >= 200 ? subTotal : (subTotal + shippingTax)%></h3>
-                                </div>
-                                </div>
-                                <div class="cart-item-purchasenow-container">
-                                    <div class="cart-item-purchase m-3">
-                                        <a href="/GUI_Assignment/index.jsp" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</a>
-                                        <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger" ><i class="bi bi-coin"></i> Purchase Now</a>
+                                <%} else {%>
+                                <h5 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Shipping :</span> RM <%=subTotal >= 200 ? "0.00" : shippingTax%></h3>
+                                    <h3 class="cart-item-total-sub-line p-2"><span class="pink-lego-text">Total :</span> RM <%=subTotal >= 200 ? subTotal : (subTotal + shippingTax)%></h3>
+                                    <%}%>    
                                     </div>
-                                </div>
-                                </div>
-                                </div>
-                                </body>
-                                <%@include file="/Home/view/Footer.jsp"%>
-                                <script>
-                                    function openWindow(id) {
-                                        var target = document.getElementById(id);
-                                        target.classList.remove('hidden');
-                                        target.classList.add('show');
+                                    </div>
+                                    <div class="cart-item-purchasenow-container">
+                                        <div class="cart-item-purchase m-3">
+                                            <a href="/GUI_Assignment/index.jsp" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</a>
+                                            <%if (disable == true) {%>
+                                            <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger disabled"><i class="bi bi-coin"></i> Purchase Now</a>
+                                            <%} else {%>
+                                            <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger" ><i class="bi bi-coin"></i> Purchase Now</a>
+                                            <%}%>                                        </div>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </body>
+                                    <%@include file="/Home/view/Footer.jsp"%>
+                                    <script>
+                                        function openWindow(id) {
+                                            var target = document.getElementById(id);
+                                            target.classList.remove('hidden');
+                                            target.classList.add('show');
 
-                                        var increase = document.getElementById("increment-product-" + id);
-                                        var decrease = document.getElementById("decrement-product-" + id);
-                                        var quantity = document.getElementById("cart-quantity-window-" + id);
+                                            var increase = document.getElementById("increment-product-" + id);
+                                            var decrease = document.getElementById("decrement-product-" + id);
+                                            var quantity = document.getElementById("cart-quantity-window-" + id);
 
-                                        increase.addEventListener("click", function () {
-                                            quantity.value = parseInt(quantity.value) + 1;
-                                            if (quantity.value > 1) {
-                                                decrease.disabled = false;
-                                            } else {
-                                                decrease.disabled = true;
-                                            }
-                                        });
+                                            increase.addEventListener("click", function () {
+                                                quantity.value = parseInt(quantity.value) + 1;
+                                                if (quantity.value > 1) {
+                                                    decrease.disabled = false;
+                                                } else {
+                                                    decrease.disabled = true;
+                                                }
+                                            });
 
-                                        decrease.addEventListener("click", function () {
-                                            if (quantity.value > 1) {
-                                                quantity.value = parseInt(quantity.value) - 1;
-                                            }
-                                            if (quantity.value === 1) {
-                                                decrease.disabled = true;
-                                            }
-                                        });
-                                    }
+                                            decrease.addEventListener("click", function () {
+                                                if (quantity.value > 1) {
+                                                    quantity.value = parseInt(quantity.value) - 1;
+                                                }
+                                                if (quantity.value === 1) {
+                                                    decrease.disabled = true;
+                                                }
+                                            });
+                                        }
 
-                                    function closeWindow(id) {
-                                        var target = document.getElementById(id);
-                                        target.classList.remove('show');
-                                        target.classList.add('hidden');
-                                    }
+                                        function closeWindow(id) {
+                                            var target = document.getElementById(id);
+                                            target.classList.remove('show');
+                                            target.classList.add('hidden');
+                                        }
 
-                                </script>
-                                </html>
+                                    </script>
+                                    </html>
 

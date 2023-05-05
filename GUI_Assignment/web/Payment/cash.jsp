@@ -218,8 +218,10 @@
                                             <%
                                                 Double grandTotal = (Double) session.getAttribute("grandTotal");
                                             %>
-                                            <% if (grandTotal != null) {%>
-                                            <td>RM <%=Math.round(((Double)session.getAttribute("grandTotal")) * 100) / 100.0%></td>
+                                            <% if (grandTotal != null) {
+                                                    double roundedTotal = Math.round(grandTotal * 100.0) / 100.0;
+                                            %>
+                                            <td>RM <%= roundedTotal%></td>
                                             <% }%>
                                         </tr>
 
