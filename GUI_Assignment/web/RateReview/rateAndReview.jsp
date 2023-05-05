@@ -4,6 +4,7 @@
     Author     : Acer
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,6 +12,7 @@
     ArrayList<Product> productList = (ArrayList<Product>) request.getAttribute("product");
     ArrayList<Orderlist> orderlist = (ArrayList<Orderlist>) request.getAttribute("orderlist");
     ArrayList<Discount> discount1 = (ArrayList<Discount>) request.getAttribute("dlist");
+    HashMap<Integer, Double> dlist = (HashMap<Integer, Double>) session.getAttribute("productPrice");
 %>
 <jsp:useBean id="discount" class="Controller.DiscountController" scope="application"></jsp:useBean>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -38,7 +40,7 @@
 
         <%@include file="/Home/view/Header.jsp"%>
 
-        <div id="container" style="box-shadow: 8px 10px 20px rgba(242, 150, 147);">
+        <div id="container" style="box-shadow: 8px 10px 20px rgba(242, 150, 147); margin-top: 10px;">
 
             <!-- Start  Product details -->
             <div class="product-details" style="margin-left: 30px;">
@@ -102,19 +104,31 @@
                         <li><strong>Name : </strong><%= p.getProductName()%></li>
                         <li><strong>Description : </strong><%= p.getProductDesc()%></li>
 
-                        <% double originalPrice = p.getProductPrice();
-                            double discountedPrice = originalPrice;
-                            if (discount1 != null && discount1.size() > 0) {
-                                for (Discount d : discount1) {
-                                    discountedPrice = discount.getPrice(originalPrice,
-                                            d.getDiscountPercentage());
-                                }
+
+                        <% double originalPrice = p.getProductPrice(); %>
+
+                        <!-- possible cause error -->
+
+                        <% //double price = (Double) session.getAttribute("productPrice");
+                                        if (dlist != null && dlist.size() > 0) {%>
+                        <%if (dlist.get(p.getProductId()) != null) {%>
+                        
+                        <li><strong>Price: </strong><del>RM <%= originalPrice%></del>RM <%=dlist.get(p.getProductId())%></li>
+                        
+                        <%} else {%>
+                        <li><strong>Price: </strong>RM <%=originalPrice%></li>
+                        <%}%>
+                        <%
+                        } else {
+                        %>
+
+                        <li><strong>Price: </strong>RM <%=originalPrice%></li>
+
+                        <%
                             }
-                            if (discountedPrice < originalPrice) {%>
-                        <li><strong>Price: </strong><del>RM <%= p.getProductPrice()%></del>RM <%= discountedPrice%></li>
-                            <% } else {%>
-                        <li><strong>Price: </strong>RM <%= p.getProductPrice()%></li>
-                            <% } %>
+                        %>
+
+                        
                     </ul>
                 </div>
                 <% }%>

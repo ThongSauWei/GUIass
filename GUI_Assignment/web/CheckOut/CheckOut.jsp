@@ -241,7 +241,15 @@
 
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
                     <div class="col">SUBTOTAL</div>
-                    <div class="col text-right">RM <%= session.getAttribute("grandTotal")%></div>
+
+                    <%
+                        // Get the grandTotal value from the session
+                        double grandTotal = (Double) session.getAttribute("grandTotal");
+
+                        // Round the grandTotal to 2 decimal places
+                        double roundedTotal = Math.round(grandTotal * 100.0) / 100.0;
+                    %>
+                    <div class="col text-right">RM <%= roundedTotal%></div>
                 </div>
 
 

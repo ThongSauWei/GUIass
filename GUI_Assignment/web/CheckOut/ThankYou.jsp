@@ -50,8 +50,9 @@
 
 
                     <p>~ Have a Nice Day ~ </p>
-                    <button class="btn" onclick="location.href = '/GUI_Assignment/index.jsp'">Back Home</button>
-                    <button class="btn" style="margin-left: 10px;" onclick="location.href = '/GUI_Assignment/OrderHistoryServlet'">View History</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/GUI_Assignment/index.jsp'">Back Home</button>
+                    <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="location.href = '/GUI_Assignment/OrderHistoryServlet'">View History</button>
+
                 </div>
             </div>
         </div>
