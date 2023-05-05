@@ -102,16 +102,26 @@ public class cartListServlet extends HttpServlet {
             //Loop CartList Display Cart Items
             List<Cartlist> cartList = db.Cartlist.getData(new CartlistMapper(), list, sqlstmt);
             List<Product> productList = db.Product.getData(new ProductMapper());
-            List<Product> sameProductFound = new ArrayList<>();
+            List<Product> activeProducts = new ArrayList<>();
+            List<Product> inactiveProducts = new ArrayList<>();
             //search through the product and cartlist if found then store in arraylist so i can output the product details
             for (int i = 0; i < cartList.size(); i++) {
                 for (int y = 0; y < productList.size(); y++) {
                     if (cartList.get(i).getProduct().getProductId() == productList.get(y).getProductId()) {
-                        sameProductFound.add(productList.get(y));
-                        request.setAttribute("productList", sameProductFound);
+                        Product product = productList.get(y);
+                        if (product.getProductActive() == '1') {
+                            activeProducts.add(product);
+                        } else {
+                            inactiveProducts.add(product);
+                        }
                     }
                 }
             }
+            List<Product> sortProductFound = new ArrayList<>();
+            sortProductFound.addAll(activeProducts);
+            sortProductFound.addAll(inactiveProducts);
+            request.setAttribute("productList", sortProductFound);
+
             request.setAttribute("cartList", cartList);
             request.getRequestDispatcher("/productMenu/itemcart.jsp").forward(request, response);
         } catch (SQLException ex) {
