@@ -34,13 +34,12 @@ public class MemMaint extends HttpServlet {
                 request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                 return;
             } else if (members.isEmpty()) {
-                out.println("<td colspan=4>No Record.</td>");
+                out.println("<td colspan=3>No Record.</td>");
             }
             for (Member member : members) {
                 out.println("<tr>");
                 out.println("<td>" + member.getMemberId() + "</td>");
                 out.println("<td>" + member.getMemberName() + "</td>");
-                out.println("<td>" + member.getMemberPass() + "</td>");
                 out.println("<td><a href=\"../../MemMaint?id=" + member.getMemberId() + "&delete=1\" onclick=\"return confirm('Are you sure?');\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"delete fa fa-trash-o\"></i></a></td>");
                 out.println("</tr>");
             }
