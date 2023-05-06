@@ -25,7 +25,7 @@ public class MemMaint extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+            PrintWriter out = response.getWriter();
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
             ArrayList<Member> members = new MemController().getMems(search);
             if (members == null) {
@@ -44,7 +44,7 @@ public class MemMaint extends HttpServlet {
                 out.println("<td><a href=\"../../MemMaint?id=" + member.getMemberId() + "&delete=1\" onclick=\"return confirm('Are you sure?');\" style=\"font-size:20px;color:grey\" class=\"fa\"><i class=\"delete fa fa-trash-o\"></i></a></td>");
                 out.println("</tr>");
             }
-        }
+        
     }
 
     @Override
