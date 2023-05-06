@@ -12,10 +12,13 @@
         <param-name>AdminEmail</param-name>
         <param-value>admin@123.com</param-value>
     </context-param>
+    <welcome-file-list>
+        <welcome-file>HomeServlet</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>Servlet.InitServlet</servlet-class>
-        <load-on-startup></load-on-startup>
+        
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
@@ -207,6 +210,7 @@
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>Servlet.HomeServlet</servlet-class>
+        <load-on-startup></load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>

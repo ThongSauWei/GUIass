@@ -12,7 +12,7 @@
 <%@page import="Utility.*"%>
 <%@page import="Controller.*"%>
 <%@page import="java.util.*"%>
-<jsp:include page="/HomeServlet"></jsp:include>
+<%--<jsp:include page="/HomeServlet"></jsp:include>--%>
 <jsp:useBean id="homeModel" class="Model.PageModel.HomeModel" scope="request"></jsp:useBean>
 <%Date currDate = new Date();%>
 <!DOCTYPE html>
