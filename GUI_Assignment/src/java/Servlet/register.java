@@ -86,12 +86,14 @@ public class register extends HttpServlet {
                         if (success) {
                             //set pass
                             member.setMemberPass("");
-                            
+
                             members = data.Member.getData(new MemberMapper(), list, sql);
                             //get member id
                             Member memberId = members.get(0);
                             //create a new cart for the member
-                            data.Cart.Add(new CartMapper(),new Cart(memberId));
+                            data.Cart.Add(new CartMapper(), new Cart(memberId));
+                            //set member id into member
+                            member.setMemberId(memberId.getMemberId());
                             request.getSession().setAttribute("member", member);
                             request.setAttribute("message", "Register successful");
                             response.sendRedirect("/GUI_Assignment/index.jsp");
