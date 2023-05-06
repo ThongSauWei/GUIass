@@ -7,13 +7,20 @@ package Controller;
 import DataAccess.DBTable;
 import DataAccess.DBaccess;
 import DataAccess.Mapper.AddressBookMapper;
+import DataAccess.Mapper.CartMapper;
+import DataAccess.Mapper.CartlistMapper;
 import DataAccess.Mapper.MemberAddressMapper;
 import DataAccess.Mapper.MemberMapper;
 import Model.AddressBook;
+import Model.Cart;
+import Model.Cartlist;
 import Model.Member;
 import Model.MemberAddress;
+import Model.Product;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -40,10 +47,10 @@ public class MemController {
     public boolean dltMem(int id) throws SQLException {
             DBTable dbTable = new DBTable();
 
-            ArrayList<Member> sdfasd = dbTable.Member.getData(new MemberMapper(), id);
+            ArrayList<Member> members = dbTable.Member.getData(new MemberMapper(), id);
             Member member = new Member();
-            if (sdfasd.size() == 1) {
-                member = sdfasd.get(0);
+            if (members.size() == 1) {
+                member = members.get(0);
             }
             ArrayList<MemberAddress> memAdds = dbTable.MemberAddress.getData(new MemberAddressMapper(), member.getMemberId());
             ArrayList<AddressBook> addressbooks = new ArrayList<>();
@@ -62,6 +69,23 @@ public class MemController {
 
             for (AddressBook addressbook : addressbooks) {
                 dbTable.AddressBook.Delete(new AddressBookMapper(), addressbook);
+            }
+            
+            List<HashMap<String, Object>> carts = DBaccess.customizeSqlSelect("SELECT cart_id FROM cart WHERE member_id = " + id);
+            
+            for(HashMap<String, Object> cart : carts){
+                List<HashMap<String, Object>> cartlists = DBaccess.customizeSqlSelect("SELECT cart_id, product_id FROM cartlist WHERE cart_id = " + cart.get("CART_ID"));
+                if(cartlists != null){
+                for(HashMap<String, Object> cartlist : cartlists){
+                    Cartlist cl = new Cartlist();
+                    cl.setCart(new Cart(Integer.parseInt((String)cartlist.get("CART_ID"))));
+                    cl.setProduct(new Product(Integer.parseInt((String)cartlist.get("PRODUCT_ID"))));
+                    dbTable.Cartlist.Delete(new CartlistMapper(), cl);
+                }
+                }
+                String cid = cart.get("CART_ID").toString();
+                int cartid = Integer.parseInt((String)cid);
+                dbTable.Cart.Delete(new CartMapper(), new Cart(cartid));
             }
             
             return dbTable.Member.Delete(new MemberMapper(), member);
