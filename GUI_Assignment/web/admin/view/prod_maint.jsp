@@ -97,6 +97,7 @@
                     </div>
                     <input hidden name="submit" value="<%=isNew ? "1" : "0"%>">
                     <button type="button" onclick="cancel()" class="btn btn-danger ms-3">Cancel</button>
+                    <%if(isAdmin){%><button type="button" onclick="remove()" class="btn btn-danger ms-3">Delete</button><%}%>
                     <button type="reset" onclick="resets()" class="btn btn-secondary ms-3">Reset</button>
                     <button type="submit" class="btn btn-primary ms-3">Submit</button>
                 </div>
@@ -107,10 +108,23 @@
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>
     <script>
-            var displayImage = document.getElementById("display_image");
-            displayImage.onclick = function () {
-                var imageInput = document.getElementById("image_input");
-                imageInput.click();
-            }
+        var displayImage = document.getElementById("display_image");
+        displayImage.onclick = function () {
+            var imageInput = document.getElementById("image_input");
+            imageInput.click();
+        };
+
+        function remove() {
+            const form = document.getElementById("form");
+            const check = document.getElementById("active");
+            const submitBtn = document.querySelector('button[type="submit"]');
+
+
+            form.reset();
+
+            check.checked = false;
+
+            submitBtn.click();
+        }
     </script>
 </html>
