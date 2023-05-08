@@ -1,5 +1,6 @@
 package Servlet;
 
+import java.util.regex.Pattern;
 import Controller.StaffController;
 import Model.Staff;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class StaffMaint extends HttpServlet {
             throws ServletException, IOException {
 
         if (CheckPermission.permissionAdmin(request)) {
-            String id = request.getParameter("id");
+            String id = request.getParameter("id") != null ? request.getParameter("id") : "";
 
             int action = request.getParameter("action") == null ? 0 : Integer.parseInt(request.getParameter("action"));
             if (request.getParameter("submit") != null) {
@@ -93,6 +94,13 @@ public class StaffMaint extends HttpServlet {
                         String ic = request.getParameter("ic");
                         String password = request.getParameter("password");
                         action = Integer.parseInt(request.getParameter("action"));
+
+                        if (validateData(name, phoneNum, email, birthday, ic, password) == false) {
+                            request.getSession().setAttribute("UnexceptableError", "invalid data - please contact support");
+                            request.getSession().setAttribute("UnexceptableErrorDesc", "invalid data - please contact support");
+                            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        }
+
                         if (new StaffController().addStaff(name, password, ic, phoneNum, email, birthday)) {
                             if (action == 1) {
                                 response.sendRedirect("/GUI_Assignment/admin/view/staff_list.jsp");
@@ -130,6 +138,12 @@ public class StaffMaint extends HttpServlet {
                         String ic = request.getParameter("ic");
                         String password = request.getParameter("password");
                         action = Integer.parseInt(request.getParameter("action"));
+
+                        if (validateData(name, phoneNum, email, birthday, ic, password) == false) {
+                            request.getSession().setAttribute("UnexceptableError", "invalid data - please contact support");
+                            request.getSession().setAttribute("UnexceptableErrorDesc", "invalid data - please contact support");
+                            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        }
 
                         if (new StaffController().updateStaff(id, name, password, ic, phoneNum, email, birthday)) {
                             if (action == 1) {
@@ -171,4 +185,52 @@ public class StaffMaint extends HttpServlet {
             request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
+
+    private boolean validateData(String name, String phoneNum, String email, String birthday, String ic, String password) {
+
+        if (name.isEmpty() || phoneNum.isEmpty() || email.isEmpty() || birthday.isEmpty() || ic.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+
+        if (!Pattern.matches("^[0-9]{10}$", phoneNum)) {
+            return false;
+        }
+
+        if (!Pattern.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", email)) {
+            return false;
+        }
+
+        if (!Pattern.matches("\\d{6}[01][0-4]\\d{4}$", ic)) {
+            return false;
+        }
+
+        if (password.length() < 8) {
+            return false;
+        }
+        boolean hasLetter = false;
+        boolean hasNumber = false;
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                hasLetter = true;
+            } else if (c >= '0' && c <= '9') {
+                hasNumber = true;
+            }
+            if (hasLetter && hasNumber) {
+                break;
+            }
+        }
+        if (!hasLetter || !hasNumber) {
+            return false;
+        }
+
+        try {
+            java.sql.Date.valueOf(birthday);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
