@@ -97,7 +97,7 @@
                     </div>
                     <input hidden name="submit" value="<%=isNew ? "1" : "0"%>">
                     <button type="button" onclick="cancel()" class="btn btn-danger ms-3">Cancel</button>
-                    <%if(isAdmin){%><button type="button" onclick="remove()" class="btn btn-danger ms-3">Delete</button><%}%>
+                    <% if (!isNew) {%><%if(isAdmin){%><button type="button" onclick="remove()" class="btn btn-danger ms-3">Delete</button><%}%><%}%>
                     <button type="reset" onclick="resets()" class="btn btn-secondary ms-3">Reset</button>
                     <button type="submit" class="btn btn-primary ms-3">Submit</button>
                 </div>
