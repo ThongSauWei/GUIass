@@ -81,7 +81,7 @@
                                             <input type="text" id="cart-quantity-window-<%=product.get(i).getProductId()%>" name="quantity" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>"><br><br>
                                             <%}%>
                                             <%}%>
-                                                                  
+
                                             <i class="product-content-btn bi bi-plus-square-fill" id="increment-product-<%=product.get(i).getProductId()%>" ></i>
                                         </div>
 
@@ -131,12 +131,12 @@
                                 <div class=" d-flex">
                                     <i class="product-content-btn bi bi-dash-square-fill" disabled></i>
                                     <%double quantityAmountPrice = 0;%>
-                                    <%for(Cartlist cl : cartList){%>
+                                    <%for (Cartlist cl : cartList) {%>
                                     <%
-                                        if(cl.getProduct().getProductId() == product.get(i).getProductId()){
-                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0; 
+                                        if (cl.getProduct().getProductId() == product.get(i).getProductId()) {
+                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0;
                                     %>
-                                        <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>" readonly><br><br>
+                                    <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>" readonly><br><br>
                                     <%}%>
                                     <%}%>
                                     <i class="product-content-btn bi bi-plus-square-fill" disabled></i>
@@ -144,7 +144,7 @@
                             </div>
                             <%
                                 //double quantityAmountPrice = cartList.get(i).getCartQuantity() * product.get(i).getProductPrice();
-                            %>
+%>
                             <div class="col col-lg-2 col-xl-2 col-md-2 cart-item-lego-item-container product-cartList-false">
                                 <h3 class="pink-lego-text"><%=quantityAmountPrice%></h3>
                             </div>
@@ -190,12 +190,12 @@
                                     <%for (Cartlist cl : cartList) {%>
                                     <%
                                         if (cl.getProduct().getProductId() == product.get(i).getProductId()) {
-                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0; 
+                                            quantityAmountPrice = Math.round(cl.getCartQuantity() * product.get(i).getProductPrice() * 100) / 100.0;
                                     %>
                                     <input type="text" id="cart-quantity" name="pin" maxlength="4" size="4" value="<%=cl.getCartQuantity()%>" readonly><br><br>
                                     <%}%>
                                     <%}%>
-                                                            
+
                                     <i class="product-content-btn bi bi-plus-square-fill" onclick="openWindow('<%=product.get(i).getProductId()%>')"></i>
                                 </div>
                             </div>
@@ -232,7 +232,12 @@
                                             <%if (disable == true) {%>
                                             <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger disabled"><i class="bi bi-coin"></i> Purchase Now</a>
                                             <%} else {%>
+                                            <%if (subTotal == 0.0) {%>
+                                            <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger disabled"  ><i class="bi bi-coin"></i> Purchase Now</a>
+                                            <%} else {%>
                                             <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger" ><i class="bi bi-coin"></i> Purchase Now</a>
+
+                                            <%}%>
                                             <%}%>                                        </div>
                                     </div>
                                     </div>
