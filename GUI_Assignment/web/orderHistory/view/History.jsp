@@ -119,5 +119,10 @@
             </table>
         </div>
         <%@include file="/Home/view/Footer.jsp"%>
+        <script>
+            $(function(){
+                $("#history").addClass("active");
+            });
+        </script>
     </body>
 </html>

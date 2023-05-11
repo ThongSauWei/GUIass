@@ -209,5 +209,10 @@
         </div>    
     </div>
     <%@include file="/Home/view/Footer.jsp"%>
+    <script>
+            $(function(){
+                $("#menu").addClass("active");
+            });
+    </script>
 </body>
 </html>
