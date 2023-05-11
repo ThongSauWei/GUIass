@@ -12,7 +12,7 @@
 <%@page import="Utility.*"%>
 <%@page import="Controller.*"%>
 <%@page import="java.util.*"%>
-<jsp:include page="/HomeServlet"></jsp:include>
+<%--<jsp:include page="/HomeServlet"></jsp:include>--%>
 <jsp:useBean id="homeModel" class="Model.PageModel.HomeModel" scope="request"></jsp:useBean>
 <%Date currDate = new Date();%>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@
     <body>
         <%--discount/ topsale/ check rating/ view more--%>
         <div class="myrow">
-            <div class="box">
+            <div class="box box1">
                 <div class="title-box">
                     <h4>HOT SALES</h4>
                 </div>
@@ -31,7 +31,7 @@
                     <h4>Click Me !!</h4>
                 </button>
             </div>
-            <div class="box">
+            <div class="box box2">
                 <div class="title-box">
                     <h4>DISCOUNT</h4>
                 </div>
@@ -42,20 +42,24 @@
         </div>
         <div class="myrow">
             <%if(member != null && member.getMemberName() != null){%>
-                <div class="box">
+            <%
+                if (homeModel.getProductHaventRate() != null && homeModel.getProductHaventRate().size() > 0) {
+            %>
+                <div class="box box3">
                     <div class="title-box">
-                        <h4>ORDERS HAVENT RATE</h4>
+                        <h4>ORDERS HAVEN'T RATE</h4>
                     </div>
                     <div class="hover-box" data-bs-toggle="modal" data-bs-target="#CHECK-RATING">
                         <h4>Click Me !!</h4>
                     </div>
                 </div>
             <%}%>
-            <div class="box">
+            <%}%>
+            <div class="box box4">
                 <div class="title-box">
                     <h4>VIEW MORE PRODUCT &nbsp; <i class="bi bi-arrow-right-square"></i></h4>
                 </div>
-                <a class="hover-box" href="/GUI_Assignment/productMenu/menu-list.jsp">
+                <a class="hover-box" href="/GUI_Assignment/productMenuServlet">
                     <h4>VIEW MORE</h4>
                 </a>
             </div>

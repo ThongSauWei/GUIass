@@ -12,6 +12,7 @@ import DataAccess.Mapper.ProductMapper;
 import Model.*;
 import java.util.*;
 import java.sql.*;
+import Utility.*;
 
 public class SearchServlet extends HttpServlet {
 
@@ -50,12 +51,22 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        if (!CheckPermission.permissionStaff(request)) {
+            processRequest(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        if (!CheckPermission.permissionStaff(request)) {
+            processRequest(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
+        }
     }
 
     @Override
