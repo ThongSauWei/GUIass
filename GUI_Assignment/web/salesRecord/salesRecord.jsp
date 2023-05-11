@@ -15,7 +15,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="/GUI_Assignment/salesRecord/salesRecord.css" rel="stylesheet" />
     <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
-    <title>Sales Record Main Page</title>
+    <!--change title and favicon-->
+    <title>${companyName}</title>
+    <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     <style>
         #searchForm table tr td > input, #searchForm table tr td > select{
             width: 100%;
@@ -95,4 +97,3 @@
         </ul>
     </div>
 </form>
-

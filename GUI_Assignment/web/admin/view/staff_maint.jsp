@@ -9,7 +9,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Staff Maintaint Page</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 
         <link href="../css/css.css" rel="stylesheet" type="text/css"/>
@@ -100,4 +102,5 @@
     <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_staff.js" type="text/javascript"></script>
+    <%@include file="/Home/view/Footer.jsp"%>
 </html>

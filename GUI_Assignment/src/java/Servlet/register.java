@@ -63,7 +63,7 @@ public class register extends HttpServlet {
         ArrayList<Object> list = new ArrayList<>();
         list.add(username);
         ArrayList<Member> members = null;
-
+        
         try {
             members = data.Member.getData(new MemberMapper(), list, sql);
 

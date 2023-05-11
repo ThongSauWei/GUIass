@@ -13,7 +13,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="/GUI_Assignment/salesRecord/salesRecordMain.css" rel="stylesheet" />
-        <title>Sales Record Main Page</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
     <br><br>
     <body>

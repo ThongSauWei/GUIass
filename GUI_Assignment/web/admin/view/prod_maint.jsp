@@ -8,8 +8,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Product Maintaint Page</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <style>
             .form_wid{
                 max-width: 850px;
@@ -102,6 +104,7 @@
             </form>
         </div>
     </body>
+    <%@include file="/Home/view/Footer.jsp"%>
     <%if (isSaved) {%><script>alert('Record Saved.');</script> <%}%>
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>

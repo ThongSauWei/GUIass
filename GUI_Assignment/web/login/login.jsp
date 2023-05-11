@@ -13,7 +13,9 @@
         <link href="/GUI_Assignment/login/login.css" rel="stylesheet" />
         <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
 
     <body>
@@ -54,17 +56,15 @@
                         </div>
                         <div class="reg" style="margin-top: 0px !important;">
                             <p>Login as Staff?</p>
-                            <a href="staffLogin.jsp">Staff Login</a>
+                            <a href="/GUI_Assignment/login/staffLogin.jsp">Staff Login</a>
                         </div>
                 </form>
             </div>
+            <footer>
+                <%@include file="/Home/view/Footer.jsp"%> 
+            </footer>
         </div>
-
-        <footer>
-           <%@include file="/Home/view/Footer.jsp"%> 
-        </footer>
     </body>
-    
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </html>

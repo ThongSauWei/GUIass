@@ -40,7 +40,7 @@ public class RetrieveImageServlet extends HttpServlet {
                 //set return info
                 respone.setContentType(itable.getImageContentType());
                 OutputStream os = respone.getOutputStream();
-                
+
                 //convert byte to input stream
                 InputStream imageStream = new ByteArrayInputStream(itable.getOutputImage());
                 byte[] buffer = new byte[2048];
@@ -49,7 +49,7 @@ public class RetrieveImageServlet extends HttpServlet {
                     System.out.println("Buffer Read of length: " + length);
                     os.write(buffer, 0, length);
                 }
-                
+
                 os.flush();
                 os.close();
             }

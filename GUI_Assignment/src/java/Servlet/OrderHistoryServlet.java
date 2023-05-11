@@ -82,7 +82,7 @@ public class OrderHistoryServlet extends HttpServlet {
                         }
 
                         //add into Order History Model List
-                        if (noMatch == 0) {
+                        if (noMatch < ohm.getPolist().size()) {
                             ohmList.add(ohm);
                         }
                     }

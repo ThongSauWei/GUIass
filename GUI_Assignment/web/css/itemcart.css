@@ -143,3 +143,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     text-decoration: line-through;
     filter:brightness(70%);
 }
+.disabled{
+     pointer-events: none;
+  cursor: default;
+}

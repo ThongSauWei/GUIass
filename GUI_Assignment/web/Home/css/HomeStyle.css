@@ -18,6 +18,27 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+}
+
+.box1{
+    background-image: linear-gradient(rgba(52, 46, 46, 0.449),
+    rgba(52, 46, 46, 0.41)), url("/GUI_Assignment/Home/image/home.jpg");
+}
+
+.box2{
+    background-image: linear-gradient(rgba(52, 46, 46, 0.449),
+    rgba(52, 46, 46, 0.41)), url("/GUI_Assignment/Home/image/homeBg.jpg");
+}
+
+.box3{
+    background-image: linear-gradient(rgba(52, 46, 46, 0.449),
+    rgba(52, 46, 46, 0.41)), url("/GUI_Assignment/Home/image/N.jpg");
+}
+
+.box4{
+    background-image: linear-gradient(rgba(52, 46, 46, 0.449),
+    rgba(52, 46, 46, 0.41)), url("/GUI_Assignment/Home/image/G.jpg");
 }
 
 .box1{

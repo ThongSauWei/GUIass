@@ -11,6 +11,9 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <div class="text-center">
+            <h3>Order History Details - <span style="color: rgba(242, 150, 147)">Orders ID <%=ohm.getOrders() == null ? "" : ohm.getOrders().getOrdersId()%><span></h3>
+        </div>
         <div class="w-100 p-5 d-flex justify-content-center align-middle">
             <%if(ohm != null){%>
                 <table class="table table-hover m-3 w-75 align-middle">
@@ -55,7 +58,7 @@
                                     </td>
                                     <td style="width: 150px;">
                                         <%if(po.getRnrStatus().equals("HAVENT RATE")){%>
-                                            <a href="#" class="btn btn-primary">RATE NOW</a>
+                                        <a href="/GUI_Assignment/RateReviewServlet?productId=<%=po.getProduct().getProductId()%>&orderId=<%=ohm.getOrders().getOrdersId()%>" class="btn btn-primary">RATE NOW</a>
                                         <%}%>
                                     </td>
                                 </tr>
@@ -105,5 +108,6 @@
                 </div>
             <%}%>
         </div>
+        <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>

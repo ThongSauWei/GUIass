@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Report</title>
+        <!--change title and favicon-->
+        <title>${companyName}</title>
+        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
         <style>
             .container {
@@ -229,5 +231,6 @@
         <a id="home-btn" href="home.jsp" class=" mb-1 btn btn-primary fixed-bottom-center  rounded-pill">Return</a>
         <button id="back-btn" onclick="back()" class="btn btn-primary ms-3 rounded-pill " style="display:none;">&lt;</button>
         <script src="../js/report.js" type="text/javascript"></script>
+        <%@include file="/Home/view/Footer.jsp"%>
     </body>
 </html>
