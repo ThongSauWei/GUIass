@@ -96,7 +96,7 @@ public class HomeServlet extends HttpServlet {
                 //endregion GET PRODUCT HAVENT RATE
 
                 request.setAttribute("homeModel", hm);
-                request.getRequestDispatcher("HomeServlet").forward(request, response);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
 
             } catch (SQLException ex) {
                 //turn error page

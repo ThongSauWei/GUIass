@@ -137,7 +137,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th style="color: rgba(242, 150, 147);">#</th>
+                                                <th></th>
                                                 <th>Product Name</th>
                                                 <th style="color: rgba(242, 150, 147);">Price</th>
                                                 <th>Quantity</th>
@@ -147,11 +147,10 @@
                                         <tbody>
                                             <% for (PaymentModel cartItem : cartItems) {%>
                                             <% if (cartItem != null && cartItems.size() > 0) {%>
-                                            <% int i = 0;%>
 
 
                                             <tr>
-                                                <td><%= i + 1%></td>
+                                                <td></td>
                                                 <td><%= cartItem.getProduct().getProductName()%></td>
 
                                                 <% double originalPrice = cartItem.getProduct().getProductPrice(); %>
