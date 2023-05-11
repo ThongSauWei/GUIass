@@ -41,7 +41,7 @@
     <body>
         <div class="form_wid container mt-5">
             <h2 class="text-center mb-3"><%= isNew ? "Add New" : "Edit"%> Product</h2>
-            <form method="POST" action="../../ProdMaint" onsubmit="return validateForm()" enctype="multipart/form-data">
+            <form id="form" method="POST" action="../../ProdMaint" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
@@ -101,7 +101,7 @@
                     <button type="button" onclick="cancel()" class="btn btn-danger ms-3">Cancel</button>
                     <% if (!isNew) {%><%if(isAdmin){%><button type="button" onclick="remove()" class="btn btn-danger ms-3">Delete</button><%}%><%}%>
                     <button type="reset" onclick="resets()" class="btn btn-secondary ms-3">Reset</button>
-                    <button type="submit" class="btn btn-primary ms-3">Submit</button>
+                    <button id="submit" type="submit" class="btn btn-primary ms-3">Submit</button>
                 </div>
             </form>
         </div>
@@ -120,8 +120,7 @@
         function remove() {
             const form = document.getElementById("form");
             const check = document.getElementById("active");
-            const submitBtn = document.querySelector('button[type="submit"]');
-
+            const submitBtn = document.getElementById("submit");
 
             form.reset();
 
