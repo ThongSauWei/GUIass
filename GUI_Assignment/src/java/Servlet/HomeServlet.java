@@ -71,29 +71,32 @@ public class HomeServlet extends HttpServlet {
 
                 //region GET PRODUCT HAVENT RATE
                 //get orderlist of target user
-                ArrayList<Orderlist> olist = HomeController.getTargetUserOrderlist(db, ((Member) request.getSession().getAttribute("member")).getMemberId());
+                if (((Member) request.getSession().getAttribute("member")) != null && ((Member) request.getSession().getAttribute("member")).getMemberName() != null) {
+                    ArrayList<Orderlist> olist = HomeController.getTargetUserOrderlist(db, ((Member) request.getSession().getAttribute("member")).getMemberId());
 
-                if (olist != null && olist.size() > 0) {
-                    //loop the olist to get which havent be rate
-                    for (Orderlist ol : olist) {
-                        if (!HomeController.foundHaventRate(db, ol.getOrder().getOrdersId(), ol.getProduct().getProductId())) {
-                            //false doesnt have data inside
-                            HomeModel.ProductNoRate pnr = hm.new ProductNoRate();
+                    if (olist != null && olist.size() > 0) {
+                        //loop the olist to get which havent be rate
+                        for (Orderlist ol : olist) {
+                            if (!HomeController.foundHaventRate(db, ol.getOrder().getOrdersId(), ol.getProduct().getProductId())) {
+                                //false doesnt have data inside
+                                HomeModel.ProductNoRate pnr = hm.new ProductNoRate();
 
-                            //get orders date
-                            pnr.setOrdersDate(db.Orders.getData(new OrdersMapper(), ol.getOrder().getOrdersId()).get(0).getOrdersDate());
-                            pnr.setQuantityOrders(ol.getOrdersQuantity());
-                            pnr.setPrice(ol.getOrdersSubprice());
-                            pnr.setProduct(db.Product.getData(new ProductMapper(), ol.getProduct().getProductId()).get(0));
-                            pnr.setOrdersId(ol.getOrder().getOrdersId());
+                                //get orders date
+                                pnr.setOrdersDate(db.Orders.getData(new OrdersMapper(), ol.getOrder().getOrdersId()).get(0).getOrdersDate());
+                                pnr.setQuantityOrders(ol.getOrdersQuantity());
+                                pnr.setPrice(ol.getOrdersSubprice());
+                                pnr.setProduct(db.Product.getData(new ProductMapper(), ol.getProduct().getProductId()).get(0));
+                                pnr.setOrdersId(ol.getOrder().getOrdersId());
 
-                            hm.addProductHaventRate(pnr);
+                                hm.addProductHaventRate(pnr);
+                            }
                         }
                     }
                 }
                 //endregion GET PRODUCT HAVENT RATE
 
                 request.setAttribute("homeModel", hm);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
 
             } catch (SQLException ex) {
                 //turn error page
