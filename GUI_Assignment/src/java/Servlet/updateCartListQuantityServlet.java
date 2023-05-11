@@ -43,7 +43,7 @@ public class updateCartListQuantityServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -84,14 +84,13 @@ public class updateCartListQuantityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
         try {
             DBTable db = new DBTable();
             Cartlist cartQuantityUpdate = new Cartlist();
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
             if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("/login/login.jsp"); // Redirect to login.jsp if session is null or memberRole is null
+                response.sendRedirect("/GUI_Assignment/login/login.jsp"); // Redirect to login.jsp if session is null or memberRole is null
                 return; // Return to prevent further execution of the code
             }
 
@@ -116,7 +115,7 @@ public class updateCartListQuantityServlet extends HttpServlet {
 
             boolean updateTrue = db.Cartlist.Update(new CartlistMapper(), cartQuantityUpdate);
             if (updateTrue) {
-                response.sendRedirect("cartListServlet");
+                response.sendRedirect("/GUI_Assignment/cartListServlet");
             }
         } catch (SQLException ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
