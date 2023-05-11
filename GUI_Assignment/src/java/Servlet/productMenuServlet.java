@@ -40,7 +40,7 @@ public class productMenuServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -89,7 +89,7 @@ public class productMenuServlet extends HttpServlet {
                     }
                 }
                 if (ratingCount > 0) {
-                    double avgRating = totalRating / ratingCount;
+                    double avgRating = Math.round(totalRating / ratingCount);
                     //ratingList.add(avgRating);
                     hash.put(productList.get(i).getProductId(), avgRating);
                 } else {

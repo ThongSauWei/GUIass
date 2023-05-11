@@ -246,7 +246,7 @@
                                 </li>
 
                                 <form method="post" action="CheckOutReviewServlet">
-                                    <button type="submit" class="btn btn-primary" id="btn" style="margin-top: 15px;width: 50%">COMFIRM PAYMENT</button>
+                                    <button type="submit" class="btn btn-primary" id="btn" style="margin-top: 15px;width: 50%">CONFIRM PAYMENT</button>
                                 </form>
 
                                 <!-- </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a> -->

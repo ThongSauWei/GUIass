@@ -33,7 +33,7 @@
 
         <div class=content>
             <div class="wrapper-1">
-                <img class="product__image" src="blackpink.png">
+                <img class="product__image" src="/GUI_Assignment/CheckOut/blackpink.png">
                 <div class="wrapper-2">
                     <h1>Thank you !</h1>
 
@@ -50,7 +50,7 @@
 
 
                     <p>~ Have a Nice Day ~ </p>
-                    <button type="button" class="btn btn-primary" onclick="location.href = '/GUI_Assignment/index.jsp'">Back Home</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/GUI_Assignment/HomeServlet'">Back Home</button>
                     <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="location.href = '/GUI_Assignment/OrderHistoryServlet'">View History</button>
 
                 </div>
