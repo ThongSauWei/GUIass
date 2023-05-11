@@ -121,6 +121,7 @@
         
         <div class="w-100 p-5">
             <div class="text-end w-100 p-3">
+                <a class="btn btn-success mx-2" href="/GUI_Assignment/admin/view/home.jsp">BACK TO HOME</a>
                 <a class="btn btn-warning" href="/GUI_Assignment/DiscountCreateServlet"><i class="bi bi-plus-square"></i> &nbsp; CREATE</a>  
             </div><br>
             <table class="table table-hover text-center align-middle">

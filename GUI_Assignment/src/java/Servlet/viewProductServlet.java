@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Utility.*;
 
 /**
  *
@@ -49,83 +50,88 @@ public class viewProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            int productId = Integer.parseInt(request.getParameter("id"));
+        if (CheckPermission.permissionUser(request)) {
+            try {
+                int productId = Integer.parseInt(request.getParameter("id"));
 
-            //Show the Product Details
-            DBTable db = new DBTable();
-            List<Product> viewProd = db.Product.getData(new ProductMapper(), productId);
-            request.setAttribute("productDetail", viewProd.get(0));
+                //Show the Product Details
+                DBTable db = new DBTable();
+                List<Product> viewProd = db.Product.getData(new ProductMapper(), productId);
+                request.setAttribute("productDetail", viewProd.get(0));
 
-            //Show Product Avg rating
-            List<RateReview> rateCountList = db.RateReview.getData(new RateReviewMapper());
-            List<Double> ratingList = new ArrayList<>();
+                //Show Product Avg rating
+                List<RateReview> rateCountList = db.RateReview.getData(new RateReviewMapper());
+                List<Double> ratingList = new ArrayList<>();
 
-            //Show Product at Banner in ProductDetails Page
-            String sql = "Select * From Product Where PRODUCT_ACTIVE = ?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(new Integer(1));
-            List<Product> productList = db.Product.getData(new ProductMapper(), list, sql);
-            request.setAttribute("contentBanner", productList);
-            List<RateReview> productContentBanner = db.RateReview.getData(new RateReviewMapper());
-            HashMap<Integer, Double> productContentHashBanner = new HashMap<Integer, Double>();
+                //Show Product at Banner in ProductDetails Page
+                String sql = "Select * From Product Where PRODUCT_ACTIVE = ?";
+                ArrayList<Object> list = new ArrayList();
+                list.add(new Integer(1));
+                List<Product> productList = db.Product.getData(new ProductMapper(), list, sql);
+                request.setAttribute("contentBanner", productList);
+                List<RateReview> productContentBanner = db.RateReview.getData(new RateReviewMapper());
+                HashMap<Integer, Double> productContentHashBanner = new HashMap<Integer, Double>();
 
-            //find RateAndReview Format
-            for (int i = 0; i < productList.size(); i++) {
-                double totalRating = 0;
-                double ratingCount = 0;
-                for (int y = 0; y < rateCountList.size(); y++) {
-                    if (rateCountList.get(y).getProduct().getProductId() == productList.get(i).getProductId()) {
-                        totalRating += rateCountList.get(y).getReviewRating();
-                        ratingCount++;
+                //find RateAndReview Format
+                for (int i = 0; i < productList.size(); i++) {
+                    double totalRating = 0;
+                    double ratingCount = 0;
+                    for (int y = 0; y < rateCountList.size(); y++) {
+                        if (rateCountList.get(y).getProduct().getProductId() == productList.get(i).getProductId()) {
+                            totalRating += rateCountList.get(y).getReviewRating();
+                            ratingCount++;
+                        }
+                    }
+                    if (ratingCount > 0) {
+                        double avgRating = Math.round(totalRating / ratingCount);
+                        //ratingList.add(avgRating);
+                        productContentHashBanner.put(productList.get(i).getProductId(), avgRating);
+                    } else {
+                        productContentHashBanner.put(productList.get(i).getProductId(), 0.00);
+//                    ratingList.add(0.00);
                     }
                 }
-                if (ratingCount > 0) {
-                    double avgRating = Math.round(totalRating / ratingCount);
-                    //ratingList.add(avgRating);
-                    productContentHashBanner.put(productList.get(i).getProductId(), avgRating);
-                } else {
-                    productContentHashBanner.put(productList.get(i).getProductId(), 0.00);
-//                    ratingList.add(0.00);
-                }
-            }
-            request.setAttribute("productContentHashBanner", productContentHashBanner);
+                request.setAttribute("productContentHashBanner", productContentHashBanner);
 
-            //Customer Comment
-            String commentSql = "Select * FROM RATEREVIEW Where product_id=? ";
-            ArrayList<Object> params = new ArrayList<Object>();
-            params.add(productId);
-            ArrayList<RateReview> review = db.RateReview.getData(new RateReviewMapper(), params, commentSql);
-            request.setAttribute("customerReviewProductDetails", review);
+                //Customer Comment
+                String commentSql = "Select * FROM RATEREVIEW Where product_id=? ";
+                ArrayList<Object> params = new ArrayList<Object>();
+                params.add(productId);
+                ArrayList<RateReview> review = db.RateReview.getData(new RateReviewMapper(), params, commentSql);
+                request.setAttribute("customerReviewProductDetails", review);
 
-            //Show Customer Comment Name
-            List<RateReview> rateReviewList = db.RateReview.getData(new RateReviewMapper());
-            List<Member> memberList = db.Member.getData(new MemberMapper());
-            List<Member> storeMemberId = new ArrayList<>();
+                //Show Customer Comment Name
+                List<RateReview> rateReviewList = db.RateReview.getData(new RateReviewMapper());
+                List<Member> memberList = db.Member.getData(new MemberMapper());
+                List<Member> storeMemberId = new ArrayList<>();
 
-            List<Member> memberNameFound = new ArrayList<>();
-            //search through the customer and ratereview if found then store in arraylist so i can output the product details
+                List<Member> memberNameFound = new ArrayList<>();
+                //search through the customer and ratereview if found then store in arraylist so i can output the product details
 
-            for (int i = 0; i < rateReviewList.size(); i++) {
-                for (int j = 0; j < memberList.size(); j++) {
-                    if (rateReviewList.get(i).getMember().getMemberId() == memberList.get(j).getMemberId()) {
-                        if (rateReviewList.get(i).getProduct().getProductId() == productId) {
-                            memberNameFound.add(memberList.get(j));
+                for (int i = 0; i < rateReviewList.size(); i++) {
+                    for (int j = 0; j < memberList.size(); j++) {
+                        if (rateReviewList.get(i).getMember().getMemberId() == memberList.get(j).getMemberId()) {
+                            if (rateReviewList.get(i).getProduct().getProductId() == productId) {
+                                memberNameFound.add(memberList.get(j));
+                            }
                         }
                     }
                 }
+                request.setAttribute("memberNameFound", memberNameFound);
+
+                request.getRequestDispatcher("/productMenu/productcontent.jsp").forward(request, response);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-            request.setAttribute("memberNameFound", memberNameFound);
-
-            request.getRequestDispatcher("/productMenu/productcontent.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
-
     }
 
     /**

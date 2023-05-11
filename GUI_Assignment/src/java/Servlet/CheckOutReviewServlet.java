@@ -14,9 +14,7 @@ import Model.PageModel.PaymentModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import Utility.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,127 +78,133 @@ public class CheckOutReviewServlet extends HttpServlet {
 //        processRequest(request, response);
         HttpSession session = request.getSession();
 
-        try {
+        if (CheckPermission.permissionUser(request)) {
+            try {
 //            int memberid = 2000;
-            Member member = (Member) session.getAttribute("member");
-            int memberId = member.getMemberId();
+                Member member = (Member) session.getAttribute("member");
+                int memberId = member.getMemberId();
 
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("index.jsp");
-                return;
-            }
-
-            if (memberId != 0) {
-                //return cartlist and productlist data(if they same - memberid)
-                Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
-                List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
-                List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
-                request.setAttribute("clist", cartList);
-                request.setAttribute("plist", productList);
-
-                int totalProducts = 0;
-                for (Cartlist cartItem : cartList) {
-                    totalProducts += cartItem.getCartQuantity();
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("HomeServlet");
+                    return;
                 }
 
-                request.setAttribute("totalProducts", totalProducts);
+                if (memberId != 0) {
+                    //return cartlist and productlist data(if they same - memberid)
+                    Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
+                    List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
+                    List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
+                    request.setAttribute("clist", cartList);
+                    request.setAttribute("plist", productList);
 
-                //return memberAddress & addressBook data
-                ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
-                ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
-                ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
-
-                request.setAttribute("memberAddress", mAddress);
-                request.setAttribute("addressBook", addressBook);
-
-                //calculate total something
-                ArrayList<Cartlist> cart = (ArrayList<Cartlist>) request.getAttribute("clist");
-                ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
-
-                HashMap<Integer, Double> dlist = new HashMap<>();
-                for (Product p : product) {
-                    DBTable db = new DBTable();
-                    double originalPrice = p.getProductPrice();
-
-                    Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
-
-                    if (discount != null) {
-                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
-                        dlist.put(p.getProductId(), discountedPrice);
-
+                    int totalProducts = 0;
+                    for (Cartlist cartItem : cartList) {
+                        totalProducts += cartItem.getCartQuantity();
                     }
-                }
-                session.setAttribute("productPrice", dlist);
 
-                for (Cartlist cartItem : cartList) {
-                    totalProducts += cartItem.getCartQuantity();
-                    ArrayList<Object> pcondition = new ArrayList<>();
-                    pcondition.add(cartItem.getProduct().getProductId());
+                    request.setAttribute("totalProducts", totalProducts);
+
+                    //return memberAddress & addressBook data
+                    ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
+                    ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
+                    ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
+
+                    request.setAttribute("memberAddress", mAddress);
+                    request.setAttribute("addressBook", addressBook);
+
+                    //calculate total something
+                    ArrayList<Cartlist> cart = (ArrayList<Cartlist>) request.getAttribute("clist");
+                    ArrayList<Product> product = (ArrayList<Product>) request.getAttribute("plist");
+
+                    HashMap<Integer, Double> dlist = new HashMap<>();
+                    for (Product p : product) {
+                        DBTable db = new DBTable();
+                        double originalPrice = p.getProductPrice();
+
+                        Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
+
+                        if (discount != null) {
+                            double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                            dlist.put(p.getProductId(), discountedPrice);
+
+                        }
+                    }
+                    session.setAttribute("productPrice", dlist);
+
+                    for (Cartlist cartItem : cartList) {
+                        totalProducts += cartItem.getCartQuantity();
+                        ArrayList<Object> pcondition = new ArrayList<>();
+                        pcondition.add(cartItem.getProduct().getProductId());
+
+                        DBTable db = new DBTable();
+                        // Check if product has discount
+                        List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+
+                        if (discountList.size() > 0) {
+                            request.setAttribute("dlist", discountList);
+                        }
+                    }
+
+                    //get address id
+                    String sId = (String) session.getAttribute("sId");
+                    ArrayList<Object> scondition = new ArrayList<>();
+                    scondition.add(sId);
 
                     DBTable db = new DBTable();
                     // Check if product has discount
-                    List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+                    List<AddressBook> shipAddress = db.AddressBook.getData(new AddressBookMapper(), scondition, "SELECT * FROM ADDRESSBOOK WHERE address_id = ?");
 
-                    if (discountList.size() > 0) {
-                        request.setAttribute("dlist", discountList);
+                    if (shipAddress.size() > 0) {
+                        request.setAttribute("slist", shipAddress);
                     }
+
+                    // get shipping method from session
+                    String shippingMethod = (String) session.getAttribute("shippingMethod");
+
+                    // calculate grand total
+                    double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
+
+                    // calculate tax
+                    double tax = PaymentController.calculateTax(grandTotal);
+
+                    // calculate shipping charge
+                    double shippingCharge = PaymentController.calculateShippingCharge(shippingMethod);
+
+                    // calculate delivery fee
+                    double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
+
+                    double subTotal = grandTotal + tax + deliveryFee;
+
+                    // calculate final total
+                    double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
+
+                    if (grandTotal != 0.0 && tax != 0.0 && finalTotal != 0.0) {
+                        // set attributes for displaying in JSP
+                        session.setAttribute("grandTotal", subTotal);
+                        session.setAttribute("tax", tax);
+                        session.setAttribute("shippingCharge", shippingCharge);
+                        session.setAttribute("deliveryFee", deliveryFee);
+                        session.setAttribute("finalTotal", finalTotal);
+                    }
+
                 }
-
-                //get address id
-                String sId = (String) session.getAttribute("sId");
-                ArrayList<Object> scondition = new ArrayList<>();
-                scondition.add(sId);
-
-                DBTable db = new DBTable();
-                // Check if product has discount
-                List<AddressBook> shipAddress = db.AddressBook.getData(new AddressBookMapper(), scondition, "SELECT * FROM ADDRESSBOOK WHERE address_id = ?");
-
-                if (shipAddress.size() > 0) {
-                    request.setAttribute("slist", shipAddress);
-                }
-
-                // get shipping method from session
-                String shippingMethod = (String) session.getAttribute("shippingMethod");
-
-                // calculate grand total
-                double grandTotal = PaymentController.calculateGrandTotal(cart, product, db);
-
-                // calculate tax
-                double tax = PaymentController.calculateTax(grandTotal);
-
-                // calculate shipping charge
-                double shippingCharge = PaymentController.calculateShippingCharge(shippingMethod);
-
-                // calculate delivery fee
-                double deliveryFee = PaymentController.calculateDeliveryFee(grandTotal);
-
-                double subTotal = grandTotal + tax + deliveryFee;
-
-                // calculate final total
-                double finalTotal = PaymentController.calculateFinalTotal(grandTotal, tax, shippingCharge, deliveryFee);
-
-                if (grandTotal != 0.0 && tax != 0.0 && finalTotal != 0.0) {
-                    // set attributes for displaying in JSP
-                    session.setAttribute("grandTotal", subTotal);
-                    session.setAttribute("tax", tax);
-                    session.setAttribute("shippingCharge", shippingCharge);
-                    session.setAttribute("deliveryFee", deliveryFee);
-                    session.setAttribute("finalTotal", finalTotal);
-                }
-
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            } catch (Exception ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        } catch (Exception ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/CheckOut/CheckOut.jsp");
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CheckOut/CheckOut.jsp");
+            dispatcher.forward(request, response);
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -214,159 +218,165 @@ public class CheckOutReviewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        HttpSession session = request.getSession();
+        if (CheckPermission.permissionUser(request)) {
+            response.setContentType("text/html");
+            HttpSession session = request.getSession();
 
-        try {
+            try {
 //            int memberId = 2000;
-            Member member = (Member) session.getAttribute("member");
-            int memberId = member.getMemberId();
+                Member member = (Member) session.getAttribute("member");
+                int memberId = member.getMemberId();
 
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("index.jsp");
-                return;
-            }
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("HomeServlet");
+                    return;
+                }
 
-            if (memberId != 0) {
-                Date currentDate = new Date(); // Get the current date
+                if (memberId != 0) {
+                    Date currentDate = new Date(); // Get the current date
 
-                String paymentMethod = (String) session.getAttribute("paymentMethod");
+                    String paymentMethod = (String) session.getAttribute("paymentMethod");
 
-                double total = (Double) session.getAttribute("finalTotal");
-                double tax = (Double) session.getAttribute("tax");
-                double deliveryFee = (Double) session.getAttribute("deliveryFee");
-                double shippingCharge = (Double) session.getAttribute("shippingCharge");
+                    double total = (Double) session.getAttribute("finalTotal");
+                    double tax = (Double) session.getAttribute("tax");
+                    double deliveryFee = (Double) session.getAttribute("deliveryFee");
+                    double shippingCharge = (Double) session.getAttribute("shippingCharge");
 
-                String sId = (String) session.getAttribute("sId");
-                int addId = Integer.parseInt(sId);
+                    String sId = (String) session.getAttribute("sId");
+                    int addId = Integer.parseInt(sId);
 
-                PaymentController p = new PaymentController();
-                boolean check = p.addO(currentDate, paymentMethod, total, tax, deliveryFee, shippingCharge, memberId, addId);
+                    PaymentController p = new PaymentController();
+                    boolean check = p.addO(currentDate, paymentMethod, total, tax, deliveryFee, shippingCharge, memberId, addId);
 
-                if (check) {
-                    //sql get order id
-                    String sql = "SELECT * FROM ORDERS "
-                            + "WHERE orders_date = ? "
-                            + "AND orders_payment_type = ? "
-                            + "AND orders_ttlprice = ? "
-                            + "AND orders_tax = ? "
-                            + "AND orders_delivery_fee = ? "
-                            + "AND orders_express_shipping = ? "
-                            + "AND member_id = ? "
-                            + "AND address_id = ? "
-                            + "AND orders_id = (SELECT MAX(orders_id) FROM ORDERS "
-                            + "WHERE orders_date = ? "
-                            + "AND orders_payment_type = ? "
-                            + "AND orders_ttlprice = ? "
-                            + "AND orders_tax = ? "
-                            + "AND orders_delivery_fee = ? "
-                            + "AND orders_express_shipping = ? "
-                            + "AND member_id = ? "
-                            + "AND address_id = ?)";
+                    if (check) {
+                        //sql get order id
+                        String sql = "SELECT * FROM ORDERS "
+                                + "WHERE orders_date = ? "
+                                + "AND orders_payment_type = ? "
+                                + "AND orders_ttlprice = ? "
+                                + "AND orders_tax = ? "
+                                + "AND orders_delivery_fee = ? "
+                                + "AND orders_express_shipping = ? "
+                                + "AND member_id = ? "
+                                + "AND address_id = ? "
+                                + "AND orders_id = (SELECT MAX(orders_id) FROM ORDERS "
+                                + "WHERE orders_date = ? "
+                                + "AND orders_payment_type = ? "
+                                + "AND orders_ttlprice = ? "
+                                + "AND orders_tax = ? "
+                                + "AND orders_delivery_fee = ? "
+                                + "AND orders_express_shipping = ? "
+                                + "AND member_id = ? "
+                                + "AND address_id = ?)";
 
-                    ArrayList<Object> params = new ArrayList<>();
-                    params.add(currentDate);
-                    params.add(paymentMethod);
-                    params.add(total);
-                    params.add(tax);
-                    params.add(deliveryFee);
-                    params.add(shippingCharge);
-                    params.add(memberId);
-                    params.add(addId);
-                    params.add(currentDate);
-                    params.add(paymentMethod);
-                    params.add(total);
-                    params.add(tax);
-                    params.add(deliveryFee);
-                    params.add(shippingCharge);
-                    params.add(memberId);
-                    params.add(addId);
+                        ArrayList<Object> params = new ArrayList<>();
+                        params.add(currentDate);
+                        params.add(paymentMethod);
+                        params.add(total);
+                        params.add(tax);
+                        params.add(deliveryFee);
+                        params.add(shippingCharge);
+                        params.add(memberId);
+                        params.add(addId);
+                        params.add(currentDate);
+                        params.add(paymentMethod);
+                        params.add(total);
+                        params.add(tax);
+                        params.add(deliveryFee);
+                        params.add(shippingCharge);
+                        params.add(memberId);
+                        params.add(addId);
 
-                    Orders o = new DBTable().Orders.getData(new OrdersMapper(), params, sql).get(0);
+                        Orders o = new DBTable().Orders.getData(new OrdersMapper(), params, sql).get(0);
 
-                    if (o != null) {
-                        //order id
-                        int orderId = o.getOrdersId();
-                        session.setAttribute("orderId", orderId);
+                        if (o != null) {
+                            //order id
+                            int orderId = o.getOrdersId();
+                            session.setAttribute("orderId", orderId);
 
-                        //get product detail
-                        Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
-                        ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) cartAndProductLists.get("cartList");
-                        ArrayList<Product> productList = (ArrayList<Product>) cartAndProductLists.get("productList");
+                            //get product detail
+                            Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
+                            ArrayList<Cartlist> cartList = (ArrayList<Cartlist>) cartAndProductLists.get("cartList");
+                            ArrayList<Product> productList = (ArrayList<Product>) cartAndProductLists.get("productList");
 
-                        ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
+                            ArrayList<PaymentModel> cartItems = PaymentController.getCartItem(cartList, productList);
 
-                        for (PaymentModel cartItem : cartItems) {
-                            if (cartItem != null) {
-                                int productId = cartItem.getProduct().getProductId();
-                                double originalPrice = cartItem.getProduct().getProductPrice();
-                                int ordersQuantity = cartItem.getCartQuantity();
+                            for (PaymentModel cartItem : cartItems) {
+                                if (cartItem != null) {
+                                    int productId = cartItem.getProduct().getProductId();
+                                    double originalPrice = cartItem.getProduct().getProductPrice();
+                                    int ordersQuantity = cartItem.getCartQuantity();
 
-                                PaymentController payController = new PaymentController();
+                                    PaymentController payController = new PaymentController();
 //                            double discountedPrice = payController.getDiscount(productList, productId);
 
-                                Discount discount = DiscountController.getDiscount(db, productId);
+                                    Discount discount = DiscountController.getDiscount(db, productId);
 
-                                if (discount != null) {
-                                    double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
-                                    double subPrice = (discountedPrice * cartItem.getCartQuantity());
-                                    boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+                                    if (discount != null) {
+                                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                                        double subPrice = (discountedPrice * cartItem.getCartQuantity());
+                                        boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
-                                    if (checkO) {
-                                        //clear cart
-                                        String sqlQuery = "SELECT * "
-                                                + "FROM CART "
-                                                + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
-                                                + "WHERE CART.MEMBER_ID = ?";
-                                        ArrayList<Object> condition = new ArrayList<>();
-                                        condition.add(new Integer(memberId));
+                                        if (checkO) {
+                                            //clear cart
+                                            String sqlQuery = "SELECT * "
+                                                    + "FROM CART "
+                                                    + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
+                                                    + "WHERE CART.MEMBER_ID = ?";
+                                            ArrayList<Object> condition = new ArrayList<>();
+                                            condition.add(new Integer(memberId));
 
-                                        ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
-                                        if (clList != null && clList.size() > 0) {
-                                            for (Cartlist cl : clList) {
-                                                db.Cartlist.Delete(new CartlistMapper(), cl);
+                                            ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
+                                            if (clList != null && clList.size() > 0) {
+                                                for (Cartlist cl : clList) {
+                                                    db.Cartlist.Delete(new CartlistMapper(), cl);
+                                                }
                                             }
+
+                                            request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
                                         }
+                                    } else {
+                                        double subPrice = (originalPrice * cartItem.getCartQuantity());
+                                        boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
 
-                                        request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
-                                    }
-                                } else {
-                                    double subPrice = (originalPrice * cartItem.getCartQuantity());
-                                    boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+                                        if (checkO) {
+                                            //clear cart
+                                            String sqlQuery = "SELECT * "
+                                                    + "FROM CART "
+                                                    + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
+                                                    + "WHERE CART.MEMBER_ID = ?";
+                                            ArrayList<Object> condition = new ArrayList<>();
+                                            condition.add(new Integer(memberId));
 
-                                    if (checkO) {
-                                        //clear cart
-                                        String sqlQuery = "SELECT * "
-                                                + "FROM CART "
-                                                + "INNER JOIN CARTLIST ON CART.CART_ID = CARTLIST.CART_ID "
-                                                + "WHERE CART.MEMBER_ID = ?";
-                                        ArrayList<Object> condition = new ArrayList<>();
-                                        condition.add(new Integer(memberId));
-
-                                        ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
-                                        if (clList != null && clList.size() > 0) {
-                                            for (Cartlist cl : clList) {
-                                                db.Cartlist.Delete(new CartlistMapper(), cl);
+                                            ArrayList<Cartlist> clList = db.Cartlist.getData(new CartlistMapper(), condition, sqlQuery);
+                                            if (clList != null && clList.size() > 0) {
+                                                for (Cartlist cl : clList) {
+                                                    db.Cartlist.Delete(new CartlistMapper(), cl);
+                                                }
                                             }
-                                        }
 
-                                        request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
+                                            request.getRequestDispatcher("CheckOut/ThankYou.jsp").forward(request, response);
+                                        }
                                     }
-                                }
 
 //                            double subPrice = (discountedPrice * cartItem.getCartQuantity());
 //                            boolean checkO = p.addOrderlist(orderId, productId, ordersQuantity, subPrice);
+                                }
                             }
                         }
+
                     }
 
                 }
-
+            } catch (Exception ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-        } catch (Exception ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

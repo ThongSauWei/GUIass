@@ -104,7 +104,7 @@
             <%}else{%>
                 <div class="text-center w-100">
                     <p>Opps ~ There Have Some Error Occurs ~</p>
-                    <a class="btn btn-primary" href="/GUI_Assignment/index.jsp">Back To Home</a>
+                    <a class="btn btn-primary" href="/GUI_Assignment/HomeServlet">Back To Home</a>
                 </div>
             <%}%>
         </div>

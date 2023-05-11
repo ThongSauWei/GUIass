@@ -4,7 +4,6 @@
  */
 package Servlet;
 
-import Controller.OrderListingController;
 import DataAccess.DBTable;
 import DataAccess.Mapper.*;
 import Model.AddressBook;
@@ -14,20 +13,13 @@ import Model.Orders;
 import Model.PageModel.ViewSaleRecordModel;
 import Model.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import Utility.*;
 
 /**
  *
@@ -44,81 +36,87 @@ public class salesRecord extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productId = request.getParameter("productId");
+        if (CheckPermission.permissionStaff(request) || CheckPermission.permissionAdmin(request)) {
+            String productId = request.getParameter("productId");
 
-        //open a model to handle data
-        ViewSaleRecordModel saleRecord = new ViewSaleRecordModel();
-        int itemSold = 0;
-        double ttlPrice = 0;
-        
+            //open a model to handle data
+            ViewSaleRecordModel saleRecord = new ViewSaleRecordModel();
+            int itemSold = 0;
+            double ttlPrice = 0;
 
-        try {
-            if (productId != null && !productId.isEmpty()) {
-                int pId = Integer.parseInt(productId);
-                Product p = data.Product.getData(new ProductMapper(), pId).get(0);
-                saleRecord.setProduct(p);
+            try {
+                if (productId != null && !productId.isEmpty()) {
+                    int pId = Integer.parseInt(productId);
+                    Product p = data.Product.getData(new ProductMapper(), pId).get(0);
+                    saleRecord.setProduct(p);
 
-                //get filter list
-                ArrayList<Orders> olist = filterList(request);
+                    //get filter list
+                    ArrayList<Orders> olist = filterList(request);
 
-                if (olist != null && olist.size() > 0) {
-                    //have ppl buy then loop the list
-                    for (Orders o : olist) {
-                        ViewSaleRecordModel.MemberDetail md = saleRecord.new MemberDetail();
+                    if (olist != null && olist.size() > 0) {
+                        //have ppl buy then loop the list
+                        for (Orders o : olist) {
+                            ViewSaleRecordModel.MemberDetail md = saleRecord.new MemberDetail();
 
-                        //get member
-                        Member m = data.Member.getData(new MemberMapper(), o.getMember().getMemberId()).get(0);
+                            //get member
+                            Member m = data.Member.getData(new MemberMapper(), o.getMember().getMemberId()).get(0);
 
-                        md.setMember(m);
+                            md.setMember(m);
 
-                        //get orderlist
-                        String sqlQuery1 = "SELECT * "
-                                + "FROM ORDERLIST "
-                                + "WHERE ORDERS_ID = ? AND PRODUCT_ID = ?";
-                        ArrayList<Object> params = new ArrayList<>();
-                        params.add(new Integer(o.getOrdersId()));
-                        params.add(new Integer(pId));
+                            //get orderlist
+                            String sqlQuery1 = "SELECT * "
+                                    + "FROM ORDERLIST "
+                                    + "WHERE ORDERS_ID = ? AND PRODUCT_ID = ?";
+                            ArrayList<Object> params = new ArrayList<>();
+                            params.add(new Integer(o.getOrdersId()));
+                            params.add(new Integer(pId));
 
-                        Orderlist ol = data.Orderlist.getData(new OrderlistMapper(), params, sqlQuery1).get(0);
+                            Orderlist ol = data.Orderlist.getData(new OrderlistMapper(), params, sqlQuery1).get(0);
 
-                        md.setOrderlist(ol);
-                        itemSold += ol.getOrdersQuantity();
-                        ttlPrice += ol.getOrdersSubprice();
+                            md.setOrderlist(ol);
+                            itemSold += ol.getOrdersQuantity();
+                            ttlPrice += ol.getOrdersSubprice();
 
-                        //get address
-                        AddressBook ab = data.AddressBook.getData(new AddressBookMapper(), o.getAddress().getAddressId()).get(0);
+                            //get address
+                            AddressBook ab = data.AddressBook.getData(new AddressBookMapper(), o.getAddress().getAddressId()).get(0);
 
-                        md.setAddress(ab);
+                            md.setAddress(ab);
 
-                        saleRecord.addMdList(md);
+                            saleRecord.addMdList(md);
+                        }
+
+                        saleRecord.setItemSold(itemSold);
+                        saleRecord.setTtlPrice(ttlPrice);
+
+                        request.setAttribute("salesRecord", saleRecord);
+                        request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
                     }
-                    
-                    saleRecord.setItemSold(itemSold);
-                    saleRecord.setTtlPrice(ttlPrice);
 
-                    request.setAttribute("salesRecord", saleRecord);
-                    request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
-                }else{
-                    request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
+                } else {
+                    request.getSession().setAttribute("UnexceptableError", "The Product ID in url is missing, please passing parameter in correct format");
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Product ID is missing");
+                    request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                 }
-
-            } else {
-                request.getSession().setAttribute("UnexceptableError", "The Product ID in url is missing, please passing parameter in correct format");
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Product ID is missing");
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+            } catch (NumberFormatException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid product ID");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+            } catch (Exception ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted exception");
                 request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        } catch (NumberFormatException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid product ID");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        }catch (Exception ex){
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted exception");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 
@@ -169,7 +167,7 @@ public class salesRecord extends HttpServlet {
         ArrayList<Object> condition = new ArrayList<>();
         condition.add(Integer.parseInt(productId));
         condition.add(new Character('1'));
-        
+
         if (!memberID.isEmpty()) {
             sqlQuery += "AND MEMBER.MEMBER_ID = ? ";
             condition.add(Integer.parseInt(memberID));

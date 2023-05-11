@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Utility.*;
 
 /**
  *
@@ -40,7 +41,7 @@ public class productMenuServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -66,48 +67,53 @@ public class productMenuServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            DBTable db = new DBTable();
-            String sql = "Select * From Product Where PRODUCT_ACTIVE = ?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(new Integer(1));
-            List<Product> productList = db.Product.getData(new ProductMapper(), list, sql);
-            request.setAttribute("productList", productList);
+        if (CheckPermission.permissionUser(request)) {
+            try {
+                DBTable db = new DBTable();
+                String sql = "Select * From Product Where PRODUCT_ACTIVE = ?";
+                ArrayList<Object> list = new ArrayList();
+                list.add(new Integer(1));
+                List<Product> productList = db.Product.getData(new ProductMapper(), list, sql);
+                request.setAttribute("productList", productList);
 
-            List<RateReview> rateCountList = db.RateReview.getData(new RateReviewMapper());
-            List<Double> ratingList = new ArrayList<>();
-            HashMap<Integer, Double> hash = new HashMap<Integer, Double>();
+                List<RateReview> rateCountList = db.RateReview.getData(new RateReviewMapper());
+                List<Double> ratingList = new ArrayList<>();
+                HashMap<Integer, Double> hash = new HashMap<Integer, Double>();
 
-            //find RateAndReview Format
-            for (int i = 0; i < productList.size(); i++) {
-                double totalRating = 0;
-                double ratingCount = 0;
-                for (int y = 0; y < rateCountList.size(); y++) {
-                    if (rateCountList.get(y).getProduct().getProductId() == productList.get(i).getProductId()) {
-                        totalRating += rateCountList.get(y).getReviewRating();
-                        ratingCount++;
+                //find RateAndReview Format
+                for (int i = 0; i < productList.size(); i++) {
+                    double totalRating = 0;
+                    double ratingCount = 0;
+                    for (int y = 0; y < rateCountList.size(); y++) {
+                        if (rateCountList.get(y).getProduct().getProductId() == productList.get(i).getProductId()) {
+                            totalRating += rateCountList.get(y).getReviewRating();
+                            ratingCount++;
+                        }
+                    }
+                    if (ratingCount > 0) {
+                        double avgRating = totalRating / ratingCount;
+                        //ratingList.add(avgRating);
+                        hash.put(productList.get(i).getProductId(), avgRating);
+                    } else {
+                        hash.put(productList.get(i).getProductId(), 0.00);
+//                    ratingList.add(0.00);
                     }
                 }
-                if (ratingCount > 0) {
-                    double avgRating = totalRating / ratingCount;
-                    //ratingList.add(avgRating);
-                    hash.put(productList.get(i).getProductId(), avgRating);
-                } else {
-                    hash.put(productList.get(i).getProductId(), 0.00);
-//                    ratingList.add(0.00);
-                }
+
+                request.setAttribute("ratingList", hash);
+                request.setAttribute("bannerList", productList);
+                request.getRequestDispatcher("/productMenu/menu-list.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-
-            request.setAttribute("ratingList", hash);
-            request.setAttribute("bannerList", productList);
-            request.getRequestDispatcher("/productMenu/menu-list.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
-
     }
 
     /**

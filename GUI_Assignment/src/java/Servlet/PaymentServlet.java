@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import Utility.*;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = {"/PaymentServlet"})
 public class PaymentServlet extends HttpServlet {
 
     //return the payment details data
     public static void returnPaymentDetails(HttpServletRequest request, HttpSession session, int memberId) throws SQLException {
+
         if (memberId != 0) {
             //return cartlist and productlist data(if they same - memberid)
             Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
@@ -145,87 +145,16 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (session == null || session.getAttribute("member") == null) {
-            response.sendRedirect("index.jsp");
-            return;
-        }
-
-        int memberId = member.getMemberId();
-
-        try {
-            retrieveMemberAddressesAndBooks(memberId, request);
-            returnPaymentDetails(request, session, memberId);
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Payment/Payment.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        response.setContentType("text/html");
-        HttpSession session = request.getSession();
-        String errorMessage = null;
-
-        Member member = (Member) session.getAttribute("member");
-        if (session == null || session.getAttribute("member") == null) {
-            response.sendRedirect("index.jsp");
-            return;
-        }
-        int memberId = member.getMemberId();
-        try {
-
-            if (memberId != 0) {
-                // Search for member's addresses
-                ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
-                ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
-                ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
-
-                // Combine member addresses and address book entries
-                ArrayList<PaymentModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
-
-                String shippingAddress = request.getParameter("shippingAddress");
-
-                if (shippingAddress == null) {
-                    errorMessage = "Please select a shipping address.";
-                } else {
-                    session.setAttribute("sId", shippingAddress);
-                }
-
+        if (CheckPermission.permissionUser(request)) {
+            HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("/GUI_Assignment/HomeServlet");
+                return;
             }
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        } catch (Exception ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        }
 
-        String paymentMethod = request.getParameter("paymentMethod");
-        String shippingMethod = request.getParameter("shippingMethod");
+            int memberId = member.getMemberId();
 
-        // Store input data in session
-        session.setAttribute("paymentMethod", paymentMethod);
-        session.setAttribute("shippingMethod", shippingMethod);
-
-        if (paymentMethod == null) {
-            errorMessage = "Please select a payment method.";
-        } else if (shippingMethod == null) {
-            errorMessage = "Please select a shipping method.";
-        }
-
-        // If there is an error, set an attribute and redirect to p.jsp
-        if (errorMessage != null) {
-            //get back the value(Payment.jsp)
             try {
                 retrieveMemberAddressesAndBooks(memberId, request);
                 returnPaymentDetails(request, session, memberId);
@@ -234,88 +163,169 @@ public class PaymentServlet extends HttpServlet {
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("/Payment/Payment.jsp").forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Payment/Payment.jsp");
+            dispatcher.forward(request, response);
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
         } else {
-            // No errors, redirect to appropriate page
-            if (paymentMethod.equals("creditCard")) {
-                try {
-                    if (memberId != 0) {
-                        //return cartlist and productlist data(if they same - memberid)
-                        Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
-                        List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
-                        List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
-                        request.setAttribute("clist", cartList);
-                        request.setAttribute("plist", productList);
-
-                        //return memberAddress & addressBook data
-                        ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
-                        ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
-                        ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
-
-                        request.setAttribute("memberAddress", mAddress);
-                        request.setAttribute("addressBook", addressBook);
-
-                    }
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                } catch (Exception ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                }
-                try {
-                    returnPaymentDetails(request, session, memberId);
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                }
-                response.sendRedirect("PaymentMethodServlet");
-
-            } else if (paymentMethod.equals("cash")) {
-                try {
-                    if (memberId != 0) {
-                        //return cartlist and productlist data(if they same - memberid)
-                        Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
-                        List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
-                        List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
-                        request.setAttribute("clist", cartList);
-                        request.setAttribute("plist", productList);
-
-                        //return memberAddress & addressBook data
-                        ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
-                        ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
-                        ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
-
-                        request.setAttribute("memberAddress", mAddress);
-                        request.setAttribute("addressBook", addressBook);
-                    }
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                } catch (Exception ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                }
-
-                try {
-                    returnPaymentDetails(request, session, memberId);
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-                }
-
-                response.sendRedirect("PaymentMethodServlet");
-            }
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (CheckPermission.permissionUser(request)) {
+            response.setContentType("text/html");
+            HttpSession session = request.getSession();
+            String errorMessage = null;
+
+            Member member = (Member) session.getAttribute("member");
+            if (session == null || session.getAttribute("member") == null) {
+                response.sendRedirect("/GUI_Assignment/HomeServlet");
+                return;
+            }
+            int memberId = member.getMemberId();
+            try {
+
+                if (memberId != 0) {
+                    // Search for member's addresses
+                    ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
+                    ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
+                    ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
+
+                    // Combine member addresses and address book entries
+                    ArrayList<PaymentModel> addressItems = PaymentController.getAddressItems(mAddress, addressBook);
+
+                    String shippingAddress = request.getParameter("shippingAddress");
+
+                    if (shippingAddress == null) {
+                        errorMessage = "Please select a shipping address.";
+                    } else {
+                        session.setAttribute("sId", shippingAddress);
+                    }
+
+                }
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            } catch (Exception ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
+
+            String paymentMethod = request.getParameter("paymentMethod");
+            String shippingMethod = request.getParameter("shippingMethod");
+
+            // Store input data in session
+            session.setAttribute("paymentMethod", paymentMethod);
+            session.setAttribute("shippingMethod", shippingMethod);
+
+            if (paymentMethod == null) {
+                errorMessage = "Please select a payment method.";
+            } else if (shippingMethod == null) {
+                errorMessage = "Please select a shipping method.";
+            }
+
+            // If there is an error, set an attribute and redirect to p.jsp
+            if (errorMessage != null) {
+                //get back the value(Payment.jsp)
+                try {
+                    retrieveMemberAddressesAndBooks(memberId, request);
+                    returnPaymentDetails(request, session, memberId);
+                } catch (SQLException ex) {
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                }
+
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("/Payment/Payment.jsp").forward(request, response);
+            } else {
+                // No errors, redirect to appropriate page
+                if (paymentMethod.equals("creditCard")) {
+                    try {
+                        if (memberId != 0) {
+                            //return cartlist and productlist data(if they same - memberid)
+                            Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
+                            List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
+                            List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
+                            request.setAttribute("clist", cartList);
+                            request.setAttribute("plist", productList);
+
+                            //return memberAddress & addressBook data
+                            ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
+                            ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
+                            ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
+
+                            request.setAttribute("memberAddress", mAddress);
+                            request.setAttribute("addressBook", addressBook);
+
+                        }
+                    } catch (SQLException ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    }
+                    try {
+                        returnPaymentDetails(request, session, memberId);
+                    } catch (SQLException ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    }
+                    response.sendRedirect("PaymentMethodServlet");
+
+                } else if (paymentMethod.equals("cash")) {
+                    try {
+                        if (memberId != 0) {
+                            //return cartlist and productlist data(if they same - memberid)
+                            Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);
+                            List<Cartlist> cartList = (List<Cartlist>) cartAndProductLists.get("cartList");
+                            List<Product> productList = (List<Product>) cartAndProductLists.get("productList");
+                            request.setAttribute("clist", cartList);
+                            request.setAttribute("plist", productList);
+
+                            //return memberAddress & addressBook data
+                            ArrayList<Object> lists = PaymentController.getAddressLists(memberId);
+                            ArrayList<MemberAddress> mAddress = (ArrayList<MemberAddress>) lists.get(0);
+                            ArrayList<AddressBook> addressBook = (ArrayList<AddressBook>) lists.get(1);
+
+                            request.setAttribute("memberAddress", mAddress);
+                            request.setAttribute("addressBook", addressBook);
+                        }
+                    } catch (SQLException ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    }
+
+                    try {
+                        returnPaymentDetails(request, session, memberId);
+                    } catch (SQLException ex) {
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                        response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                    }
+
+                    response.sendRedirect("PaymentMethodServlet");
+                }
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
+        }
     }
 
     @Override

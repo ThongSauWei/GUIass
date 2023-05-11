@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Utility.*;
 
 /**
  *
@@ -35,26 +36,33 @@ public class salesRecordMain extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            DBTable data = new DBTable();
-            String sql = "SELECT * FROM Product WHERE PRODUCT_ACTIVE = ?";
-            ArrayList<Object> list = new ArrayList();
-            list.add('1');
-            List<Product> salesRecordList = data.Product.getData(new ProductMapper(), list, sql);
+        if (CheckPermission.permissionStaff(request) || CheckPermission.permissionAdmin(request)) {
+            try {
+                DBTable data = new DBTable();
+                String sql = "SELECT * FROM Product WHERE PRODUCT_ACTIVE = ?";
+                ArrayList<Object> list = new ArrayList();
+                list.add('1');
+                List<Product> salesRecordList = data.Product.getData(new ProductMapper(), list, sql);
 
-            // check null or empty
-            if (salesRecordList == null || salesRecordList.size() == 0) {
-                request.setAttribute("SalesRecord", "No Record Found");
-            } else {
-                request.setAttribute("SalesRecord", salesRecordList);
+                // check null or empty
+                if (salesRecordList == null || salesRecordList.size() == 0) {
+                    request.setAttribute("SalesRecord", "No Record Found");
+                } else {
+                    request.setAttribute("SalesRecord", salesRecordList);
+                }
+
+                request.getRequestDispatcher("salesRecord/salesRecordMain.jsp").forward(request, response);
+
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
             }
-
-            request.getRequestDispatcher("salesRecord/salesRecordMain.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/staffLogin.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

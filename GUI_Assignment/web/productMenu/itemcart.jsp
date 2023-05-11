@@ -228,7 +228,7 @@
                                     </div>
                                     <div class="cart-item-purchasenow-container">
                                         <div class="cart-item-purchase m-3">
-                                            <a href="/GUI_Assignment/index.jsp" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</a>
+                                            <a href="/GUI_Assignment/HomeServlet" class=" p-3 btn btn-light"><i class="bi bi-arrow-left-square-fill"></i> Back</a>
                                             <%if (disable == true) {%>
                                             <a href="/GUI_Assignment/PaymentServlet" class=" p-3 btn btn-danger disabled"><i class="bi bi-coin"></i> Purchase Now</a>
                                             <%} else {%>

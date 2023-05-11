@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import Utility.*;
 
 /**
  *
@@ -69,66 +70,68 @@ public class cartListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-//        Member mem = new Member();
-//        mem.setMemberId(2001);
-////                mem=null;
-//        request.getSession().setAttribute("member", mem);
-        try {
-            DBTable db = new DBTable();
+        if (CheckPermission.permissionUser(request)) {
+            try {
+                DBTable db = new DBTable();
 //          Found CartId So that i can output based on the session
-            HttpSession session = request.getSession();
-            Member member = (Member) session.getAttribute("member");
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("/login/login.jsp"); // Redirect to login.jsp if session is null or memberRole is null
-                return; // Return to prevent further execution of the code
-            }
-            int memberId = member.getMemberId();
-            int cartId = -1;
-            String sql = "SELECT * FROM CART Where MEMBER_ID=?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(memberId);
-            List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
-            for (int i = 0; i < cart.size(); i++) {
-                Cart cartSearch = cart.get(i);
-                if (cartSearch.getMember().getMemberId() == memberId) {
-                    cartId = cartSearch.getCartId();
+                HttpSession session = request.getSession();
+                Member member = (Member) session.getAttribute("member");
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("/login/login.jsp"); // Redirect to login.jsp if session is null or memberRole is null
+                    return; // Return to prevent further execution of the code
                 }
-            }
-            String sqlstmt = "SELECT * FROM CARTLIST WHERE CART_ID=?";
-            list.clear(); //clear List so that I clear the member Id from above.
-            list.add(cartId);
+                int memberId = member.getMemberId();
+                int cartId = -1;
+                String sql = "SELECT * FROM CART Where MEMBER_ID=?";
+                ArrayList<Object> list = new ArrayList();
+                list.add(memberId);
+                List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
+                for (int i = 0; i < cart.size(); i++) {
+                    Cart cartSearch = cart.get(i);
+                    if (cartSearch.getMember().getMemberId() == memberId) {
+                        cartId = cartSearch.getCartId();
+                    }
+                }
+                String sqlstmt = "SELECT * FROM CARTLIST WHERE CART_ID=?";
+                list.clear(); //clear List so that I clear the member Id from above.
+                list.add(cartId);
 
-            //Loop CartList Display Cart Items
-            List<Cartlist> cartList = db.Cartlist.getData(new CartlistMapper(), list, sqlstmt);
-            List<Product> productList = db.Product.getData(new ProductMapper());
-            List<Product> activeProducts = new ArrayList<>();
-            List<Product> inactiveProducts = new ArrayList<>();
-            //search through the product and cartlist if found then store in arraylist so i can output the product details
-            for (int i = 0; i < cartList.size(); i++) {
-                for (int y = 0; y < productList.size(); y++) {
-                    if (cartList.get(i).getProduct().getProductId() == productList.get(y).getProductId()) {
-                        Product product = productList.get(y);
-                        if (product.getProductActive() == '1') {
-                            activeProducts.add(product);
-                        } else {
-                            inactiveProducts.add(product);
+                //Loop CartList Display Cart Items
+                List<Cartlist> cartList = db.Cartlist.getData(new CartlistMapper(), list, sqlstmt);
+                List<Product> productList = db.Product.getData(new ProductMapper());
+                List<Product> activeProducts = new ArrayList<>();
+                List<Product> inactiveProducts = new ArrayList<>();
+                //search through the product and cartlist if found then store in arraylist so i can output the product details
+                for (int i = 0; i < cartList.size(); i++) {
+                    for (int y = 0; y < productList.size(); y++) {
+                        if (cartList.get(i).getProduct().getProductId() == productList.get(y).getProductId()) {
+                            Product product = productList.get(y);
+                            if (product.getProductActive() == '1') {
+                                activeProducts.add(product);
+                            } else {
+                                inactiveProducts.add(product);
+                            }
                         }
                     }
                 }
-            }
-            List<Product> sortProductFound = new ArrayList<>();
-            sortProductFound.addAll(activeProducts);
-            sortProductFound.addAll(inactiveProducts);
-            request.setAttribute("productList", sortProductFound);
+                List<Product> sortProductFound = new ArrayList<>();
+                sortProductFound.addAll(activeProducts);
+                sortProductFound.addAll(inactiveProducts);
+                request.setAttribute("productList", sortProductFound);
 
-            request.setAttribute("cartList", cartList);
-            request.getRequestDispatcher("/productMenu/itemcart.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                request.setAttribute("cartList", cartList);
+                request.getRequestDispatcher("/productMenu/itemcart.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
+
     }
 
     /**
@@ -142,44 +145,46 @@ public class cartListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-//        Member mem = new Member();
-//        mem.setMemberId(2001);
-//        request.getSession().setAttribute("member", mem);
-        //get action from form name
-        try {
-            DBTable db = new DBTable();
-            Cartlist cartDelete = new Cartlist();
-            HttpSession session = request.getSession();
-            Member member = (Member) session.getAttribute("member");
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("index.html"); // Redirect to login.jsp if session is null or memberRole is null
-                return; // Return to prevent further execution of the code
-            }
-            int memberId = member.getMemberId();
-            int cartId = -1;
-            String sql = "SELECT * FROM CART Where MEMBER_ID=?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(memberId);
-            List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
-            for (int i = 0; i < cart.size(); i++) {
-                Cart cartSearch = cart.get(i);
-                if (cartSearch.getMember().getMemberId() == memberId) {
-                    cartId = cartSearch.getCartId();
+        if (CheckPermission.permissionUser(request)) {
+            //get action from form name
+            try {
+                DBTable db = new DBTable();
+                Cartlist cartDelete = new Cartlist();
+                HttpSession session = request.getSession();
+                Member member = (Member) session.getAttribute("member");
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("index.html"); // Redirect to login.jsp if session is null or memberRole is null
+                    return; // Return to prevent further execution of the code
                 }
-            }
-            cartDelete.setCart(new Cart(cartId));
-            cartDelete.setProduct(new Product(Integer.parseInt(request.getParameter("deleteProuctId"))));
-            cartDelete.setCartQuantity(Integer.parseInt(request.getParameter("pin")));
-            boolean deleteTrue = db.Cartlist.Delete(new CartlistMapper(), cartDelete);
-            if (deleteTrue) {
-                response.sendRedirect("cartListServlet");
-            }
+                int memberId = member.getMemberId();
+                int cartId = -1;
+                String sql = "SELECT * FROM CART Where MEMBER_ID=?";
+                ArrayList<Object> list = new ArrayList();
+                list.add(memberId);
+                List<Cart> cart = db.Cart.getData(new CartMapper(), list, sql);
+                for (int i = 0; i < cart.size(); i++) {
+                    Cart cartSearch = cart.get(i);
+                    if (cartSearch.getMember().getMemberId() == memberId) {
+                        cartId = cartSearch.getCartId();
+                    }
+                }
+                cartDelete.setCart(new Cart(cartId));
+                cartDelete.setProduct(new Product(Integer.parseInt(request.getParameter("deleteProuctId"))));
+                cartDelete.setCartQuantity(Integer.parseInt(request.getParameter("pin")));
+                boolean deleteTrue = db.Cartlist.Delete(new CartlistMapper(), cartDelete);
+                if (deleteTrue) {
+                    response.sendRedirect("cartListServlet");
+                }
 //            }
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
     }
 

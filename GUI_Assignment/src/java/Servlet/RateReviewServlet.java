@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
+import Utility.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,88 +70,7 @@ public class RateReviewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        String productId = request.getParameter("productId");
-        int pId = Integer.parseInt(productId);
-        request.setAttribute("productID", pId);
-
-        String orderId = request.getParameter("orderId");
-        int oId = Integer.parseInt(orderId);
-
-        request.setAttribute("orderID", oId);
-
-        String sql = "SELECT * FROM PRODUCT WHERE product_id = ? ";
-
-        ArrayList<Object> params = new ArrayList<>();
-        params.add(pId);
-
-        ArrayList<Product> product;
-        try {
-            product = new DBTable().Product.getData(new ProductMapper(), params, sql);
-
-            if (product != null) {
-                request.setAttribute("product", product);
-            }
-            HttpSession session = request.getSession();
-            HashMap<Integer, Double> dlist = new HashMap<>();
-            for (Product p : product) {
-                DBTable db = new DBTable();
-                double originalPrice = p.getProductPrice();
-
-                Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
-
-                if (discount != null) {
-                    double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
-                    dlist.put(p.getProductId(), discountedPrice);
-
-                }
-            }
-            session.setAttribute("productPrice", dlist);
-
-            ArrayList<Object> pcondition = new ArrayList<>();
-            pcondition.add(pId);
-
-            DBTable db = new DBTable();
-            // Check if product has discount
-            List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
-
-            if (discountList.size() > 0) {
-                request.setAttribute("dlist", discountList);
-            }
-
-            request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-        }
-
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-//        processRequest(request, response);
-        String reviewText = request.getParameter("reviewText");
-        String rate = request.getParameter("rating");
-
-        String errorMessage = null;
-        if (reviewText == null) {
-            errorMessage = "Please write review.";
-        } else if (rate == null) {
-            errorMessage = "Please give us a rating.";
-        }
-
-        //if got error return back
-        if (errorMessage != null) {
+        if (CheckPermission.permissionUser(request)) {
             String productId = request.getParameter("productId");
             int pId = Integer.parseInt(productId);
             request.setAttribute("productID", pId);
@@ -175,53 +92,144 @@ public class RateReviewServlet extends HttpServlet {
                 if (product != null) {
                     request.setAttribute("product", product);
                 }
-            } catch (SQLException ex) {
-                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-            }
+                HttpSession session = request.getSession();
+                HashMap<Integer, Double> dlist = new HashMap<>();
+                for (Product p : product) {
+                    DBTable db = new DBTable();
+                    double originalPrice = p.getProductPrice();
 
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
-        } else {
-//            int memberId = 2000;
-            Member member = (Member) session.getAttribute("member");
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("index.jsp");
-                return;
-            }
-            int memberId = member.getMemberId();
-            Date rateDate = new Date();
-            try {
-                if (memberId != 0) {
-                    int rating = Integer.parseInt(rate);
-                    PaymentController p = new PaymentController();
+                    Discount discount = DiscountController.getDiscount(db, p.getProductId()); // get the discount for the product
 
-                    //productid
-                    String productId = request.getParameter("productId");
-                    int pId = Integer.parseInt(productId);
+                    if (discount != null) {
+                        double discountedPrice = DiscountController.getPrice(originalPrice, discount.getDiscountPercentage());
+                        dlist.put(p.getProductId(), discountedPrice);
 
-                    String orderId = request.getParameter("orderId");
-                    int oId = Integer.parseInt(orderId);
-
-                    boolean success = p.addRateReview(reviewText, rating, rateDate, pId, memberId, oId);
-
-                    if (success != false) {
-                        response.sendRedirect("index.jsp");
                     }
-
                 }
+                session.setAttribute("productPrice", dlist);
+
+                ArrayList<Object> pcondition = new ArrayList<>();
+                pcondition.add(pId);
+
+                DBTable db = new DBTable();
+                // Check if product has discount
+                List<Discount> discountList = db.Discount.getData(new DiscountMapper(), pcondition, "SELECT * FROM DISCOUNT WHERE product_id = ?");
+
+                if (discountList.size() > 0) {
+                    request.setAttribute("dlist", discountList);
+                }
+
+                request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
             } catch (SQLException ex) {
                 request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
-            } catch (Exception ex) {
-                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
+    }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (CheckPermission.permissionUser(request)) {
+            HttpSession session = request.getSession();
+//        processRequest(request, response);
+            String reviewText = request.getParameter("reviewText");
+            String rate = request.getParameter("rating");
+
+            String errorMessage = null;
+            if (reviewText == null) {
+                errorMessage = "Please write review.";
+            } else if (rate == null) {
+                errorMessage = "Please give us a rating.";
+            }
+
+            //if got error return back
+            if (errorMessage != null) {
+                String productId = request.getParameter("productId");
+                int pId = Integer.parseInt(productId);
+                request.setAttribute("productID", pId);
+
+                String orderId = request.getParameter("orderId");
+                int oId = Integer.parseInt(orderId);
+
+                request.setAttribute("orderID", oId);
+
+                String sql = "SELECT * FROM PRODUCT WHERE product_id = ? ";
+
+                ArrayList<Object> params = new ArrayList<>();
+                params.add(pId);
+
+                ArrayList<Product> product;
+                try {
+                    product = new DBTable().Product.getData(new ProductMapper(), params, sql);
+
+                    if (product != null) {
+                        request.setAttribute("product", product);
+                    }
+                } catch (SQLException ex) {
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                }
+
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("/RateReview/rateAndReview.jsp").forward(request, response);
+            } else {
+//            int memberId = 2000;
+                Member member = (Member) session.getAttribute("member");
+                if (session == null || session.getAttribute("member") == null) {
+                    response.sendRedirect("/GUI_Assignment/HomeServlet");
+                    return;
+                }
+                int memberId = member.getMemberId();
+                Date rateDate = new Date();
+                try {
+                    if (memberId != 0) {
+                        int rating = Integer.parseInt(rate);
+                        PaymentController p = new PaymentController();
+
+                        //productid
+                        String productId = request.getParameter("productId");
+                        int pId = Integer.parseInt(productId);
+
+                        String orderId = request.getParameter("orderId");
+                        int oId = Integer.parseInt(orderId);
+
+                        boolean success = p.addRateReview(reviewText, rating, rateDate, pId, memberId, oId);
+
+                        if (success != false) {
+                            response.sendRedirect("/GUI_Assignment/HomeServlet");
+                        }
+
+                    }
+                } catch (SQLException ex) {
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                } catch (Exception ex) {
+                    request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                    request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                    response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+                }
+            }
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
+        }
     }
 
     /**

@@ -66,7 +66,7 @@ public class login extends HttpServlet {
                 Member member = members.get(0);
                 if (member.getMemberPass().equals(password)) {
                     session.setAttribute("member", member);
-                    response.sendRedirect("/GUI_Assignment/index.jsp");
+                    response.sendRedirect("/GUI_Assignment/HomeServlet");
                 } else {
                     session.setAttribute("message", "Invalid password, please try again.");
                     request.getRequestDispatcher("login/login.jsp").forward(request, response);

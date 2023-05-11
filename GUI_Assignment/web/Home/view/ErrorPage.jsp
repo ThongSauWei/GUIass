@@ -27,7 +27,7 @@
             </div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center">
-            <a class="btn btn-warning" href="/GUI_Assignment/index.jsp"><i class="bi bi-house"></i> &nbsp; BACK TO HOME</a>
+            <a class="btn btn-warning" href="/GUI_Assignment/HomeServlet"><i class="bi bi-house"></i> &nbsp; BACK TO HOME</a>
         </div>
         <%@include file="/Home/view/Footer.jsp"%>
     </body>

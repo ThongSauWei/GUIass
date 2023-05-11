@@ -63,7 +63,7 @@ public class register extends HttpServlet {
         ArrayList<Object> list = new ArrayList<>();
         list.add(username);
         ArrayList<Member> members = null;
-        
+
         try {
             members = data.Member.getData(new MemberMapper(), list, sql);
 
@@ -96,7 +96,7 @@ public class register extends HttpServlet {
                             member.setMemberId(memberId.getMemberId());
                             request.getSession().setAttribute("member", member);
                             request.setAttribute("message", "Register successful");
-                            response.sendRedirect("/GUI_Assignment/index.jsp");
+                            response.sendRedirect("/GUI_Assignment/HomeServlet");
 
                         } else {
                             request.setAttribute("message", "Register Failed");

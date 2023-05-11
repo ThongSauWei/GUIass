@@ -17,14 +17,16 @@
                     <%if (isAdmin) {%>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'staff_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Staff</button>
-                    </div><%}%>
+                    </div>
+                    <%}%>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'prod_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Product</button>
                     </div>
                     <%if (isAdmin) {%>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'mem_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Member</button>
-                    </div><%}%>
+                    </div>
+                    <%}%>
                     <div class="col-md-6 col-lg-6 mb-4 d-flex justify-content-center">
                         <button onclick="window.location.href = 'order_list.jsp'" class="btn btn-primary btn-lg rounded-lg w-100 h-100">Order</button>
                     </div>
