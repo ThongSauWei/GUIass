@@ -18,7 +18,7 @@
     <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>Servlet.InitServlet</servlet-class>
-        
+        <load-on-startup></load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
