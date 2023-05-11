@@ -11,6 +11,7 @@ import Model.Cart;
 import Model.Cartlist;
 import Model.Member;
 import Model.Product;
+import Utility.CheckPermission;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class addToCartPerMore extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -82,59 +83,62 @@ public class addToCartPerMore extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!CheckPermission.permissionStaff(request) && !CheckPermission.permissionNoLogin(request)) {
+            try {
+                DBTable db = new DBTable();
+                int ahrefProductId = Integer.parseInt(request.getParameter("hrefId"));
+                double ahrefRating = Double.parseDouble(request.getParameter("hrefRating"));
 
-        try {
-            DBTable db = new DBTable();
-            int ahrefProductId = Integer.parseInt(request.getParameter("hrefId"));
-            double ahrefRating = Double.parseDouble(request.getParameter("hrefRating"));
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                int cartQuantity = Integer.parseInt(request.getParameter("quantity"));
+                int cartId = -1;
+                HttpSession session = request.getSession();
+                Member member = (Member) session.getAttribute("member");
+                String memberName = member.getMemberName();
 
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            int cartQuantity = Integer.parseInt(request.getParameter("quantity"));
-            int cartId = -1;
-            HttpSession session = request.getSession();
-            if (session == null || session.getAttribute("member") == null) {
-                response.sendRedirect("/login/login.jsp"); // Redirect to login.jsp if session is null or memberRole is null
-                return; // Return to prevent further execution of the code
-            }
-            Member member = (Member) session.getAttribute("member");
-            int memberId = member.getMemberId();
+                int memberId = member.getMemberId();
 
-            //getMemberId
-            String sqlstmt = "SELECT * FROM CART Where MEMBER_ID=?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(memberId);
-            List<Cart> cart;
-            //getCartId
-            cart = db.Cart.getData(new CartMapper(), list, sqlstmt);
-            for (int i = 0; i < cart.size(); i++) {
-                Cart cartSearch = cart.get(i);
-                if (cartSearch.getMember().getMemberId() == memberId) {
-                    cartId = cartSearch.getCartId();
+                //getMemberId
+                String sqlstmt = "SELECT * "
+                        + "FROM CART "
+                        + "INNER JOIN MEMBER ON CART.MEMBER_ID = MEMBER.MEMBER_ID "
+                        + "WHERE MEMBER.MEMBER_NAME = ?";
+                ArrayList<Object> list = new ArrayList();
+                list.add(memberName);
+                Cart cart = db.Cart.getData(new CartMapper(), list, sqlstmt).get(0);
+                cartId = cart.getCartId();
+
+                //set sql item values;
+                ArrayList<Object> parameters = new ArrayList<Object>();
+                String sql = "Select * From Cartlist WHERE CART_ID=? and PRODUCT_ID=?";
+                parameters.add(cartId);
+                parameters.add(productId);
+                String previousUrl = request.getHeader("Referer");
+
+                List<Cartlist> cartListChecking = db.Cartlist.getData(new CartlistMapper(), parameters, sql);
+                if (cartListChecking != null && cartListChecking.size() > 0) {
+                    Cartlist cartList = cartListChecking.get(0);
+                    int newQuantity = cartList.getCartQuantity() + cartQuantity;
+                    cartList.setCartQuantity(newQuantity);
+                    db.Cartlist.Update(new CartlistMapper(), cartList);
+                    response.sendRedirect(previousUrl);
+                } else {
+                    Cartlist cartlist = new Cartlist(new Cart(cartId), new Product(productId), cartQuantity);
+                    db.Cartlist.Add(new CartlistMapper(), cartlist);
+                    response.sendRedirect(previousUrl);
                 }
+            } catch (SQLException ex) {
+                request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+                response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-            //set sql item values;
-            ArrayList<Object> parameters = new ArrayList<Object>();
-            String sql = "Select * From Cartlist WHERE CART_ID=? and PRODUCT_ID=?";
-            parameters.add(cartId);
-            parameters.add(productId);
-            List<Cartlist> cartListChecking = db.Cartlist.getData(new CartlistMapper(), parameters, sql);
-            if (cartListChecking != null && cartListChecking.size() > 0) {
-                Cartlist cartList = cartListChecking.get(0);
-                int newQuantity = cartList.getCartQuantity() + cartQuantity;
-                cartList.setCartQuantity(newQuantity);
-                db.Cartlist.Update(new CartlistMapper(), cartList);
-                response.sendRedirect("viewProductServlet?id=" + ahrefProductId + "&avgRating=" + ahrefRating);
-
-            } else {
-                Cartlist cartlist = new Cartlist(new Cart(cartId), new Product(productId), cartQuantity);
-                db.Cartlist.Add(new CartlistMapper(), cartlist);
-                response.sendRedirect("viewProductServlet?id=" + ahrefProductId + "&avgRating=" + ahrefRating);
-            }
-        } catch (SQLException ex) {
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
+        } else if (CheckPermission.permissionNoLogin(request)) {
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else {
+            //turn to error page , reason - premission denied
+            response.sendRedirect("/GUI_Assignment/Home/view/PermissionDenied.jsp");
         }
+
     }
 
     /**
@@ -148,3 +152,4 @@ public class addToCartPerMore extends HttpServlet {
     }// </editor-fold>
 
 }
+//                    int newQuantity = cartList.getCartQuantity() + cartQuantity;
