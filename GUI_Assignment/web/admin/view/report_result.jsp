@@ -11,11 +11,9 @@
 
 <%
     String reportName = (String) request.getAttribute("reportName");
-    String group = (String) request.getAttribute("group");
-    String order = (String) request.getAttribute("order");
     ReportController contorl = (ReportController) request.getAttribute("contorl");
     List<HashMap<String, Object>> rows = (List<HashMap<String, Object>>) request.getAttribute("rows");
-    String[] conditions = (String[]) request.getAttribute("conditions");
+    String conditions = (String) request.getAttribute("conditions");
 %>
 <!DOCTYPE html>
 <html>
@@ -47,7 +45,7 @@
     <body>
         <div class="container">
             <h1 class="text-center mt-5"><%= reportName%> Report</h1>
-            <h4 class="text-center mt-3 mb-3"><%=group + (order.equals("") == false ? "; " + order : "")%></h4>
+            <h4 class="text-center mt-3 mb-3"><%=conditions%></h4>
             <div class="col-md-12">
 
                 <table class="table table-hover table-striped">
@@ -79,22 +77,6 @@
                     </tbody>
                 </table>
             </div>
-            <table class="" style="font-size: 10px;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th colspan="2">Conditions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%for (int i = 0; i < conditions.length - 1; i += 2) {%>
-                    <tr>
-                        <th><%=conditions[i]%></th>
-                        <td>&nbsp;:&nbsp;</td>
-                        <td><%=conditions[i + 1]%></td>
-                    </tr>
-                    <%}%>
-                </tbody>
-            </table>
         </div>
 
         <a id="back-btn" onclick="history.back()" class=" mb-1 btn btn-danger fixed-bottom-center  rounded-pill"><strong>X</strong></a>

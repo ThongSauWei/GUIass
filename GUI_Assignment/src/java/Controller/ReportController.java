@@ -20,10 +20,6 @@ import java.util.regex.Pattern;
 public class ReportController {
 
     private final static String[] SalesColumnName = {
-        "p.product_id",
-        "p.product_name",
-        "SUM(ol.orders_quantity) AS total_units_sold",
-        "SUM(ol.orders_subprice) AS total_revenue"
     };
 
     private final static Map<String, String> SalesGroupByOption = new HashMap<String, String>() {
@@ -33,78 +29,29 @@ public class ReportController {
     };
 
     private final static String[] SalesOrderByOption = {
-        "p.product_id",
-        "p.product_name",
+        
         "total_units_sold",
-        "total_revenue"
+        ""
     };
 
     String query;
-    String columns;
-    String wheres = "";
-    String groupBy;
-    String orderBy;
 
-    public ReportController(int rptType, String column, String dateFrom, String dateTo, String groupby, String orderby, String status, String acs) {
+    public ReportController(String dateFrom, String dateTo) {
 
-        if (rptType == 1) {
-            this.columns = decodeSalesColumn(column);
-            this.wheres += dateFrom != null ? dateFrom.equals("") == false ? " AND o.orders_date > '" + dateFrom + "'" : "" : "";
-            this.wheres += dateTo != null ? dateTo.equals("") == false ? " AND o.orders_date < '" + dateTo + "'" : "" : "";
-
-            if (acs == null) {
-                acs = "DESC";
-            }
-
-            if (!acs.equals("1")) {
-                acs = "DESC";
-            } else {
-                acs = "";
-            }
-
-            if (status.equals("1")) {
-                this.wheres += "AND p.product_active = '1'";
-            } else if (status.equals("0")) {
-                this.wheres += "AND p.product_active = '0'";
-            }
-
-            if (groupby.length() > 0) {
-                this.groupBy = " GROUP BY " + decodeSalesGroupBy(ReportController.SalesGroupByOption);
-            } else {
-                this.groupBy = " GROUP BY p.product_id ";
-            }
-            if (orderby.length() > 0) {
-                this.orderBy = " ORDER BY " + decodeSalesOrderBy(orderby, acs);
-            } else {
-                this.orderBy = "";
-            }
-
-            this.query = String.format("SELECT %s "
-                    + "FROM "
-                    + " orders o"
-                    + " JOIN orderlist ol ON o.orders_id = ol.orders_id"
-                    + " JOIN product p ON ol.product_id = p.product_id"
-                    + " WHERE 1 = 1 %s %s %s",
-                    this.columns, this.wheres, this.groupBy, this.orderBy);
-        } else if (rptType == 2) {
-        }
+            
+            this.query = "SELECT p.product_id, p.product_name, SUM(ol.orders_quantity) AS total_units_sold, SUM(ol.orders_subprice) AS total_revenue "
+                    + "FROM orders o "
+                    + "JOIN orderlist ol ON o.orders_id = ol.orders_id "
+                    + "JOIN product p on ol.product_id = p.product_id "
+                    + "WHERE o.orders_date > '" + dateFrom + "' "
+                    + "AND o.orders_date < '" + dateTo + "' "
+                    + "GROUP BY p.product_id, p.product_name "
+                    + "ORDER BY total_revenue";
 
     }
 
     public String getQuery() {
         return query;
-    }
-
-    public String getGroup() {
-        return this.groupBy;
-    }
-
-    public String getOrder() {
-        return this.orderBy;
-    }
-
-    public String getConditions() {
-        return this.wheres;
     }
 
     public static String decodeSalesColumn(String column) {
