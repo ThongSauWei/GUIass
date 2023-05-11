@@ -4,6 +4,8 @@
     Author     : erika
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="Model.Product"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -15,32 +17,37 @@
         <title>${companyName}</title>
         <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
     </head>
+    <br><br>
     <body>
-        <form action="/GUI_Assignment/salesRecordMain" method="GET">
             <div class="container">
                 <h2>Sales Record Main Page</h2>
+                <br>
                 <ul class="responsive-table">
                     <li class="table-header">
                         <div class="col col-1">Product ID</div>
                         <div class="col col-2">Product Name</div>
                         <div class="col col-4">View</div>
                     </li>
-
-                    <%
-                        for (SalesRecord record : salesRecordList) {
+                    <% 
+                        List<Product> salesRecord = (List<Product>) request.getAttribute("SalesRecord");
+                        if (salesRecord == null || salesRecord.isEmpty()) {
+                    %>
+                        <li class="table-row">
+                            <div class="col col-12">No Record Found</div>
+                        </li>
+                    <% } else {
+                        for (Product product : salesRecord) {
                     %>
                     <li class="table-row">
-                        <div class="col col-1" data-label="productID"><%= record.getProductId()%></div>
-                        <div class="col col-2" data-label="productName"><%= record.getProductName()%></div>
-                        <div class="col col-4" data-label=base oi"View">
-                            <a href="/GUI_Assignment/salesRecord/salesRecord.jsp?recordId=<%= record.getId()%>" target=""><button class="view-button">View</button></a>
+                        <div class="col col-1" data-label="productID"><%= product.getProductId()%></div>
+                        <div class="col col-2" data-label="productName"><%= product.getProductName()%></div>
+                        <div class="col col-4" data-label="View">
+                            <a href="/GUI_Assignment/salesRecord?productId=<%=product.getProductId()%>" target=""><button class="view-button">View</button></a>
                         </div>
                     </li>
-                    <%
-                        }
-                    %>
+                    <% } } %>
                 </ul>
+
             </div>
-        </form>
     </body>
 </html>

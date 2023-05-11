@@ -1,7 +1,9 @@
 package Servlet;
 
 import DataAccess.DBTable;
+import DataAccess.Mapper.CartMapper;
 import DataAccess.Mapper.MemberMapper;
+import Model.Cart;
 import Model.Member;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -82,10 +84,20 @@ public class register extends HttpServlet {
                             Logger.getLogger(register.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if (success) {
+                            //set pass
                             member.setMemberPass("");
+
+                            members = data.Member.getData(new MemberMapper(), list, sql);
+                            //get member id
+                            Member memberId = members.get(0);
+                            //create a new cart for the member
+                            data.Cart.Add(new CartMapper(), new Cart(memberId));
+                            //set member id into member
+                            member.setMemberId(memberId.getMemberId());
                             request.getSession().setAttribute("member", member);
                             request.setAttribute("message", "Register successful");
                             response.sendRedirect("/GUI_Assignment/index.jsp");
+
                         } else {
                             request.setAttribute("message", "Register Failed");
                             request.getRequestDispatcher("login/register.jsp").forward(request, response);

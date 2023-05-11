@@ -35,18 +35,26 @@ public class salesRecordMain extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet salesRecordMain</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet salesRecordMain at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            DBTable data = new DBTable();
+            String sql = "SELECT * FROM Product WHERE PRODUCT_ACTIVE = ?";
+            ArrayList<Object> list = new ArrayList();
+            list.add('1');
+            List<Product> salesRecordList = data.Product.getData(new ProductMapper(), list, sql);
+
+            // check null or empty
+            if (salesRecordList == null || salesRecordList.size() == 0) {
+                request.setAttribute("SalesRecord", "No Record Found");
+            } else {
+                request.setAttribute("SalesRecord", salesRecordList);
+            }
+
+            request.getRequestDispatcher("salesRecord/salesRecordMain.jsp").forward(request, response);
+
+        } catch (SQLException ex) {
+            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
         }
     }
 
@@ -62,19 +70,7 @@ public class salesRecordMain extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            DBTable data = new DBTable();
-            String sql = "SELECT PRODUCT_ID, PRODUCT_NAME FROM Product WHERE PRODUCT_ACTIVE = ?";
-            ArrayList<Object> list = new ArrayList();
-            list.add(new Integer(1));
-            List<Product> salesRecordList = data.Product.getData(new ProductMapper(), list, sql);
-            request.setAttribute("SalesRecord", salesRecordList);
-            request.getRequestDispatcher("salesRecordMain.jsp").forward(request, response);
-
-        } catch (SQLException ex) {
-            request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        }
-
+        processRequest(request, response);
     }
 
     /**
@@ -88,6 +84,7 @@ public class salesRecordMain extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

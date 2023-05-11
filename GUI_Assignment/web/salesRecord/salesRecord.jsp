@@ -4,56 +4,96 @@
     Author     : erika
 --%>
 
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.List" %>
-<%@ page import="Controller.OrderListingController" %>
+<%@page import="java.util.*, Model.*, Model.PageModel.ViewSaleRecordModel, Utility.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    ViewSaleRecordModel salesRecord = (ViewSaleRecordModel) request.getAttribute("salesRecord");
+
+%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <!--change title and favicon-->
-        <title>${companyName}</title>
-        <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
-    </head>
-    <body>
-        <h1>Sales Record</h1>
-        <form method="POST" action="${pageContext.request.contextPath}/salesRecord">
-<!--            <input type="text" name="search" value="${param.search}">
-            <input type="submit" value="Search">
-        </form>-->
-        <br>
-        <table border="1">
-            <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Member ID</th>
-                <th>Member Name</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Payment Type</th>
-                <th>Total Price</th>
-                <th>Tax</th>
-                <th>Delivery Fee</th>
-                <th>Express Shipping</th>
-            </tr>
-            <c:forEach items="${salesRecords}" var="record">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/GUI_Assignment/salesRecord/salesRecord.css" rel="stylesheet" />
+    <link href="/GUI_Assignment/css/bootstrap.css" rel="stylesheet" />
+    <!--change title and favicon-->
+    <title>${companyName}</title>
+    <link rel="icon" href="/GUI_Assignment/Home/image/LEGOlogo.png" type="image/x-icon"/>
+    <style>
+        #searchForm table tr td > input, #searchForm table tr td > select{
+            width: 100%;
+            display: inline-block;
+        }
+
+        #searchForm table tr td > input , #searchForm table tr td > label, #searchForm table tr td > select{
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<br><br>
+<form action="/GUI_Assignment/salesRecord" method="POST">
+    <div class="container">
+        <h2>Sales Record</h2>
+        <br><br>
+        <form method="GET" action="/GUI_Assignment/salesRecord">
+            <input type="hidden" name="productId" value="<%=request.getParameter("productId")%>" readonly>
+            <table class="table table-borderless">
                 <tr>
-                    <td>${record['ORDERS_ID']}</td>
-                    <td>${record['ORDERS_DATE']}</td>
-                    <td>${record['MEMBER_ID']}</td>
-                    <td>${record['MEMBER_NAME']}</td>
-                    <td>${record['PRODUCT_ID']}</td>
-                    <td>${record['PRODUCT_NAME']}</td>
-                    <td>${record['ORDERS_QUANTITY']}</td>
-                    <td>${record['ORDERS_PAYMENT_TYPE']}</td>
-                    <td>${record['ORDERS_TTLPRICE']}</td>
-                    <td>${record['ORDERS_TAX']}</td>
-                    <td>${record['ORDERS_DELIVERY_FEE']}</td>
-                    <td>${record['ORDERS_EXPRESS_SHIPPING']}</td>
+                    <td>Member ID </td>
+                    <td><input type="number" class="form-control" name="memberID" value="<%=request.getParameter("memberID")%>"></td>
+                    <td>State </td>
+                    <td><input type="text" name="state" class="form-control" value="<%=request.getParameter("state") == null ? "" : request.getParameter("state")%>"></td>
                 </tr>
-            </c:forEach>
-        </table>
-    </body>
-</html>
+                <tr>
+                    <td>City </td>
+                    <td><input type="text" name="city" class="form-control" value="<%=request.getParameter("city") == null ? "" : request.getParameter("city")%>"></td>
+                    <td>Postcode </td>
+                    <td><input type="text" name="postcode" class="form-control" value="<%=request.getParameter("postcode") == null ? "" : request.getParameter("postcode")%>"></td>
+                </tr>
+                <tr class="text-end">
+                    <td colspan="4">
+                        <br>
+                        <a class="btn btn-secondary mx-2" href="/GUI_Assignment/salesRecord">Clear Search</a>
+                        <input type="submit" value="Search" class="btn btn-primary">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">Product Name</div>
+                <div class="col col-2">Member ID</div>
+                <div class="col col-3">Quantity</div>
+                <div class="col col-4">Total Price</div>
+                <div class="col col-5">Member Address</div>
+            </li>
+            <% if (salesRecord != null) {%>
+                <%ArrayList<ViewSaleRecordModel.MemberDetail> mdList = salesRecord.getMdList();%>
+                <%if (mdList != null && mdList.size() > 0) {%>
+                    <% for (ViewSaleRecordModel.MemberDetail md : mdList) {%>
+                        <li class="table-row">
+                            <div class="col col-1" data-label="productName"><%=salesRecord.getProduct().getProductName()%></div>
+                            <div class="col col-2" data-label="MemberID"><%=md.getMember().getMemberId()%></div>
+                            <div class="col col-3" data-label="quantity"><%=salesRecord.getItemSold()%></div>
+                            <div class="col col-4" data-label="subprice"><%=salesRecord.getTtlPrice()%></div>
+                            <div class="col col-5" data-label="MemAddress"><%=md == null ? "" : md.getAddress().getAddressNo()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressStreet()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressPostcode()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressState()%> 
+                                <%=md == null ? "" : md.getAddress().getAddressCity()%></div>
+                        </li>
+                    <% }%>
+                <% }else{%>
+                    <li class="table-row">
+                        <div class="col col-12">No Record Found</div>
+                    </li>
+                <%}%>
+            <% } else {%>
+            <li class="table-row">
+                <div class="col col-12">No Record Found</div>
+            </li>
+            <%}%>
+        </ul>
+    </div>
+</form>

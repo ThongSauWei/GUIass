@@ -1,7 +1,25 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 1, 2023, 6:01:27 PM
+    Author     : erika
+*/
 
-html{
-    max-width: 100%;
-    background-color: #222;
+.en{
+	background-color: #222;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
 }
 
 body {
@@ -9,7 +27,7 @@ body {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1250px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 10px;
@@ -25,12 +43,12 @@ h2 {
 }
 
 button {
-    background-color: #f29693;
+	background-color: #f29693;
     border: none;
     box-shadow: 1px 2px 6px rgba(0,0,0,0.7);
     margin-right: 90px;
     word-spacing: 1px;
-    padding: 0.45em 1.65em;
+    padding: 0.65em 1.65em;
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
@@ -56,22 +74,29 @@ button {
     background-color: #ffffff;
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 3px 2px 7px 0px rgba(229, 255, 255, 1);
+    color: black;
 }
 
 .responsive-table .col-1 {
-    flex-basis: 11%;
+    flex-basis: 25%;
 }
 
 .responsive-table .col-2 {
-    flex-basis: 40%;
+    flex-basis: 25%;
 }
 
 .responsive-table .col-3 {
-    flex-basis: 25%;
+    flex-basis: 12%;
+	text-align: center;
 }
 
 .responsive-table .col-4 {
-    flex-basis: 25%;
+    flex-basis: 12%;
+	text-align: center;
+}
+
+.responsive-table .col-5 {
+    flex-basis: 30%;
 }
 
 @media all and (max-width: 767px) {
