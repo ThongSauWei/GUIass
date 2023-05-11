@@ -353,7 +353,6 @@
                                 <div class="delivery">
                                     <% if (deliveryFee == 0.0) { %>
                                     <span>Delivery Fee</span> <span id="delivery">Free</span>
-                                    <p>Delivery Fee: Free</p>
                                     <% } else {%>
                                     <span>Delivery Fee</span> <span>RM <span id="delivery">
                                             <%= deliveryFee%>

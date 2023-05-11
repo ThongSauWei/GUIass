@@ -75,8 +75,8 @@
                         <li class="table-row">
                             <div class="col col-1" data-label="productName"><%=salesRecord.getProduct().getProductName()%></div>
                             <div class="col col-2" data-label="MemberID"><%=md.getMember().getMemberId()%></div>
-                            <div class="col col-3" data-label="quantity"><%=salesRecord.getItemSold()%></div>
-                            <div class="col col-4" data-label="subprice"><%=salesRecord.getTtlPrice()%></div>
+                            <div class="col col-3" data-label="quantity"><%=md.getOrderlist().getOrdersQuantity()%></div>
+                            <div class="col col-4" data-label="subprice"><%=md.getOrderlist().getOrdersSubprice()%></div>
                             <div class="col col-5" data-label="MemAddress"><%=md == null ? "" : md.getAddress().getAddressNo()%> 
                                 <%=md == null ? "" : md.getAddress().getAddressStreet()%> 
                                 <%=md == null ? "" : md.getAddress().getAddressPostcode()%> 
