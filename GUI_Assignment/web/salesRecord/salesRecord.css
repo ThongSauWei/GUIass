@@ -97,6 +97,7 @@ button {
 
 .responsive-table .col-5 {
     flex-basis: 30%;
+    padding-right: 15px;
 }
 
 @media all and (max-width: 767px) {

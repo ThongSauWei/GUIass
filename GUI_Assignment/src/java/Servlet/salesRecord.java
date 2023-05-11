@@ -178,11 +178,11 @@ public class salesRecord extends HttpServlet {
         }
 
         if (!postcode.isEmpty()) {
-            sqlQuery += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + postcode + "%' ";
+            sqlQuery += "AND ADDRESSBOOK.ADDRESS_POSTCODE LIKE '%" + postcode + "%' ";
         }
 
         if (!state.isEmpty()) {
-            sqlQuery += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + state + "%' ";
+            sqlQuery += "AND ADDRESSBOOK.ADDRESS_STATE LIKE '%" + state + "%' ";
         }
 
         return data.Orders.getData(new OrdersMapper(), condition, sqlQuery);
