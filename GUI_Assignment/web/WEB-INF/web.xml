@@ -2,16 +2,23 @@
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
     <context-param>
         <param-name>CompanyName</param-name>
+        <param-value>LEGO OFFICIAL</param-value>
+    </context-param>
+    <context-param>
+        <param-name>CopyRight</param-name>
         <param-value>© LEGO</param-value>
     </context-param>
     <context-param>
         <param-name>AdminEmail</param-name>
         <param-value>admin@123.com</param-value>
     </context-param>
+    <welcome-file-list>
+        <welcome-file>HomeServlet</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>Servlet.InitServlet</servlet-class>
-        <!--        <load-on-startup></load-on-startup>-->
+        <load-on-startup></load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
