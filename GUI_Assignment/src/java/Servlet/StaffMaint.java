@@ -99,6 +99,7 @@ public class StaffMaint extends HttpServlet {
                             request.getSession().setAttribute("UnexceptableError", "invalid data - please contact support");
                             request.getSession().setAttribute("UnexceptableErrorDesc", "invalid data - please contact support");
                             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                            return;
                         }
 
                         if (new StaffController().addStaff(name, password, ic, phoneNum, email, birthday)) {
@@ -143,6 +144,7 @@ public class StaffMaint extends HttpServlet {
                             request.getSession().setAttribute("UnexceptableError", "invalid data - please contact support");
                             request.getSession().setAttribute("UnexceptableErrorDesc", "invalid data - please contact support");
                             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                            return;
                         }
 
                         if (new StaffController().updateStaff(id, name, password, ic, phoneNum, email, birthday)) {
