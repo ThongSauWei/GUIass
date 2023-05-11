@@ -1,3 +1,4 @@
+<%boolean isAdmin = session.getAttribute("staffLogin") == null ? false : ((String) session.getAttribute("staffLogin")).equals("admin");%>
 <%@page import="Model.Product"%>
 <% boolean isNew = request.getParameter("isNew").equals("true") ? true : false;
     boolean isSaved = request.getParameter("isSaved") != null ? Boolean.parseBoolean(request.getParameter("isSaved")) : false;
@@ -65,10 +66,10 @@
                             <th scope="row">Price</th>
                             <td><span id="price_error" class="error-message"></span><input onkeypress="return isPriceKey(event)" onchange="formatPrice(this)" onblur="isValidPrice()" type="text" id="price" name="price" class="error-border form-control" value="<%=isNew ? "" : product.getProductPrice()%>"></td>
                         </tr>
-                        <tr>
+                        <%if(isAdmin){%><tr>
                             <th scope="row">Active</th>
-                            <td><input value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>></td>
-                        </tr>
+                            <td><%}%><input <%= isAdmin ? "" : "hidden"%> value = "1" type="checkbox" id="active" name="active" class="form-check-input" <%=isNew ? "checked" : product.getProductActive() == '1' ? "checked" : ""%>><%if(isAdmin){%></td>
+                        </tr><%}%>
                         <tr>
                             <th scope="row">Image</th>
                             <td>
@@ -98,6 +99,7 @@
                     </div>
                     <input hidden name="submit" value="<%=isNew ? "1" : "0"%>">
                     <button type="button" onclick="cancel()" class="btn btn-danger ms-3">Cancel</button>
+                    <% if (!isNew) {%><%if(isAdmin){%><button type="button" onclick="remove()" class="btn btn-danger ms-3">Delete</button><%}%><%}%>
                     <button type="reset" onclick="resets()" class="btn btn-secondary ms-3">Reset</button>
                     <button type="submit" class="btn btn-primary ms-3">Submit</button>
                 </div>
@@ -109,10 +111,23 @@
     <script src="../js/maint_page_util.js" type="text/javascript"></script>
     <script src="../js/maint_page_prod.js" type="text/javascript"></script>
     <script>
-            var displayImage = document.getElementById("display_image");
-            displayImage.onclick = function () {
-                var imageInput = document.getElementById("image_input");
-                imageInput.click();
-            }
+        var displayImage = document.getElementById("display_image");
+        displayImage.onclick = function () {
+            var imageInput = document.getElementById("image_input");
+            imageInput.click();
+        };
+
+        function remove() {
+            const form = document.getElementById("form");
+            const check = document.getElementById("active");
+            const submitBtn = document.querySelector('button[type="submit"]');
+
+
+            form.reset();
+
+            check.checked = false;
+
+            submitBtn.click();
+        }
     </script>
 </html>
