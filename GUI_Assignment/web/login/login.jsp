@@ -52,7 +52,7 @@
                     <div>
                         <div class="reg">
                             <p>Don't have an account?</p>
-                            <a href="register.jsp">Registration</a>
+                            <a href="/GUI_Assignment/login/register.jsp">Registration</a>
                         </div>
                         <div class="reg" style="margin-top: 0px !important;">
                             <p>Login as Staff?</p>

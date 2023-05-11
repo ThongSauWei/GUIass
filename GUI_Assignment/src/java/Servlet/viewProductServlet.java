@@ -50,7 +50,7 @@ public class viewProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (CheckPermission.permissionUser(request)) {
+        if (!CheckPermission.permissionStaff(request)) {
             try {
                 int productId = Integer.parseInt(request.getParameter("id"));
 
@@ -127,8 +127,6 @@ public class viewProductServlet extends HttpServlet {
                 request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
                 response.sendRedirect("/GUI_Assignment/Home/view/ErrorPage.jsp");
             }
-        } else if (CheckPermission.permissionNoLogin(request)) {
-            request.getRequestDispatcher("login/login.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("Home/view/PermissionDenied.jsp").forward(request, response);
         }
