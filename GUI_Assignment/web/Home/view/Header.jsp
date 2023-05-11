@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Model.Member" %>
-<jsp:useBean id="cart" class="Controller.HeaderController" scope="application"></jsp:useBean>
+<jsp:useBean id="header" class="Controller.HeaderController" scope="application"></jsp:useBean>
 <jsp:useBean id="member" class="Model.Member" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,14 +26,14 @@
         <%--header--%>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">LEGO OFFICIAL</a>
+                <a class="navbar-brand" href="#">${companyName}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/GUI_Assignment/index.jsp" id="home">Home</a>
+                            <a class="nav-link" href="/GUI_Assignment/HomeServlet" id="home">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/GUI_Assignment/productMenuServlet" id="menu">Menu</a>
@@ -46,7 +46,7 @@
                     </ul>
                     <!--search bar-->
                     <form class="d-flex" action="/GUI_Assignment/SearchServlet" method="get">
-                        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Product">
+                        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search Product" value="<%=request.getParameter("search") ==  null ? "" : request.getParameter("search")%>">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,7 +75,7 @@
                             <li class="nav-item d-flex">
                                 <a class="nav-link" href="/GUI_Assignment/cartListServlet">
                                     <i class="bi bi-cart" style="font-size: 25px"></i>
-                                    <span class="badge bg-danger rounded-pill"><%=cart.getUserCartlistQty(member.getMemberId())%></span>
+                                    <span class="badge bg-danger rounded-pill"><%=header.getUserCartlistQty(member.getMemberId())%></span>
                                 </a>
                             </li>
                         <%}%>
