@@ -103,6 +103,7 @@ public class ProdMaint extends HttpServlet {
                         request.getSession().setAttribute("UnexceptableError", "Invalid data : name must not be empty");
                         request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid data : name must not be empty");
                         request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        return;
                     }
 
                         if (new prodController().addProd(name, desc, price, active, new ImageTable(imageID))) {
@@ -150,6 +151,7 @@ public class ProdMaint extends HttpServlet {
                         request.getSession().setAttribute("UnexceptableError", "Invalid data : id or name must not be empty");
                         request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid data : id or name must not be empty");
                         request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                        return;
                     }
 
                     if (imgEdited) {
