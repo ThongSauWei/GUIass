@@ -53,7 +53,7 @@
                 <tr class="text-end">
                     <td colspan="4">
                         <br>
-                        <a class="btn btn-secondary mx-2" href="/GUI_Assignment/salesRecord">Clear Search</a>
+                        <a class="btn btn-secondary mx-2" href="/GUI_Assignment/salesRecord?productId=<%=salesRecord.getProduct().getProductId()%>">Clear Search</a>
                         <input type="submit" value="Search" class="btn btn-primary">
                     </td>
                 </tr>
