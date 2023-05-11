@@ -39,47 +39,46 @@ function validateForm() {
 
     var isValid = true;
 
-        if (isInputFieldEmpty(name)) {
-            name.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(ic)) {
-            name.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(phone_num)) {
-            phone_num.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(email)) {
-            email.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(birthday)) {
-            birthday.focus();
-            isValid = false;
-        }
-        if (!icValid) {
-            ic.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(password)) {
-            password.focus();
-            isValid = false;
-        }
-        if (isInputFieldEmpty(cf_password)) {
-            cf_password.focus();
-            isValid = false;
-        }
+    if (isInputFieldEmpty(name)) {
+        name.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(ic)) {
+        name.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(phone_num)) {
+        phone_num.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(email)) {
+        email.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(birthday)) {
+        birthday.focus();
+        isValid = false;
+    }
+    if (!icValid(ic)) {
+        ic.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(password)) {
+        password.focus();
+        isValid = false;
+    }
+    if (isInputFieldEmpty(cf_password)) {
+        cf_password.focus();
+        isValid = false;
+    }
 
-    if (isValid) {
     if (!emailValid())
         isValid = false;
     if (!phoneNumValid())
         isValid = false;
-    if (!icValid())
-        isValid = false;
     if (!passwordValid())
+        isValid = false;
+    if (!icValid(ic))
         isValid = false;
     if (!arePasswordsMatching()) {
         isValid = false;
@@ -88,7 +87,6 @@ function validateForm() {
     if (!isValidDate) {
         isValid = false;
         birthday.focus();
-    }
     }
 
     return isValid;
@@ -104,10 +102,9 @@ function phoneNumValid() {
     return validateInput('phone_num', /^[0-9]{10}$/, 'Please enter a 10-digit numeric value for Phone Number!');
 }
 function icValid(input) {
-    if(validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!')){
+    if (validateInput('ic', /\d{6}[01][0-4]\d{4}$/, 'Please enter a 12-digit numeric value for IC!')) {
         return isValidICDate(input.value);
-    }
-    else{
+    } else {
         return false;
     }
 }
@@ -122,8 +119,7 @@ function passwordValid() {
     input.style.borderColor = "";
     errorDiv.innerHTML = "";
 
-    if (!password.length < 8) {
-
+    if (password.length >= 8) {
 
         let hasLetter = false;
         let hasNumber = false;
@@ -141,18 +137,18 @@ function passwordValid() {
                 return true;
             }
         }
+    } else {
+        input.style.borderColor = "red";
+        errorDiv.innerHTML = errorMessage;
+        return false;
     }
-    input.style.borderColor = "red";
-    errorDiv.innerHTML = errorMessage;
-    return false;
-
 }
 function isValidICDate(ICString) {
-    
+
     const birthday = document.getElementById('birthday');
     const inputError = document.getElementById('ic_error');
     const input = document.getElementById('ic');
-    
+
     const dateString = ICString.substring(0, 6);
 
     var day = parseInt(dateString.substring(4, 6));
