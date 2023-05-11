@@ -23,7 +23,8 @@ public class StaffList extends HttpServlet {
             throws ServletException, IOException {
         if (CheckPermission.permissionAdmin(request)) {
             response.setContentType("text/html;charset=UTF-8");
-            try ( PrintWriter out = response.getWriter()) {
+            try {
+                PrintWriter out = response.getWriter();
 
                 String search = request.getParameter("search") == null ? null : request.getParameter("search");
 
