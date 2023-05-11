@@ -91,7 +91,7 @@ public class productMenuServlet extends HttpServlet {
                         }
                     }
                     if (ratingCount > 0) {
-                        double avgRating = Math.round(totalRating / ratingCount);
+                        double avgRating = Math.round(totalRating / ratingCount *100)/100.0;
                         //ratingList.add(avgRating);
                         hash.put(productList.get(i).getProductId(), avgRating);
                     } else {
