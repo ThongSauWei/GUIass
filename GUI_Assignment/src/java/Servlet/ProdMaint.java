@@ -97,6 +97,13 @@ public class ProdMaint extends HttpServlet {
                         String desc = request.getParameter("description");
                         double price = Double.parseDouble(request.getParameter("price"));
                         char active = request.getParameter("active").charAt(0);
+                        
+                        
+                    if(name.equals("")){
+                        request.getSession().setAttribute("UnexceptableError", "Invalid data : name must not be empty");
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid data : name must not be empty");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    }
 
                         if (new prodController().addProd(name, desc, price, active, new ImageTable(imageID))) {
                             if (action == 1) {
@@ -123,13 +130,14 @@ public class ProdMaint extends HttpServlet {
                             request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
                             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                         }
-                    } catch (SQLException ex) {
+                    } catch (Exception ex) {
                         request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                         request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
                         request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     }
                 } else if (submit == 0) {
 
+                    try{
                     int imageID = Integer.parseInt(request.getParameter("imgID"));
                     boolean imgEdited = request.getParameter("imgEdited") != null ? request.getParameter("imgEdited").equals("true") : false;
                     String id = request.getParameter("id");
@@ -137,6 +145,12 @@ public class ProdMaint extends HttpServlet {
                     String desc = request.getParameter("description");
                     double price = Double.parseDouble(request.getParameter("price"));
                     char active = request.getParameter("active") != null ? request.getParameter("active").charAt(0) : '0';
+                    
+                    if(id.equals("") || name.equals("")){
+                        request.getSession().setAttribute("UnexceptableError", "Invalid data : id or name must not be empty");
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid data : id or name must not be empty");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    }
 
                     if (imgEdited) {
                         try {
@@ -182,6 +196,11 @@ public class ProdMaint extends HttpServlet {
                     } catch (SQLException ex) {
                         request.getSession().setAttribute("UnexceptableError", ex.getMessage());
                         request.getSession().setAttribute("UnexceptableErrorDesc", "Unexpected Error");
+                        request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
+                    }
+                    }catch(Exception ex){
+                        request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+                        request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid data");
                         request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
                     }
                 }
