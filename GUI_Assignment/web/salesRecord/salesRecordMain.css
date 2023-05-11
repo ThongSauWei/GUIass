@@ -74,6 +74,11 @@ button {
     flex-basis: 25%;
 }
 
+.responsive-table .col-5 {
+    flex-basis: 25%;
+    padding-right: 15px;
+}
+
 @media all and (max-width: 767px) {
     .responsive-table .table-header {
         display: none;
