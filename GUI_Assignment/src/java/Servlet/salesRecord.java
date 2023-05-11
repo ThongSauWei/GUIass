@@ -50,7 +50,6 @@ public class salesRecord extends HttpServlet {
         ViewSaleRecordModel saleRecord = new ViewSaleRecordModel();
         int itemSold = 0;
         double ttlPrice = 0;
-        
 
         try {
             if (productId != null && !productId.isEmpty()) {
@@ -92,13 +91,13 @@ public class salesRecord extends HttpServlet {
 
                         saleRecord.addMdList(md);
                     }
-                    
+
                     saleRecord.setItemSold(itemSold);
                     saleRecord.setTtlPrice(ttlPrice);
 
                     request.setAttribute("salesRecord", saleRecord);
                     request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
-                }else{
+                } else {
                     request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
                 }
 
@@ -115,7 +114,7 @@ public class salesRecord extends HttpServlet {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
             request.getSession().setAttribute("UnexceptableErrorDesc", "Invalid product ID");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             request.getSession().setAttribute("UnexceptableError", ex.getMessage());
             request.getSession().setAttribute("UnexceptableErrorDesc", "Unexcepted exception");
             request.getRequestDispatcher("admin/view/unexpected_error.jsp").forward(request, response);
@@ -169,7 +168,7 @@ public class salesRecord extends HttpServlet {
         ArrayList<Object> condition = new ArrayList<>();
         condition.add(Integer.parseInt(productId));
         condition.add(new Character('1'));
-        
+
         if (!memberID.isEmpty()) {
             sqlQuery += "AND MEMBER.MEMBER_ID = ? ";
             condition.add(Integer.parseInt(memberID));
@@ -180,11 +179,11 @@ public class salesRecord extends HttpServlet {
         }
 
         if (!postcode.isEmpty()) {
-            sqlQuery += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + postcode + "%' ";
+            sqlQuery += "AND ADDRESSBOOK.ADDRESS_POSTCODE LIKE '%" + postcode + "%' ";
         }
 
         if (!state.isEmpty()) {
-            sqlQuery += "AND ADDRESSBOOK.ADDRESS_CITY LIKE '%" + state + "%' ";
+            sqlQuery += "AND ADDRESSBOOK.ADDRESS_STATE LIKE '%" + state + "%' ";
         }
 
         return data.Orders.getData(new OrdersMapper(), condition, sqlQuery);
