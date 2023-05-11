@@ -210,7 +210,6 @@
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>Servlet.HomeServlet</servlet-class>
-        <load-on-startup></load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
