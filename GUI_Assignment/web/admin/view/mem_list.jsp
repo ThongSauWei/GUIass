@@ -58,9 +58,8 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th style="width: 10%">ID</th>
-                                <th style="width: 50%">Name</th>
-                                <th style="width: 30%">Phone Num</th>
+                                <th style="width: 20%">ID</th>
+                                <th style="width: 70%">Name</th>
                                 <th style="width: 10%">Delete</th>
                             </tr>
                         </thead>
