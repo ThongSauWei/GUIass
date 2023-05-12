@@ -88,11 +88,9 @@ public class salesRecord extends HttpServlet {
                         saleRecord.setItemSold(itemSold);
                         saleRecord.setTtlPrice(ttlPrice);
 
-                        request.setAttribute("salesRecord", saleRecord);
-                        request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
-                    } else {
-                        request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
                     }
+                    request.setAttribute("salesRecord", saleRecord);
+                    request.getRequestDispatcher("salesRecord/salesRecord.jsp").forward(request, response);
 
                 } else {
                     request.getSession().setAttribute("UnexceptableError", "The Product ID in url is missing, please passing parameter in correct format");
