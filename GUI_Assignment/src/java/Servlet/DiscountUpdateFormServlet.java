@@ -85,8 +85,8 @@ public class DiscountUpdateFormServlet extends HttpServlet {
                     } else {
                         //check range
                         discount.setDiscountPercentage(Integer.parseInt(percentage));
-                        if (discount.getDiscountPercentage() < 1 && discount.getDiscountPercentage() > 100) {
-                            errorMap.put("percentageError", "Discount Percentage Out Of Range, Cannot Be More Than 100 Or Smaller Than 1");
+                        if (discount.getDiscountPercentage() < 1 && discount.getDiscountPercentage() > 99) {
+                            errorMap.put("percentageError", "Discount Percentage Out Of Range, Cannot Be More Than 99 Or Smaller Than 1");
                         }
                     }
 

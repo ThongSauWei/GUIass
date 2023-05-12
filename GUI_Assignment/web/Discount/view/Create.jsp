@@ -112,7 +112,7 @@
                                 Discount Percentage : 
                             </td>
                             <td>
-                                <input type="number" name="percentage" class="form-control" max="100" min="1" value="<%=request.getParameter("percentage")%>">
+                                <input type="number" name="percentage" class="form-control" max="99" min="1" value="<%=request.getParameter("percentage")%>">
                                 <span class="text-danger" id="percentageerror">
                                     <%=errorList == null ? "" : errorList.get("percentageError") == null ? "" : errorList.get("percentageError")%>
                                 </span>
