@@ -1,5 +1,5 @@
 <%-- 
-    Document   : ThankYou1
+    Document   : ThankYou
     Created on : Apr 26, 2023, 8:36:08 PM
     Author     : Thong Sau Wei
 --%>
