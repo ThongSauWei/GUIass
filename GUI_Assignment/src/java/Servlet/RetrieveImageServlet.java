@@ -10,6 +10,8 @@ import Model.*;
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +31,7 @@ public class RetrieveImageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse respone) throws ServletException, IOException {
+
         String imageID = request.getParameter("imageID");
 
         try {
@@ -83,18 +86,18 @@ public class RetrieveImageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
-        //processRequest(request, response);
-        try {
-            ImageTableController iControl = new ImageTableController();
-            iControl.UpdateImage(request);
-
-        } catch (SQLException ex) {
-            //turn error page
-            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
-            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
-            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
-        }
-        response.sendRedirect("ExampleForImage/index.jsp");
+        processRequest(request, response);
+//        try {
+//            ImageTableController iControl = new ImageTableController();
+//            iControl.UpdateImage(request);
+//
+//        } catch (SQLException ex) {
+//            //turn error page
+//            request.getSession().setAttribute("UnexceptableError", ex.getMessage());
+//            request.getSession().setAttribute("UnexceptableErrorDesc", "Database Server Exception");
+//            request.getRequestDispatcher("Home/view/ErrorPage.jsp").forward(request, response);
+//        }
+//        response.sendRedirect("ExampleForImage/index.jsp");
         //request.getRequestDispatcher("ExampleForImage/index.jsp").forward(request, response);
         //got bug the location is different when using requestDispatcher
         //requestdispatcher http://localhost:8080/GUI_Assignment/RetrieveImageServlet
