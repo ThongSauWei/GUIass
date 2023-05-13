@@ -3,7 +3,7 @@
     Created on : Apr 9, 2023, 1:37:00 AM
     Author     : LENOVO
 --%>
-
+<jsp:include page="/HomeServlet"></jsp:include>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <img src="../RetrieveImageServlet?imageID=1000" alt="no image found">
+        <img src="data:image/png;base64,converted-data-stream-goes-here..." alt="no image found">
     </body>
 </html>

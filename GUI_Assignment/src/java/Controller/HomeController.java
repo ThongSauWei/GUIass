@@ -72,7 +72,8 @@ public class HomeController {
     public static ArrayList<Discount> getDiscountList(DBTable db) throws SQLException {
         String sqlQuery = "SELECT DISCOUNT.* FROM DISCOUNT "
                 + "INNER JOIN PRODUCT ON DISCOUNT.PRODUCT_ID = PRODUCT.PRODUCT_ID "
-                + "WHERE PRODUCT.PRODUCT_ACTIVE = ? AND DISCOUNT.DISCOUNT_END_DATE >= ?";
+                + "WHERE PRODUCT.PRODUCT_ACTIVE = ? AND DISCOUNT.DISCOUNT_END_DATE >= ? "
+                + "ORDER BY DISCOUNT.DISCOUNT_START_DATE";
 
         ArrayList<Object> condition = new ArrayList<>();
         condition.add(new Character('1'));

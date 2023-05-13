@@ -6,6 +6,7 @@
 
 <%-- Document : thankYou Created on : Apr 19, 2023, 11:12:32 PM Author : Acer --%>
 
+<%@page import="Utility.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +45,7 @@
 
                     <p>Thank you for your order, <strong>Order id - <span
                                 style="color: rgb(164, 94, 94);">${orderId}</span></strong></p>
+                                <br><p><strong>Order Date - <span style="color: rgb(164, 94, 94);"><%=Converter.convertDateToSimpleFormat((java.util.Date)session.getAttribute("orderDate"))%></span></strong></p>
                             <%
                                 }
                             %>

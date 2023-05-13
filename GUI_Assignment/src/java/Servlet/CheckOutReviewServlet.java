@@ -293,6 +293,7 @@ public class CheckOutReviewServlet extends HttpServlet {
                             //order id
                             int orderId = o.getOrdersId();
                             session.setAttribute("orderId", orderId);
+                            session.setAttribute("orderDate", o.getOrdersDate());
 
                             //get product detail
                             Map<String, List<?>> cartAndProductLists = PaymentController.getCartAndProductLists(memberId);

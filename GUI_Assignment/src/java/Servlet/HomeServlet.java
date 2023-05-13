@@ -53,7 +53,7 @@ public class HomeServlet extends HttpServlet {
                 }
                 //endregion HOTSALES
 
-                //region VOUNCHER
+                //region DISCOUNT
                 ArrayList<Discount> dlist = HomeController.getDiscountList(db);
 
                 if (dlist != null && dlist.size() > 0) {
@@ -67,7 +67,7 @@ public class HomeServlet extends HttpServlet {
                         hm.addDiscountList(dp);
                     }
                 }
-                //endregion VOUNCHER
+                //endregion DISCOUNT
 
                 //region GET PRODUCT HAVENT RATE
                 //get orderlist of target user

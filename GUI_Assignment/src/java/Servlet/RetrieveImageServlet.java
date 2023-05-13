@@ -46,7 +46,6 @@ public class RetrieveImageServlet extends HttpServlet {
                 byte[] buffer = new byte[2048];
                 int length = 0;
                 while ((length = imageStream.read(buffer)) != -1) {
-                    System.out.println("Buffer Read of length: " + length);
                     os.write(buffer, 0, length);
                 }
 
